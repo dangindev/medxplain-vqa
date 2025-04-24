@@ -1,0 +1,36 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.swp
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Environment
+env/
+.venv/
+*.env
+*.yml
+*.lock
+.env
+
+# System
+.DS_Store
+Thumbs.db
+
+# Model/Weights
+*.pt
+*.pth
+*.ckpt
+*.bin
+
+# Huggingface cache
+~/.cache/huggingface/
+huggingface_cache/
+
+# Output
+outputs/
+data/raw/
+data/processed/
