@@ -109,6 +109,15 @@ def process_and_visualize_explainable(blip_model, gemini, grad_cam, sample, outp
     
     # Tạo Grad-CAM heatmap
     logger.info("Generating Grad-CAM heatmap...")
+    
+    # Chuẩn bị inputs cho Grad-CAM
+    if inputs is None:
+        inputs = blip_model.processor(images=image, text=question, return_tensors="pt")
+        for k, v in inputs.items():
+            if isinstance(v, torch.Tensor):
+                inputs[k] = v.to(blip_model.device)
+    
+    # Gọi Grad-CAM với đủ thông tin
     heatmap = grad_cam(image, question, inputs, original_size=image.size)
     
     if heatmap is not None:
@@ -224,9 +233,12 @@ def main():
         logger.error("Failed to load BLIP model. Exiting.")
         return
     
-    # Khởi tạo Grad-CAM
+    # Khởi tạo Grad-CAM - FIX: Pass blip_model.model và add processor
     logger.info(f"Initializing Grad-CAM with target layer: {args.target_layer}")
     grad_cam = GradCAM(blip_model.model, layer_name=args.target_layer)
+    
+    # IMPORTANT: Add processor to model for Grad-CAM
+    blip_model.model.processor = blip_model.processor
     
     # Khởi tạo Gemini
     logger.info("Initializing Gemini")
