@@ -5,10 +5,13 @@ import logging
 from PIL import Image
 from transformers import BlipProcessor, BlipForQuestionAnswering
 
+# Import Grad-CAM
+from src.explainability.grad_cam import GradCAM
+
 logger = logging.getLogger(__name__)
 
-class BLIP2VQA(nn.Module):
-    """BLIP model cho Visual Question Answering"""
+class BLIP2VQAWithGradCAM(nn.Module):
+    """BLIP model cho Visual Question Answering với Grad-CAM"""
     
     def __init__(self, config, train_mode=False):
         super().__init__()
@@ -21,7 +24,7 @@ class BLIP2VQA(nn.Module):
         model_name = config['model']['blip2']['pretrained_model_name']
         cache_dir = config['model']['blip2']['cache_dir']
         
-        logger.info(f"Loading BLIP model: {model_name}")
+        logger.info(f"Loading BLIP model with Grad-CAM: {model_name}")
         
         # Tải processor và model
         try:
@@ -43,7 +46,10 @@ class BLIP2VQA(nn.Module):
             # Cấu hình đóng băng (freeze) các thành phần
             self._configure_freezing()
             
-            logger.info(f"BLIP model loaded successfully on {self.device}")
+            # Khởi tạo GradCAM
+            self.grad_cam = GradCAM(self, target_layer_name="vision_model.encoder.layers.11")
+            
+            logger.info(f"BLIP model with Grad-CAM loaded successfully on {self.device}")
             
             # Thông tin mô hình
             self.num_parameters = self._count_parameters()
@@ -54,7 +60,7 @@ class BLIP2VQA(nn.Module):
             logger.info(f"Trainable parameters: {trainable_params:,} ({trainable_params/total_params*100:.2f}%)")
         
         except Exception as e:
-            logger.error(f"Error loading BLIP model: {e}")
+            logger.error(f"Error loading BLIP model with Grad-CAM: {e}")
             raise
     
     def _configure_freezing(self):
@@ -112,88 +118,29 @@ class BLIP2VQA(nn.Module):
             
             return outputs
     
-    def extract_visual_features(self, image):
+    def predict_with_gradcam(self, image, question):
         """
-        Trích xuất đặc trưng thị giác từ hình ảnh
+        Dự đoán câu trả lời và tạo Grad-CAM cho một cặp hình ảnh và câu hỏi
         
         Args:
-            image: PIL Image hoặc tensor
+            image: PIL Image
+            question: Câu hỏi string
             
         Returns:
-            tensor: Features thị giác
+            answer: Câu trả lời được dự đoán
+            vis_image: Hình ảnh với heatmap
+            heatmap: Heatmap
+            cam: Class Activation Map gốc
         """
-        # Xử lý đầu vào
-        if isinstance(image, Image.Image):
-            inputs = self.processor(images=image, return_tensors="pt").to(self.device)
-            pixel_values = inputs.pixel_values
-        else:
-            # Giả sử đã là tensor
-            pixel_values = image.to(self.device)
-            if pixel_values.dim() == 3:
-                pixel_values = pixel_values.unsqueeze(0)  # Thêm batch dimension
+        # Dự đoán câu trả lời
+        answer = self.predict(image, question)
         
-        # Trích xuất features
-        with torch.no_grad():
-            vision_outputs = self.model.vision_model(pixel_values)
-            image_embeds = vision_outputs.last_hidden_state
+        # Tạo Grad-CAM
+        vis_image, heatmap, cam = self.grad_cam(image, question)
         
-        return image_embeds
+        return answer, vis_image, heatmap, cam
     
-    def generate_answers(self, pixel_values, input_ids, attention_mask=None, 
-                        max_length=None, num_beams=5):
-        """
-        Sinh câu trả lời từ mô hình BLIP
-        
-        Args:
-            pixel_values: Tensor hình ảnh [batch_size, 3, H, W]
-            input_ids: Input ids của câu hỏi
-            attention_mask: Attention mask cho câu hỏi
-            max_length: Độ dài tối đa của câu trả lời
-            num_beams: Số beam cho beam search
-            
-        Returns:
-            answers: Câu trả lời được dự đoán
-        """
-        # Đưa dữ liệu lên thiết bị
-        pixel_values = pixel_values.to(self.device)
-        input_ids = input_ids.to(self.device)
-        
-        if attention_mask is not None:
-            attention_mask = attention_mask.to(self.device)
-        
-        # Sử dụng max_length được truyền vào hoặc giá trị mặc định
-        if max_length is None:
-            max_length = self.max_length
-        
-        # Sinh câu trả lời
-        with torch.no_grad():
-            try:
-                generated_ids = self.model.generate(
-                    input_ids=input_ids,
-                    attention_mask=attention_mask,
-                    pixel_values=pixel_values,
-                    max_length=max_length,
-                    num_beams=num_beams,
-                    min_length=1,
-                    top_p=0.9,
-                    repetition_penalty=1.0,
-                    length_penalty=1.0,
-                    temperature=1.0
-                )
-                
-                # Giải mã câu trả lời - xử lý mỗi câu trả lời riêng biệt
-                answers = []
-                for ids in generated_ids:
-                    answer = self.processor.decode(ids, skip_special_tokens=True)
-                    answers.append(answer)
-                
-                return answers
-            except Exception as e:
-                logger.error(f"Error generating answers: {e}")
-                # Trả về câu trả lời rỗng nếu có lỗi
-                return [""] * pixel_values.size(0)
-    
-    def predict(self, image, question, max_length=None, return_tensors=False):
+    def predict(self, image, question, max_length=None):
         """
         Dự đoán câu trả lời cho một cặp hình ảnh và câu hỏi
         
@@ -201,16 +148,14 @@ class BLIP2VQA(nn.Module):
             image: PIL Image
             question: Câu hỏi string
             max_length: Độ dài tối đa của câu trả lời
-            return_tensors: Có trả về tensors đầu vào không
             
         Returns:
             answer: Câu trả lời được dự đoán
-            (inputs: Tensors đầu vào nếu return_tensors=True)
         """
         # Xử lý đầu vào và đưa vào đúng thiết bị
         inputs = self.processor(image, question, return_tensors="pt")
         for k, v in inputs.items():
-            inputs[k] = v.to(self.device)  # Đảm bảo chuyển vào đúng device
+            inputs[k] = v.to(self.device)
         
         # Sinh câu trả lời
         with torch.no_grad():
@@ -220,32 +165,10 @@ class BLIP2VQA(nn.Module):
                 # Giải mã câu trả lời
                 answer = self.processor.decode(generated_ids[0], skip_special_tokens=True)
                 
-                if return_tensors:
-                    return answer, inputs
                 return answer
             except Exception as e:
                 logger.error(f"Error in prediction: {e}")
-                if return_tensors:
-                    return "", inputs
                 return ""
-    
-    def get_target_layers(self):
-        """
-        Trả về danh sách các layer có thể dùng cho Grad-CAM
-        
-        Returns:
-            dict: Dictionary các layers hữu ích cho Grad-CAM
-        """
-        target_layers = {
-            # Vision encoder layers
-            "vision_last_layer": self.model.vision_model.encoder.layers[-1],
-            "vision_mid_layer": self.model.vision_model.encoder.layers[len(self.model.vision_model.encoder.layers)//2],
-            
-            # Vision encoder pooler
-            "vision_pooler": self.model.vision_model.pooler,
-        }
-        
-        return target_layers
 
     def save_pretrained(self, output_dir):
         """

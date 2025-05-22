@@ -3,8 +3,10 @@ import json
 import google.generativeai as genai
 import logging
 import base64
+import numpy as np
 from io import BytesIO
 from PIL import Image
+import matplotlib.pyplot as plt
 
 logger = logging.getLogger(__name__)
 
@@ -66,13 +68,39 @@ class GeminiIntegration:
         img_str = base64.b64encode(buffered.getvalue()).decode('utf-8')
         return img_str
     
-    def generate_unified_prompt(self, question, blip_answer):
+    def encode_heatmap_to_base64(self, heatmap, colormap='jet'):
+        """
+        Mã hóa heatmap thành base64 string
+        
+        Args:
+            heatmap: Numpy array heatmap
+            colormap: Colormap để hiển thị heatmap
+            
+        Returns:
+            str: Base64 encoded heatmap image
+        """
+        # Tạo figure để hiển thị heatmap
+        plt.figure(figsize=(5, 5))
+        plt.imshow(heatmap, cmap=colormap)
+        plt.axis('off')
+        
+        # Lưu vào buffer
+        buffered = BytesIO()
+        plt.savefig(buffered, format='JPEG', bbox_inches='tight', pad_inches=0)
+        plt.close()
+        
+        # Mã hóa base64
+        img_str = base64.b64encode(buffered.getvalue()).decode('utf-8')
+        return img_str
+    
+    def generate_unified_prompt(self, question, blip_answer, region_descriptions=None):
         """
         Tạo prompt thống nhất để tạo câu trả lời cuối cùng
         
         Args:
             question: Câu hỏi gốc
             blip_answer: Câu trả lời từ BLIP
+            region_descriptions: Mô tả các vùng nổi bật (nếu có)
             
         Returns:
             tuple: (system_prompt, prompt)
@@ -84,30 +112,35 @@ class GeminiIntegration:
         You'll be provided with:
         1. A medical pathology image
         2. A question about the image
-        3. An initial analysis from the computer vision component (BLIP)
+        3. An initial analysis from the computer vision component
+        4. Highlighted regions of interest in the image (if available)
         
         Your job is to:
         1. Analyze the image
-        2. Consider the initial BLIP analysis
-        3. Provide a single, comprehensive answer that's medically accurate
-        4. Focus on what can actually be seen in the image, without speculating
-        5. Keep your answer concise but complete
+        2. Consider the initial analysis
+        3. Pay special attention to the highlighted regions of interest
+        4. Provide a single, comprehensive answer that's medically accurate
+        5. Focus on what can actually be seen in the image, without speculating
+        6. Keep your answer concise but complete
         
-        DO NOT mention BLIP, initial analysis, or any AI systems in your answer. Just provide
-        a fluid, unified medical response that appears to come from a single expert source.
+        DO NOT mention "BLIP", "regions of interest", "highlighted areas", or any AI systems in your answer. 
+        Just provide a fluid, unified medical response that appears to come from a single expert source.
         """
         
         prompt = f"""
         Question: {question}
         
         Initial analysis: {blip_answer}
-        
-        Please provide a single, comprehensive answer that accurately describes what's visible in the image.
         """
+        
+        if region_descriptions:
+            prompt += f"\nRegions of interest: {region_descriptions}\n\n"
+        
+        prompt += "Please provide a single, comprehensive answer that accurately describes what's visible in the image."
         
         return system_prompt, prompt
     
-    def generate_unified_answer(self, image, question, blip_answer):
+    def generate_unified_answer(self, image, question, blip_answer, heatmap=None, region_descriptions=None):
         """
         Tạo câu trả lời thống nhất kết hợp BLIP và Gemini
         
@@ -115,26 +148,47 @@ class GeminiIntegration:
             image: PIL Image
             question: Câu hỏi
             blip_answer: Câu trả lời từ BLIP
+            heatmap: Grad-CAM heatmap (nếu có)
+            region_descriptions: Mô tả các vùng nổi bật (nếu có)
             
         Returns:
             str: Câu trả lời thống nhất
         """
         try:
             # Tạo prompt
-            system_prompt, prompt = self.generate_unified_prompt(question, blip_answer)
+            system_prompt, prompt = self.generate_unified_prompt(
+                question, 
+                blip_answer, 
+                region_descriptions
+            )
+            
+            # Chuẩn bị nội dung
+            contents = [
+                {
+                    "role": "user",
+                    "parts": [
+                        {"text": system_prompt},
+                        {"inline_data": {"mime_type": "image/jpeg", "data": self.encode_image_base64(image)}},
+                    ]
+                }
+            ]
+            
+            # Thêm heatmap nếu có
+            if heatmap is not None:
+                heatmap_base64 = self.encode_heatmap_to_base64(heatmap)
+                contents[0]["parts"].append(
+                    {"text": "A heatmap highlighting regions of interest:"}
+                )
+                contents[0]["parts"].append(
+                    {"inline_data": {"mime_type": "image/jpeg", "data": heatmap_base64}}
+                )
+            
+            # Thêm prompt
+            contents[0]["parts"].append({"text": prompt})
             
             # Gửi request đến Gemini
             response = self.model.generate_content(
-                contents=[
-                    {
-                        "role": "user",
-                        "parts": [
-                            {"text": system_prompt},
-                            {"inline_data": {"mime_type": "image/jpeg", "data": self.encode_image_base64(image)}},
-                            {"text": prompt}
-                        ]
-                    }
-                ],
+                contents=contents,
                 generation_config=self.generation_config
             )
             
