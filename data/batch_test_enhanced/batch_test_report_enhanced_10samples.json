@@ -1,0 +1,103 @@
+{
+  "batch_summary": {
+    "total_samples": 10,
+    "successful_samples": 10,
+    "failed_samples": 0,
+    "success_rate": 100.0,
+    "total_batch_time": 221.98766112327576,
+    "average_processing_time": 21.49649922847748
+  },
+  "quality_metrics": {
+    "average_confidence": 0.8340745993066573,
+    "average_reformulation_quality": 0.9200000000000002,
+    "confidence_range": [
+      0.7784725744288169,
+      0.847824764916455
+    ],
+    "reformulation_range": [
+      0.6,
+      1.0
+    ]
+  },
+  "component_reliability": {
+    "blip": 0,
+    "query_reformulation": 0,
+    "grad_cam": 0,
+    "chain_of_thought": 0,
+    "gemini": 0
+  },
+  "errors": [],
+  "individual_results": [
+    {
+      "sample_id": "test_6422",
+      "success": true,
+      "processing_time": 21.292568683624268,
+      "mode": "enhanced_batch",
+      "error_messages": []
+    },
+    {
+      "sample_id": "test_0954",
+      "success": true,
+      "processing_time": 19.155654430389404,
+      "mode": "enhanced_batch",
+      "error_messages": []
+    },
+    {
+      "sample_id": "test_0278",
+      "success": true,
+      "processing_time": 22.790526151657104,
+      "mode": "enhanced_batch",
+      "error_messages": []
+    },
+    {
+      "sample_id": "test_5405",
+      "success": true,
+      "processing_time": 27.813015699386597,
+      "mode": "enhanced_batch",
+      "error_messages": []
+    },
+    {
+      "sample_id": "test_2030",
+      "success": true,
+      "processing_time": 26.920285940170288,
+      "mode": "enhanced_batch",
+      "error_messages": []
+    },
+    {
+      "sample_id": "test_1719",
+      "success": true,
+      "processing_time": 18.75424027442932,
+      "mode": "enhanced_batch",
+      "error_messages": []
+    },
+    {
+      "sample_id": "test_3312",
+      "success": true,
+      "processing_time": 18.54559350013733,
+      "mode": "enhanced_batch",
+      "error_messages": []
+    },
+    {
+      "sample_id": "test_1950",
+      "success": true,
+      "processing_time": 22.594448566436768,
+      "mode": "enhanced_batch",
+      "error_messages": []
+    },
+    {
+      "sample_id": "test_0158",
+      "success": true,
+      "processing_time": 18.550238132476807,
+      "mode": "enhanced_batch",
+      "error_messages": []
+    },
+    {
+      "sample_id": "test_5785",
+      "success": true,
+      "processing_time": 18.548420906066895,
+      "mode": "enhanced_batch",
+      "error_messages": []
+    }
+  ],
+  "timestamp": "2025-05-22T17:12:03.305528"
+}
