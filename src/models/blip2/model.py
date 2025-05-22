@@ -70,18 +70,7 @@ class BLIP2VQA(nn.Module):
         return sum(p.numel() for p in self.model.parameters())
     
     def forward(self, input_ids, attention_mask, pixel_values, labels=None):
-        """
-        Forward pass của mô hình BLIP
-        
-        Args:
-            input_ids: Input ids của câu hỏi [batch_size, seq_len]
-            attention_mask: Attention mask [batch_size, seq_len]
-            pixel_values: Tensor hình ảnh [batch_size, 3, H, W]
-            labels: Labels cho language modeling (optional)
-            
-        Returns:
-            outputs: Kết quả từ mô hình BLIP
-        """
+        """Forward pass của mô hình BLIP"""
         # Đưa dữ liệu lên device
         input_ids = input_ids.to(self.device)
         attention_mask = attention_mask.to(self.device)
@@ -112,48 +101,9 @@ class BLIP2VQA(nn.Module):
             
             return outputs
     
-    def extract_visual_features(self, image):
-        """
-        Trích xuất đặc trưng thị giác từ hình ảnh
-        
-        Args:
-            image: PIL Image hoặc tensor
-            
-        Returns:
-            tensor: Features thị giác
-        """
-        # Xử lý đầu vào
-        if isinstance(image, Image.Image):
-            inputs = self.processor(images=image, return_tensors="pt").to(self.device)
-            pixel_values = inputs.pixel_values
-        else:
-            # Giả sử đã là tensor
-            pixel_values = image.to(self.device)
-            if pixel_values.dim() == 3:
-                pixel_values = pixel_values.unsqueeze(0)  # Thêm batch dimension
-        
-        # Trích xuất features
-        with torch.no_grad():
-            vision_outputs = self.model.vision_model(pixel_values)
-            image_embeds = vision_outputs.last_hidden_state
-        
-        return image_embeds
-    
     def generate_answers(self, pixel_values, input_ids, attention_mask=None, 
                         max_length=None, num_beams=5):
-        """
-        Sinh câu trả lời từ mô hình BLIP
-        
-        Args:
-            pixel_values: Tensor hình ảnh [batch_size, 3, H, W]
-            input_ids: Input ids của câu hỏi
-            attention_mask: Attention mask cho câu hỏi
-            max_length: Độ dài tối đa của câu trả lời
-            num_beams: Số beam cho beam search
-            
-        Returns:
-            answers: Câu trả lời được dự đoán
-        """
+        """Sinh câu trả lời từ mô hình BLIP"""
         # Đưa dữ liệu lên thiết bị
         pixel_values = pixel_values.to(self.device)
         input_ids = input_ids.to(self.device)
@@ -201,11 +151,11 @@ class BLIP2VQA(nn.Module):
             image: PIL Image
             question: Câu hỏi string
             max_length: Độ dài tối đa của câu trả lời
-            return_tensors: Có trả về tensors đầu vào không
+            return_tensors: Có trả về tensor inputs không (cho Grad-CAM)
             
         Returns:
             answer: Câu trả lời được dự đoán
-            (inputs: Tensors đầu vào nếu return_tensors=True)
+            inputs (optional): Tensor inputs nếu return_tensors=True
         """
         # Xử lý đầu vào và đưa vào đúng thiết bị
         inputs = self.processor(image, question, return_tensors="pt")
@@ -222,40 +172,17 @@ class BLIP2VQA(nn.Module):
                 
                 if return_tensors:
                     return answer, inputs
-                return answer
+                else:
+                    return answer
             except Exception as e:
                 logger.error(f"Error in prediction: {e}")
                 if return_tensors:
                     return "", inputs
-                return "", inputs
-                return "", inputs
-                return ""
-    
-    def get_target_layers(self):
-        """
-        Trả về danh sách các layer có thể dùng cho Grad-CAM
-        
-        Returns:
-            dict: Dictionary các layers hữu ích cho Grad-CAM
-        """
-        target_layers = {
-            # Vision encoder layers
-            "vision_last_layer": self.model.vision_model.encoder.layers[-1],
-            "vision_mid_layer": self.model.vision_model.encoder.layers[len(self.model.vision_model.encoder.layers)//2],
-            
-            # Vision encoder pooler
-            "vision_pooler": self.model.vision_model.pooler,
-        }
-        
-        return target_layers
+                else:
+                    return ""
 
     def save_pretrained(self, output_dir):
-        """
-        Lưu model và processor
-        
-        Args:
-            output_dir: Thư mục đầu ra
-        """
+        """Lưu model và processor"""
         os.makedirs(output_dir, exist_ok=True)
         
         # Lưu model
@@ -267,12 +194,7 @@ class BLIP2VQA(nn.Module):
         logger.info(f"Model and processor saved to {output_dir}")
         
     def to(self, device):
-        """
-        Chuyển mô hình sang thiết bị cụ thể
-        
-        Args:
-            device: Thiết bị đích
-        """
+        """Chuyển mô hình sang thiết bị cụ thể"""
         self.device = device
         self.model.to(device)
         return self

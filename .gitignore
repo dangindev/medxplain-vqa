@@ -1,36 +1,51 @@
-# Python
+# Data files (quá lớn để push)
+data/images/
+data/questions/
+data/processed/
+data/*_results/
+data/tests/
+data/chain_of_thought_test/
+data/custom_*
+data/analysis/
+data/medxplain_*
+data/explainable_*
+data/inference_*
+
+# Model checkpoints (quá lớn)
+checkpoints/
+logs/
+*.pth
+*.pt
+*.bin
+*.safetensors
+
+# Cache và temp files
 __pycache__/
 *.pyc
 *.pyo
 *.pyd
-*.swp
-
-# Jupyter
-.ipynb_checkpoints/
-
-# Environment
-env/
+.Python
+*.so
+.pytest_cache/
+.coverage
 .venv/
-*.env
-*.yml
-*.lock
-.env
+env/
+venv/
 
-# System
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
 .DS_Store
 Thumbs.db
 
-# Model/Weights
-*.pt
-*.pth
-*.ckpt
-*.bin
+# Config with API keys (security)
+configs/api_keys.yaml
 
-# Huggingface cache
-~/.cache/huggingface/
-huggingface_cache/
-
-# Output
-outputs/
-data/raw/
-data/processed/
+# Keep structure but ignore content của data directories
+!data/.gitkeep
+!checkpoints/.gitkeep
+!logs/.gitkeep

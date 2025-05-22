@@ -228,6 +228,7 @@ class BLIP2VQA(nn.Module):
                 if return_tensors:
                     return "", inputs
                 return "", inputs
+                return "", inputs
                 return ""
     
     def get_target_layers(self):

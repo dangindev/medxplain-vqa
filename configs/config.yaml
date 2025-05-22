@@ -1,0 +1,87 @@
+# Cấu hình chung
+project:
+  name: "MedXplain-VQA"
+  description: "Explainable AI for Medical Visual Question Answering"
+  seed: 42
+
+# Đường dẫn dữ liệu
+data:
+  root_dir: "data"
+  train_images: "data/images/train"
+  val_images: "data/images/val"
+  test_images: "data/images/test"
+  train_questions: "data/questions/train.jsonl"
+  val_questions: "data/questions/val.jsonl"
+  test_questions: "data/questions/test.jsonl"
+  processed_dir: "data/processed"
+
+# Cấu hình tiền xử lý
+preprocessing:
+  image:
+    size: [384, 384]
+    normalize:
+      mean: [0.48145466, 0.4578275, 0.40821073]
+      std: [0.26862954, 0.26130258, 0.27577711]
+  text:
+    max_question_length: 128
+    max_answer_length: 64
+
+# Cấu hình mô hình
+model:
+  blip2:
+    pretrained_model_name: "Salesforce/blip-vqa-base"
+    image_size: 384
+    num_query_tokens: 32
+    cache_dir: "checkpoints/blip"
+    max_answer_length: 64
+    freeze_vision_encoder: false
+    freeze_qformer: false
+    freeze_language_model: false
+    vqa_checkpoint_path: null
+  
+  llm:
+    type: "gemini"
+    model_name: "models/gemini-1.5-pro"  
+    temperature: 0.2
+    max_output_tokens: 1024
+    top_p: 0.95
+    top_k: 40
+
+# Cấu hình huấn luyện
+training:
+  batch_size: 8
+  val_batch_size: 16
+  num_epochs: 10
+  learning_rate: 0.0001
+  weight_decay: 0.01
+  warmup_ratio: 0.1
+  gradient_accumulation_steps: 2
+  max_grad_norm: 1.0
+  fp16: true
+  num_workers: 4
+
+# Cấu hình đánh giá
+evaluation:
+  metrics: ["accuracy", "bleu", "cider", "faithfulness"]
+  batch_size: 16
+  
+# Cấu hình logging
+logging:
+  level: "INFO"
+  save_dir: "logs"
+  log_interval: 50
+
+# Chain-of-Thought Configuration
+explainability:
+  reasoning:
+    default_flow: 'standard_diagnostic'
+    confidence_threshold: 0.5
+    max_steps: 8
+    enable_differential: true
+
+# MedXplain-VQA Pipeline Configuration  
+pipeline:
+  default_enable_cot: true
+  default_enable_gradcam: true
+  save_detailed_results: true
+  create_visualizations: true

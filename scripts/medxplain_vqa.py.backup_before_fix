@@ -1,0 +1,593 @@
+#!/usr/bin/env python
+import os
+import sys
+import torch
+import argparse
+from PIL import Image
+import matplotlib.pyplot as plt
+from pathlib import Path
+import json
+import random
+import time
+
+# Thêm thư mục gốc vào path
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+from src.utils.config import Config
+from src.utils.logger import setup_logger
+from src.models.blip2.model import BLIP2VQA
+from src.models.llm.gemini_integration import GeminiIntegration
+from src.explainability.reasoning.visual_context_extractor import VisualContextExtractor
+from src.explainability.reasoning.query_reformulator import QueryReformulator
+from src.explainability.grad_cam import GradCAM
+from src.explainability.rationale.chain_of_thought import ChainOfThoughtGenerator
+
+def load_model(config, model_path, logger):
+    """Tải mô hình BLIP đã trained"""
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    logger.info(f"Using device: {device}")
+    
+    try:
+        logger.info(f"Loading BLIP model from {model_path}")
+        model = BLIP2VQA(config, train_mode=False)
+        model.device = device
+        
+        if os.path.isdir(model_path):
+            model.model = type(model.model).from_pretrained(model_path)
+            model.model.to(device)
+            logger.info("Loaded model from HuggingFace directory")
+        else:
+            checkpoint = torch.load(model_path, map_location=device)
+            if 'model_state_dict' in checkpoint:
+                model.model.load_state_dict(checkpoint['model_state_dict'])
+                logger.info(f"Loaded model from checkpoint (epoch {checkpoint.get('epoch', 'unknown')})")
+            else:
+                model.model.load_state_dict(checkpoint)
+        
+        model.model.eval()
+        return model
+    except Exception as e:
+        logger.error(f"Error loading BLIP model: {e}")
+        return None
+
+def load_test_samples(config, num_samples=1, random_seed=42):
+    """Tải mẫu test ngẫu nhiên"""
+    random.seed(random_seed)
+    
+    # Đường dẫn dữ liệu
+    test_questions_file = config['data']['test_questions']
+    test_images_dir = config['data']['test_images']
+    
+    # Tải danh sách câu hỏi
+    questions = []
+    with open(test_questions_file, 'r', encoding='utf-8') as f:
+        for line in f:
+            try:
+                item = json.loads(line)
+                questions.append(item)
+            except:
+                continue
+    
+    # Chọn ngẫu nhiên
+    selected_questions = random.sample(questions, min(num_samples, len(questions)))
+    
+    # Tìm đường dẫn hình ảnh
+    samples = []
+    for item in selected_questions:
+        image_id = item['image_id']
+        
+        # Thử các phần mở rộng phổ biến
+        for ext in ['.jpg', '.jpeg', '.png']:
+            img_path = Path(test_images_dir) / f"{image_id}{ext}"
+            if img_path.exists():
+                samples.append({
+                    'image_id': image_id,
+                    'question': item['question'],
+                    'answer': item['answer'],
+                    'image_path': str(img_path)
+                })
+                break
+    
+    return samples
+
+def create_unified_analysis(sample, blip_answer, reformulation_result, 
+                          chain_of_thought_result, grad_cam_data, 
+                          gemini_final_answer, processing_time, logger):
+    """
+    Create unified analysis result combining all components
+    
+    Args:
+        sample: Sample data dictionary
+        blip_answer: BLIP model answer
+        reformulation_result: Query reformulation result
+        chain_of_thought_result: Chain-of-thought reasoning result
+        grad_cam_data: Grad-CAM attention data
+        gemini_final_answer: Final Gemini-enhanced answer
+        processing_time: Total processing time
+        logger: Logger instance
+        
+    Returns:
+        Unified analysis dictionary
+    """
+    
+    # Base metadata
+    unified_result = {
+        'metadata': {
+            'image_id': sample['image_id'],
+            'image_path': sample['image_path'],
+            'original_question': sample['question'],
+            'ground_truth': sample['answer'],
+            'processing_time_seconds': processing_time,
+            'timestamp': time.strftime('%Y-%m-%d %H:%M:%S'),
+            'pipeline_version': '3.0_with_chain_of_thought'
+        },
+        
+        'pipeline_results': {
+            'blip_initial_answer': blip_answer,
+            'query_reformulation': {
+                'reformulated_question': reformulation_result['reformulated_question'],
+                'quality_metrics': reformulation_result['reformulation_quality'],
+                'visual_context': reformulation_result['visual_context']
+            },
+            'chain_of_thought_reasoning': chain_of_thought_result,
+            'visual_attention': {
+                'grad_cam_available': grad_cam_data is not None,
+                'attention_regions': grad_cam_data.get('regions', []) if grad_cam_data else []
+            },
+            'final_enhanced_answer': gemini_final_answer
+        },
+        
+        'quality_assessment': {
+            'reformulation_quality': reformulation_result['reformulation_quality']['score'],
+            'reasoning_confidence': chain_of_thought_result.get('reasoning_chain', {}).get('overall_confidence', 0.0),
+            'reasoning_validity': chain_of_thought_result.get('reasoning_chain', {}).get('validation', {}).get('overall_validity', False),
+            'combined_quality_score': 0.0  # Will be calculated
+        }
+    }
+    
+    # Calculate combined quality score
+    quality_components = [
+        unified_result['quality_assessment']['reformulation_quality'],
+        unified_result['quality_assessment']['reasoning_confidence'],
+        1.0 if unified_result['quality_assessment']['reasoning_validity'] else 0.0
+    ]
+    
+    unified_result['quality_assessment']['combined_quality_score'] = sum(quality_components) / len(quality_components)
+    
+    # Add reasoning steps summary
+    if chain_of_thought_result.get('success', False):
+        reasoning_chain = chain_of_thought_result['reasoning_chain']
+        steps = reasoning_chain.get('steps', [])
+        
+        unified_result['reasoning_summary'] = {
+            'flow_type': reasoning_chain.get('flow_type', 'unknown'),
+            'total_steps': len(steps),
+            'step_confidences': [step.get('confidence', 0.0) for step in steps],
+            'step_types': [step.get('type', 'unknown') for step in steps],
+            'reasoning_highlights': [
+                step.get('content', '')[:100] + '...' if len(step.get('content', '')) > 100 
+                else step.get('content', '') for step in steps[:3]  # First 3 steps
+            ]
+        }
+    
+    logger.info(f"Created unified analysis with quality score: {unified_result['quality_assessment']['combined_quality_score']:.3f}")
+    
+    return unified_result
+
+def process_and_visualize(blip_model, gemini, query_reformulator, 
+                         cot_generator, grad_cam, sample, output_dir, 
+                         enable_chain_of_thought, logger):
+    """
+    Process sample with complete MedXplain-VQA pipeline
+    
+    Args:
+        blip_model: BLIP model instance
+        gemini: Gemini integration instance
+        query_reformulator: Query reformulator instance
+        cot_generator: Chain-of-thought generator instance
+        grad_cam: Grad-CAM instance
+        sample: Sample data dictionary
+        output_dir: Output directory
+        enable_chain_of_thought: Whether to use chain-of-thought reasoning
+        logger: Logger instance
+        
+    Returns:
+        Unified analysis result
+    """
+    start_time = time.time()
+    
+    image_path = sample['image_path']
+    question = sample['question']
+    ground_truth = sample['answer']
+    
+    logger.info(f"Processing {sample['image_id']} with MedXplain-VQA pipeline")
+    
+    # Load image
+    image = Image.open(image_path).convert('RGB')
+    
+    # Step 1: BLIP prediction
+    logger.info("Step 1: BLIP inference")
+    blip_answer = blip_model.predict(image, question)
+    logger.info(f"BLIP answer: {blip_answer}")
+    
+    # Step 2: Query reformulation (always enabled)
+    logger.info("Step 2: Query reformulation")
+    reformulation_result = query_reformulator.reformulate_question(image, question)
+    reformulated_question = reformulation_result['reformulated_question']
+    logger.info(f"Reformulated question quality: {reformulation_result['reformulation_quality']['score']:.3f}")
+    
+    # Step 3: Grad-CAM generation
+    logger.info("Step 3: Grad-CAM generation")
+    grad_cam_data = None
+    try:
+        grad_cam_heatmap = grad_cam(image, question, original_size=image.size)
+        if grad_cam_heatmap is not None:
+            # Create mock regions for now (in production, use proper region extraction)
+            grad_cam_data = {
+                'heatmap': grad_cam_heatmap,
+                'regions': [{
+                    'bbox': [50, 50, 100, 100],
+                    'score': 0.8,
+                    'center': [100, 100]
+                }]
+            }
+            logger.info("Grad-CAM generated successfully")
+        else:
+            logger.warning("Grad-CAM generation failed")
+    except Exception as e:
+        logger.error(f"Grad-CAM error: {e}")
+    
+    # Step 4: Chain-of-thought reasoning (conditional)
+    chain_of_thought_result = None
+    if enable_chain_of_thought:
+        logger.info("Step 4: Chain-of-thought reasoning")
+        try:
+            visual_context = reformulation_result['visual_context']
+            chain_of_thought_result = cot_generator.generate_reasoning_chain(
+                image=image,
+                reformulated_question=reformulated_question,
+                blip_answer=blip_answer,
+                visual_context=visual_context,
+                grad_cam_data=grad_cam_data
+            )
+            
+            if chain_of_thought_result['success']:
+                confidence = chain_of_thought_result['reasoning_chain']['overall_confidence']
+                logger.info(f"Chain-of-thought generated with confidence: {confidence:.3f}")
+            else:
+                logger.error(f"Chain-of-thought failed: {chain_of_thought_result.get('error', 'Unknown error')}")
+        except Exception as e:
+            logger.error(f"Chain-of-thought error: {e}")
+            chain_of_thought_result = {
+                'success': False,
+                'error': str(e),
+                'reasoning_chain': {'overall_confidence': 0.0}
+            }
+    else:
+        logger.info("Step 4: Chain-of-thought reasoning (SKIPPED)")
+        chain_of_thought_result = {
+            'success': False,
+            'skipped': True,
+            'reasoning_chain': {'overall_confidence': 0.0}
+        }
+    
+    # Step 5: Final Gemini enhancement
+    logger.info("Step 5: Final answer enhancement")
+    try:
+        # Create context for Gemini
+        context_for_gemini = {
+            'reformulated_question': reformulated_question,
+            'initial_answer': blip_answer,
+            'has_reasoning': enable_chain_of_thought and chain_of_thought_result.get('success', False)
+        }
+        
+        if enable_chain_of_thought and chain_of_thought_result.get('success', False):
+            # Include chain-of-thought reasoning in context
+            reasoning_steps = chain_of_thought_result['reasoning_chain']['steps']
+            reasoning_summary = "\n".join([f"- {step['content'][:150]}..." if len(step['content']) > 150 
+                                         else f"- {step['content']}" for step in reasoning_steps[:4]])
+            
+            gemini_final_answer = gemini.generate_unified_answer(
+                image, reformulated_question, blip_answer, 
+                heatmap=grad_cam_data.get('heatmap') if grad_cam_data else None,
+                additional_context=f"Chain-of-thought reasoning:\n{reasoning_summary}"
+            )
+        else:
+            # Standard Gemini enhancement without chain-of-thought
+            gemini_final_answer = gemini.generate_unified_answer(
+                image, reformulated_question, blip_answer,
+                heatmap=grad_cam_data.get('heatmap') if grad_cam_data else None
+            )
+            
+        logger.info("Final answer generated successfully")
+        
+    except Exception as e:
+        logger.error(f"Gemini enhancement error: {e}")
+        gemini_final_answer = f"Enhanced analysis: {blip_answer}"
+    
+    # Calculate processing time
+    processing_time = time.time() - start_time
+    
+    # Create unified analysis
+    unified_result = create_unified_analysis(
+        sample, blip_answer, reformulation_result, chain_of_thought_result,
+        grad_cam_data, gemini_final_answer, processing_time, logger
+    )
+    
+    # Create visualization
+    create_visualization(image, sample, unified_result, output_dir, 
+                        enable_chain_of_thought, logger)
+    
+    # Save detailed results
+    save_detailed_results(unified_result, output_dir, sample['image_id'], logger)
+    
+    return unified_result
+
+def create_visualization(image, sample, unified_result, output_dir, 
+                        enable_chain_of_thought, logger):
+    """Create comprehensive visualization of results"""
+    try:
+        # Determine layout based on chain-of-thought availability
+        if enable_chain_of_thought and unified_result['pipeline_results']['chain_of_thought_reasoning'].get('success', False):
+            # Full layout with chain-of-thought
+            fig = plt.figure(figsize=(16, 12))
+            
+            # Image
+            ax_image = plt.subplot2grid((3, 2), (0, 0), rowspan=2)
+            ax_image.imshow(image)
+            ax_image.set_title(f"MedXplain-VQA Analysis: {sample['image_id']}", fontsize=14, fontweight='bold')
+            ax_image.axis('off')
+            
+            # Reasoning steps
+            ax_reasoning = plt.subplot2grid((3, 2), (0, 1), rowspan=2)
+            reasoning_result = unified_result['pipeline_results']['chain_of_thought_reasoning']
+            reasoning_steps = reasoning_result['reasoning_chain']['steps']
+            
+            reasoning_text = f"CHAIN-OF-THOUGHT REASONING\n"
+            reasoning_text += f"Flow: {reasoning_result['reasoning_chain']['flow_type']}\n"
+            reasoning_text += f"Confidence: {reasoning_result['reasoning_chain']['overall_confidence']:.3f}\n\n"
+            
+            for i, step in enumerate(reasoning_steps[:4]):  # Show first 4 steps
+                step_content = step['content'][:120] + "..." if len(step['content']) > 120 else step['content']
+                reasoning_text += f"{i+1}. {step['type'].replace('_', ' ').title()}\n"
+                reasoning_text += f"   {step_content}\n"
+                reasoning_text += f"   Confidence: {step['confidence']:.3f}\n\n"
+            
+            ax_reasoning.text(0.02, 0.98, reasoning_text, transform=ax_reasoning.transAxes,
+                            fontsize=9, verticalalignment='top', wrap=True,
+                            bbox=dict(boxstyle="round,pad=0.3", facecolor="lightblue", alpha=0.7))
+            ax_reasoning.axis('off')
+            
+            # Text summary
+            ax_text = plt.subplot2grid((3, 2), (2, 0), colspan=2)
+            
+        else:
+            # Standard layout without chain-of-thought
+            fig = plt.figure(figsize=(12, 8))
+            
+            # Image
+            ax_image = plt.subplot2grid((2, 1), (0, 0))
+            ax_image.imshow(image)
+            ax_image.set_title(f"MedXplain-VQA Analysis: {sample['image_id']}", fontsize=14, fontweight='bold')
+            ax_image.axis('off')
+            
+            # Text summary
+            ax_text = plt.subplot2grid((2, 1), (1, 0))
+        
+        # Text content
+        pipeline_results = unified_result['pipeline_results']
+        quality_assessment = unified_result['quality_assessment']
+        
+        text_content = f"QUESTION: {sample['question']}\n\n"
+        text_content += f"REFORMULATED: {pipeline_results['query_reformulation']['reformulated_question'][:200]}...\n\n"
+        text_content += f"GROUND TRUTH: {sample['answer']}\n\n"
+        text_content += f"MEDXPLAIN-VQA ANSWER:\n{pipeline_results['final_enhanced_answer']}\n\n"
+        text_content += f"QUALITY METRICS:\n"
+        text_content += f"- Reformulation Quality: {quality_assessment['reformulation_quality']:.3f}\n"
+        text_content += f"- Reasoning Confidence: {quality_assessment['reasoning_confidence']:.3f}\n"
+        text_content += f"- Overall Quality Score: {quality_assessment['combined_quality_score']:.3f}\n"
+        text_content += f"- Processing Time: {unified_result['metadata']['processing_time_seconds']:.2f}s"
+        
+        ax_text.text(0.02, 0.98, text_content, transform=ax_text.transAxes,
+                    fontsize=10, verticalalignment='top', wrap=True)
+        ax_text.axis('off')
+        
+        # Save visualization
+        plt.tight_layout()
+        
+        mode_suffix = "_with_cot" if enable_chain_of_thought else "_standard"
+        output_path = os.path.join(output_dir, f"medxplain_vqa_{sample['image_id']}{mode_suffix}.png")
+        plt.savefig(output_path, bbox_inches='tight', dpi=150)
+        plt.close(fig)
+        
+        logger.info(f"Visualization saved to {output_path}")
+        
+    except Exception as e:
+        logger.error(f"Error creating visualization: {e}")
+
+def save_detailed_results(unified_result, output_dir, image_id, logger):
+    """Save detailed results to JSON file"""
+    try:
+        # Determine filename based on chain-of-thought usage
+        cot_enabled = not unified_result['pipeline_results']['chain_of_thought_reasoning'].get('skipped', False)
+        mode_suffix = "_with_cot" if cot_enabled else "_standard"
+        
+        output_file = os.path.join(output_dir, f"medxplain_vqa_{image_id}{mode_suffix}.json")
+        
+        with open(output_file, 'w', encoding='utf-8') as f:
+            json.dump(unified_result, f, indent=2, ensure_ascii=False, default=str)
+        
+        logger.info(f"Detailed results saved to {output_file}")
+        
+    except Exception as e:
+        logger.error(f"Error saving detailed results: {e}")
+
+def main():
+    parser = argparse.ArgumentParser(description='MedXplain-VQA with Enhanced Chain-of-Thought Reasoning')
+    parser.add_argument('--config', type=str, default='configs/config.yaml', help='Path to config file')
+    parser.add_argument('--model-path', type=str, default='checkpoints/blip/checkpoints/best_hf_model', 
+                      help='Path to BLIP model checkpoint')
+    parser.add_argument('--image', type=str, default=None, help='Path to specific image (optional)')
+    parser.add_argument('--question', type=str, default=None, help='Specific question (optional)')
+    parser.add_argument('--num-samples', type=int, default=1, help='Number of test samples (if no image specified)')
+    parser.add_argument('--output-dir', type=str, default='data/medxplain_enhanced_results', help='Output directory')
+    
+    # NEW: Chain-of-thought option
+    parser.add_argument('--enable-chain-of-thought', action='store_true', 
+                      help='Enable chain-of-thought reasoning (default: False)')
+    parser.add_argument('--comparison-mode', action='store_true',
+                      help='Run both standard and chain-of-thought modes for comparison')
+    
+    args = parser.parse_args()
+    
+    # Load config
+    config = Config(args.config)
+    
+    # Setup logger
+    logger = setup_logger('medxplain_vqa_enhanced', config['logging']['save_dir'], level='INFO')
+    logger.info("Starting Enhanced MedXplain-VQA Pipeline")
+    
+    # Log pipeline configuration
+    if args.comparison_mode:
+        logger.info("Running in COMPARISON MODE: both standard and chain-of-thought")
+    elif args.enable_chain_of_thought:
+        logger.info("Running with CHAIN-OF-THOUGHT REASONING enabled")
+    else:
+        logger.info("Running in STANDARD MODE (without chain-of-thought)")
+    
+    # Load model
+    blip_model = load_model(config, args.model_path, logger)
+    if blip_model is None:
+        logger.error("Failed to load BLIP model. Exiting.")
+        return
+    
+    # Initialize components
+    logger.info("Initializing pipeline components...")
+    try:
+        gemini = GeminiIntegration(config)
+        visual_extractor = VisualContextExtractor(blip_model, config)
+        query_reformulator = QueryReformulator(gemini, visual_extractor, config)
+        
+        # Grad-CAM
+        grad_cam = GradCAM(blip_model.model, layer_name="vision_model.encoder.layers.11")
+        
+        # Chain-of-thought generator (always initialize for potential use)
+        cot_generator = ChainOfThoughtGenerator(gemini, config)
+        
+        logger.info("All components initialized successfully")
+        
+    except Exception as e:
+        logger.error(f"Failed to initialize components: {e}")
+        return
+    
+    # Create output directory
+    os.makedirs(args.output_dir, exist_ok=True)
+    
+    # Process samples
+    if args.image and args.question:
+        # Custom image and question
+        sample = {
+            'image_id': Path(args.image).stem,
+            'question': args.question,
+            'answer': "Custom input (ground truth unknown)",
+            'image_path': args.image
+        }
+        samples = [sample]
+    else:
+        # Load test samples
+        logger.info(f"Loading {args.num_samples} test samples")
+        samples = load_test_samples(config, args.num_samples)
+        
+        if not samples:
+            logger.error("No test samples found. Exiting.")
+            return
+    
+    # Process each sample
+    results_summary = []
+    
+    for sample in samples:
+        logger.info(f"Processing sample: {sample['image_id']}")
+        
+        if args.comparison_mode:
+            # Run both modes for comparison
+            logger.info("Running STANDARD mode")
+            result_standard = process_and_visualize(
+                blip_model, gemini, query_reformulator, cot_generator, grad_cam,
+                sample, args.output_dir, enable_chain_of_thought=False, logger=logger
+            )
+            
+            logger.info("Running CHAIN-OF-THOUGHT mode")
+            result_cot = process_and_visualize(
+                blip_model, gemini, query_reformulator, cot_generator, grad_cam,
+                sample, args.output_dir, enable_chain_of_thought=True, logger=logger
+            )
+            
+            # Create comparison summary
+            comparison = {
+                'image_id': sample['image_id'],
+                'standard_mode': {
+                    'quality_score': result_standard['quality_assessment']['combined_quality_score'],
+                    'processing_time': result_standard['metadata']['processing_time_seconds']
+                },
+                'chain_of_thought_mode': {
+                    'quality_score': result_cot['quality_assessment']['combined_quality_score'],
+                    'reasoning_confidence': result_cot['quality_assessment']['reasoning_confidence'],
+                    'processing_time': result_cot['metadata']['processing_time_seconds']
+                }
+            }
+            results_summary.append(comparison)
+            
+        else:
+            # Single mode
+            result = process_and_visualize(
+                blip_model, gemini, query_reformulator, cot_generator, grad_cam,
+                sample, args.output_dir, enable_chain_of_thought=args.enable_chain_of_thought, logger=logger
+            )
+            
+            summary = {
+                'image_id': sample['image_id'],
+                'mode': 'chain_of_thought' if args.enable_chain_of_thought else 'standard',
+                'quality_score': result['quality_assessment']['combined_quality_score'],
+                'processing_time': result['metadata']['processing_time_seconds']
+            }
+            
+            if args.enable_chain_of_thought:
+                summary['reasoning_confidence'] = result['quality_assessment']['reasoning_confidence']
+            
+            results_summary.append(summary)
+    
+    # Save summary
+    summary_file = os.path.join(args.output_dir, 'processing_summary.json')
+    with open(summary_file, 'w', encoding='utf-8') as f:
+        json.dump({
+            'pipeline_config': {
+                'chain_of_thought_enabled': args.enable_chain_of_thought,
+                'comparison_mode': args.comparison_mode,
+                'total_samples': len(samples)
+            },
+            'results': results_summary
+        }, f, indent=2)
+    
+    logger.info(f"Processing summary saved to {summary_file}")
+    
+    # Print summary
+    logger.info("=== PROCESSING SUMMARY ===")
+    for result in results_summary:
+        if args.comparison_mode:
+            logger.info(f"Sample {result['image_id']}:")
+            logger.info(f"  Standard: Quality {result['standard_mode']['quality_score']:.3f}, "
+                       f"Time {result['standard_mode']['processing_time']:.2f}s")
+            logger.info(f"  Chain-of-Thought: Quality {result['chain_of_thought_mode']['quality_score']:.3f}, "
+                       f"Confidence {result['chain_of_thought_mode']['reasoning_confidence']:.3f}, "
+                       f"Time {result['chain_of_thought_mode']['processing_time']:.2f}s")
+        else:
+            logger.info(f"Sample {result['image_id']} ({result['mode']}): "
+                       f"Quality {result['quality_score']:.3f}, Time {result['processing_time']:.2f}s")
+    
+    # Clean up
+    grad_cam.remove_hooks()
+    
+    logger.info("Enhanced MedXplain-VQA pipeline completed successfully")
+
+if __name__ == "__main__":
+    main()

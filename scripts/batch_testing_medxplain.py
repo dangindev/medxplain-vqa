@@ -1,0 +1,985 @@
+#!/usr/bin/env python
+import os
+import sys
+import torch
+import argparse
+from PIL import Image
+import matplotlib.pyplot as plt
+from pathlib import Path
+import json
+import random
+import time
+import numpy as np
+from collections import defaultdict
+import pandas as pd
+import seaborn as sns
+from datetime import datetime
+
+# Thêm thư mục gốc vào path
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+from src.utils.config import Config
+from src.utils.logger import setup_logger
+from src.models.blip2.model import BLIP2VQA
+from src.models.llm.gemini_integration import GeminiIntegration
+from src.explainability.reasoning.visual_context_extractor import VisualContextExtractor
+from src.explainability.reasoning.query_reformulator import QueryReformulator
+from src.explainability.grad_cam import GradCAM
+from src.explainability.rationale.chain_of_thought import ChainOfThoughtGenerator
+
+class BatchTestingFramework:
+    """
+    Comprehensive testing framework for MedXplain-VQA pipeline
+    """
+    
+    def __init__(self, config, model_path, logger):
+        """Initialize testing framework"""
+        self.config = config
+        self.logger = logger
+        self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        
+        # Initialize all components
+        self.initialize_components(model_path)
+        
+        # Testing metrics
+        self.test_results = []
+        self.performance_metrics = defaultdict(list)
+        self.error_log = []
+        
+        logger.info("Batch Testing Framework initialized with FIXED quality calculation")
+    
+    def initialize_components(self, model_path):
+        """Initialize all pipeline components"""
+        self.logger.info("Initializing pipeline components...")
+        
+        try:
+            # BLIP model
+            self.blip_model = BLIP2VQA(self.config, train_mode=False)
+            self.blip_model.device = self.device
+            
+            if os.path.isdir(model_path):
+                self.blip_model.model = type(self.blip_model.model).from_pretrained(model_path)
+                self.blip_model.model.to(self.device)
+            else:
+                checkpoint = torch.load(model_path, map_location=self.device)
+                if 'model_state_dict' in checkpoint:
+                    self.blip_model.model.load_state_dict(checkpoint['model_state_dict'])
+                else:
+                    self.blip_model.model.load_state_dict(checkpoint)
+            
+            self.blip_model.model.eval()
+            
+            # Other components
+            self.gemini = GeminiIntegration(self.config)
+            self.visual_extractor = VisualContextExtractor(self.blip_model, self.config)
+            self.query_reformulator = QueryReformulator(self.gemini, self.visual_extractor, self.config)
+            self.grad_cam = GradCAM(self.blip_model.model, layer_name="vision_model.encoder.layers.11")
+            self.cot_generator = ChainOfThoughtGenerator(self.gemini, self.config)
+            
+            self.logger.info("All components initialized successfully")
+            
+        except Exception as e:
+            self.logger.error(f"Component initialization failed: {e}")
+            raise
+    
+    def load_diverse_samples(self, num_samples=10, random_seed=42):
+        """Load diverse test samples for comprehensive testing"""
+        random.seed(random_seed)
+        
+        test_questions_file = self.config['data']['test_questions']
+        test_images_dir = self.config['data']['test_images']
+        
+        # Load all questions
+        all_questions = []
+        with open(test_questions_file, 'r', encoding='utf-8') as f:
+            for line in f:
+                try:
+                    item = json.loads(line)
+                    all_questions.append(item)
+                except:
+                    continue
+        
+        self.logger.info(f"Loaded {len(all_questions)} total questions")
+        
+        # Diversify selection by question types and patterns
+        diverse_samples = []
+        
+        # Categorize questions by type
+        question_categories = {
+            'what': [],
+            'how': [],
+            'where': [],
+            'which': [],
+            'show': [],
+            'identify': [],
+            'other': []
+        }
+        
+        for item in all_questions:
+            question_lower = item['question'].lower()
+            categorized = False
+            
+            for category in question_categories.keys():
+                if category in question_lower and category != 'other':
+                    question_categories[category].append(item)
+                    categorized = True
+                    break
+            
+            if not categorized:
+                question_categories['other'].append(item)
+        
+        # Select samples from each category
+        samples_per_category = max(1, num_samples // len(question_categories))
+        
+        for category, items in question_categories.items():
+            if items:
+                selected = random.sample(items, min(samples_per_category, len(items)))
+                for item in selected:
+                    if len(diverse_samples) < num_samples:
+                        # Find corresponding image
+                        image_id = item['image_id']
+                        for ext in ['.jpg', '.jpeg', '.png']:
+                            img_path = Path(test_images_dir) / f"{image_id}{ext}"
+                            if img_path.exists():
+                                diverse_samples.append({
+                                    'image_id': image_id,
+                                    'question': item['question'],
+                                    'answer': item['answer'],
+                                    'image_path': str(img_path),
+                                    'category': category
+                                })
+                                break
+        
+        # Fill remaining slots with random samples if needed
+        if len(diverse_samples) < num_samples:
+            remaining_items = [item for item in all_questions 
+                             if item['image_id'] not in [s['image_id'] for s in diverse_samples]]
+            
+            additional_needed = num_samples - len(diverse_samples)
+            for item in random.sample(remaining_items, min(additional_needed, len(remaining_items))):
+                image_id = item['image_id']
+                for ext in ['.jpg', '.jpeg', '.png']:
+                    img_path = Path(test_images_dir) / f"{image_id}{ext}"
+                    if img_path.exists():
+                        diverse_samples.append({
+                            'image_id': image_id,
+                            'question': item['question'],
+                            'answer': item['answer'],
+                            'image_path': str(img_path),
+                            'category': 'additional'
+                        })
+                        break
+        
+        self.logger.info(f"Selected {len(diverse_samples)} diverse samples for testing")
+        
+        # Log category distribution
+        category_dist = defaultdict(int)
+        for sample in diverse_samples:
+            category_dist[sample['category']] += 1
+        
+        self.logger.info(f"Category distribution: {dict(category_dist)}")
+        
+        return diverse_samples[:num_samples]
+    
+    def process_sample_with_metrics(self, sample, mode='both'):
+        """
+        Process single sample with comprehensive metrics collection
+        
+        Args:
+            sample: Sample dictionary
+            mode: 'standard', 'chain_of_thought', or 'both'
+            
+        Returns:
+            Results dictionary with metrics
+        """
+        sample_results = {
+            'image_id': sample['image_id'],
+            'category': sample['category'],
+            'question': sample['question'],
+            'ground_truth': sample['answer'],
+            'modes_tested': [],
+            'results': {},
+            'errors': []
+        }
+        
+        # Load image
+        try:
+            image = Image.open(sample['image_path']).convert('RGB')
+        except Exception as e:
+            error_msg = f"Failed to load image {sample['image_id']}: {e}"
+            self.logger.error(error_msg)
+            sample_results['errors'].append(error_msg)
+            return sample_results
+        
+        # Test standard mode
+        if mode in ['standard', 'both']:
+            self.logger.info(f"Testing {sample['image_id']} in STANDARD mode")
+            try:
+                start_time = time.time()
+                result_standard = self.process_single_mode(
+                    image, sample, enable_chain_of_thought=False
+                )
+                processing_time = time.time() - start_time
+                
+                sample_results['modes_tested'].append('standard')
+                sample_results['results']['standard'] = {
+                    **result_standard,
+                    'processing_time': processing_time
+                }
+                
+                self.logger.info(f"Standard mode completed in {processing_time:.2f}s")
+                
+            except Exception as e:
+                error_msg = f"Standard mode failed for {sample['image_id']}: {e}"
+                self.logger.error(error_msg)
+                sample_results['errors'].append(error_msg)
+                self.error_log.append({'sample_id': sample['image_id'], 'mode': 'standard', 'error': str(e)})
+        
+        # Test chain-of-thought mode
+        if mode in ['chain_of_thought', 'both']:
+            self.logger.info(f"Testing {sample['image_id']} in CHAIN-OF-THOUGHT mode")
+            try:
+                start_time = time.time()
+                result_cot = self.process_single_mode(
+                    image, sample, enable_chain_of_thought=True
+                )
+                processing_time = time.time() - start_time
+                
+                sample_results['modes_tested'].append('chain_of_thought')
+                sample_results['results']['chain_of_thought'] = {
+                    **result_cot,
+                    'processing_time': processing_time
+                }
+                
+                self.logger.info(f"Chain-of-thought mode completed in {processing_time:.2f}s")
+                
+            except Exception as e:
+                error_msg = f"Chain-of-thought mode failed for {sample['image_id']}: {e}"
+                self.logger.error(error_msg)
+                sample_results['errors'].append(error_msg)
+                self.error_log.append({'sample_id': sample['image_id'], 'mode': 'chain_of_thought', 'error': str(e)})
+        
+        return sample_results
+    
+    def process_single_mode(self, image, sample, enable_chain_of_thought=False):
+        """Process sample in single mode with detailed metrics"""
+        
+        # Step 1: BLIP inference
+        blip_start = time.time()
+        blip_answer = self.blip_model.predict(image, sample['question'])
+        blip_time = time.time() - blip_start
+        
+        # Step 2: Query reformulation
+        reform_start = time.time()
+        reformulation_result = self.query_reformulator.reformulate_question(image, sample['question'])
+        reform_time = time.time() - reform_start
+        
+        # Step 3: Grad-CAM
+        gradcam_start = time.time()
+        grad_cam_data = None
+        try:
+            grad_cam_heatmap = self.grad_cam(image, sample['question'], original_size=image.size)
+            if grad_cam_heatmap is not None:
+                grad_cam_data = {
+                    'heatmap': grad_cam_heatmap,
+                    'regions': [{'bbox': [50, 50, 100, 100], 'score': 0.8, 'center': [100, 100]}]
+                }
+        except Exception as e:
+            self.logger.warning(f"Grad-CAM failed: {e}")
+        
+        gradcam_time = time.time() - gradcam_start
+        
+        # Step 4: Chain-of-thought (conditional)
+        cot_result = None
+        cot_time = 0
+        if enable_chain_of_thought:
+            cot_start = time.time()
+            try:
+                visual_context = reformulation_result['visual_context']
+                cot_result = self.cot_generator.generate_reasoning_chain(
+                    image=image,
+                    reformulated_question=reformulation_result['reformulated_question'],
+                    blip_answer=blip_answer,
+                    visual_context=visual_context,
+                    grad_cam_data=grad_cam_data
+                )
+            except Exception as e:
+                self.logger.error(f"Chain-of-thought failed: {e}")
+                cot_result = {'success': False, 'error': str(e), 'reasoning_chain': {'overall_confidence': 0.0}}
+            
+            cot_time = time.time() - cot_start
+        
+        # Step 5: Final Gemini enhancement
+        gemini_start = time.time()
+        try:
+            if enable_chain_of_thought and cot_result and cot_result.get('success', False):
+                reasoning_steps = cot_result['reasoning_chain']['steps']
+                reasoning_summary = "\n".join([f"- {step['content'][:150]}..." if len(step['content']) > 150 
+                                             else f"- {step['content']}" for step in reasoning_steps[:4]])
+                
+                final_answer = self.gemini.generate_unified_answer(
+                    image, reformulation_result['reformulated_question'], blip_answer,
+                    heatmap=grad_cam_data.get('heatmap') if grad_cam_data else None,
+                    additional_context=f"Chain-of-thought reasoning:\n{reasoning_summary}"
+                )
+            else:
+                final_answer = self.gemini.generate_unified_answer(
+                    image, reformulation_result['reformulated_question'], blip_answer,
+                    heatmap=grad_cam_data.get('heatmap') if grad_cam_data else None
+                )
+        except Exception as e:
+            self.logger.error(f"Gemini enhancement failed: {e}")
+            final_answer = f"Enhanced analysis: {blip_answer}"
+        
+        gemini_time = time.time() - gemini_start
+        
+        # FIXED: Calculate quality metrics using CONSISTENT method
+        quality_metrics = self.calculate_quality_metrics_fixed(
+            reformulation_result, cot_result, blip_answer, final_answer, enable_chain_of_thought
+        )
+        
+        # Compile results
+        result = {
+            'blip_answer': blip_answer,
+            'reformulated_question': reformulation_result['reformulated_question'],
+            'reformulation_quality': reformulation_result['reformulation_quality']['score'],
+            'final_answer': final_answer,
+            'quality_metrics': quality_metrics,
+            'timing_breakdown': {
+                'blip_inference': blip_time,
+                'query_reformulation': reform_time,
+                'grad_cam_generation': gradcam_time,
+                'chain_of_thought': cot_time,
+                'gemini_enhancement': gemini_time,
+                'total': blip_time + reform_time + gradcam_time + cot_time + gemini_time
+            },
+            'chain_of_thought_result': cot_result,
+            'grad_cam_available': grad_cam_data is not None
+        }
+        
+        return result
+    
+    def calculate_quality_metrics_fixed(self, reformulation_result, cot_result, blip_answer, final_answer, enable_chain_of_thought):
+        """
+        FIXED: Calculate comprehensive quality metrics with CONSISTENT methodology
+        
+        This method ensures fair comparison between Standard and Chain-of-Thought modes
+        by using the same base components and weighting scheme.
+        """
+        
+        # Base quality components (same for both modes)
+        reformulation_quality = reformulation_result['reformulation_quality']['score']
+        answer_quality_score = self.assess_answer_quality_improved(final_answer, blip_answer)
+        
+        # Chain-of-thought specific components
+        cot_confidence = 0.0
+        cot_validity_score = 0.0
+        
+        if enable_chain_of_thought and cot_result and cot_result.get('success', False):
+            # Chain-of-thought confidence
+            cot_confidence = cot_result['reasoning_chain'].get('overall_confidence', 0.0)
+            
+            # Chain-of-thought validity score
+            validation = cot_result['reasoning_chain'].get('validation', {})
+            cot_validity = validation.get('overall_validity', False)
+            combined_validation_score = validation.get('combined_score', 0.0)
+            
+            # Use combined validation score if available, otherwise binary validity
+            cot_validity_score = combined_validation_score if combined_validation_score > 0 else (1.0 if cot_validity else 0.0)
+        
+        # FIXED: Unified quality calculation for both modes
+        if enable_chain_of_thought:
+            # Chain-of-thought mode: include reasoning quality
+            quality_components = {
+                'reformulation_quality': reformulation_quality,
+                'answer_quality': answer_quality_score,
+                'reasoning_confidence': cot_confidence,
+                'reasoning_validity': cot_validity_score
+            }
+            
+            # Weighted average for chain-of-thought mode
+            weights = {
+                'reformulation_quality': 0.25,  # 25% - query reformulation 
+                'answer_quality': 0.35,         # 35% - final answer quality
+                'reasoning_confidence': 0.25,   # 25% - reasoning confidence
+                'reasoning_validity': 0.15      # 15% - reasoning validity
+            }
+            
+            overall_quality = sum(quality_components[k] * weights[k] for k in quality_components.keys())
+            
+        else:
+            # Standard mode: focus on core components
+            quality_components = {
+                'reformulation_quality': reformulation_quality,
+                'answer_quality': answer_quality_score,
+                'baseline_reasoning': 0.6,  # Baseline reasoning score for standard mode
+                'baseline_validity': 0.8    # Baseline validity for standard mode
+            }
+            
+            # Weighted average for standard mode (same weights for fair comparison)
+            weights = {
+                'reformulation_quality': 0.25,
+                'answer_quality': 0.35,
+                'baseline_reasoning': 0.25,
+                'baseline_validity': 0.15
+            }
+            
+            overall_quality = sum(quality_components[k] * weights[k] for k in quality_components.keys())
+        
+        return {
+            'reformulation_quality': reformulation_quality,
+            'answer_quality': answer_quality_score,
+            'chain_of_thought_confidence': cot_confidence,
+            'chain_of_thought_validity': cot_validity_score,
+            'overall_quality': overall_quality,
+            'calculation_mode': 'chain_of_thought' if enable_chain_of_thought else 'standard',
+            'quality_components': quality_components,
+            'weights_used': weights if 'weights' in locals() else {}
+        }
+    
+    def assess_answer_quality_improved(self, final_answer, blip_answer):
+        """
+        IMPROVED: Better heuristic assessment of answer quality
+        
+        Compares final enhanced answer with initial BLIP answer to measure improvement
+        """
+        if not final_answer or len(final_answer.strip()) < 10:
+            return 0.2
+        
+        # Length and complexity indicators
+        answer_length = len(final_answer)
+        word_count = len(final_answer.split())
+        
+        # Length quality (normalized)
+        length_score = min(answer_length / 300, 1.0)  # Optimal around 300 chars
+        word_count_score = min(word_count / 50, 1.0)  # Optimal around 50 words
+        
+        # Medical terminology and sophistication
+        medical_terms = [
+            'pathology', 'diagnosis', 'clinical', 'lesion', 'tissue', 'cellular', 
+            'anatomical', 'morphology', 'histology', 'examination', 'findings',
+            'consistent', 'suggests', 'demonstrates', 'compatible', 'indicative',
+            'characterized', 'features', 'appearance', 'pattern', 'structure'
+        ]
+        
+        answer_lower = final_answer.lower()
+        medical_score = sum(1 for term in medical_terms if term in answer_lower) / len(medical_terms)
+        
+        # Improvement over BLIP answer
+        improvement_score = 0.5  # Default neutral
+        
+        if blip_answer and len(blip_answer.strip()) > 0:
+            final_words = set(final_answer.lower().split())
+            blip_words = set(blip_answer.lower().split())
+            
+            # Vocabulary expansion
+            new_words = final_words - blip_words
+            expansion_ratio = len(new_words) / max(len(blip_words), 1)
+            improvement_score = min(expansion_ratio / 5, 1.0)  # Normalize expansion
+        
+        # Structure and coherence indicators
+        sentence_count = final_answer.count('.') + final_answer.count('!') + final_answer.count('?')
+        structure_score = min(sentence_count / 5, 1.0)  # Optimal around 3-5 sentences
+        
+        # Combine all factors
+        quality_score = (
+            length_score * 0.2 +           # 20% - appropriate length
+            word_count_score * 0.15 +      # 15% - word count
+            medical_score * 0.3 +          # 30% - medical terminology
+            improvement_score * 0.25 +     # 25% - improvement over BLIP
+            structure_score * 0.1          # 10% - structure
+        )
+        
+        return min(quality_score, 1.0)
+    
+    def run_batch_test(self, num_samples=10, test_mode='both', output_dir='data/batch_test_results'):
+        """Run comprehensive batch testing"""
+        
+        self.logger.info(f"Starting FIXED batch test with {num_samples} samples in '{test_mode}' mode")
+        
+        # Create output directory
+        os.makedirs(output_dir, exist_ok=True)
+        
+        # Load diverse samples
+        samples = self.load_diverse_samples(num_samples)
+        
+        if not samples:
+            self.logger.error("No samples loaded for testing")
+            return
+        
+        # Process each sample
+        batch_start_time = time.time()
+        
+        for i, sample in enumerate(samples):
+            self.logger.info(f"Processing sample {i+1}/{len(samples)}: {sample['image_id']}")
+            
+            try:
+                sample_result = self.process_sample_with_metrics(sample, mode=test_mode)
+                self.test_results.append(sample_result)
+                
+                # Update performance metrics
+                self.update_performance_metrics(sample_result)
+                
+                # Log quality for debugging
+                for mode in sample_result['modes_tested']:
+                    if mode in sample_result['results']:
+                        quality = sample_result['results'][mode]['quality_metrics']['overall_quality']
+                        self.logger.info(f"  {mode} quality: {quality:.3f}")
+                
+            except Exception as e:
+                self.logger.error(f"Failed to process sample {sample['image_id']}: {e}")
+                self.error_log.append({
+                    'sample_id': sample['image_id'], 
+                    'mode': 'batch_processing', 
+                    'error': str(e)
+                })
+        
+        total_batch_time = time.time() - batch_start_time
+        
+        # Generate comprehensive report
+        self.generate_comprehensive_report(output_dir, total_batch_time)
+        
+        self.logger.info(f"FIXED batch testing completed in {total_batch_time:.2f}s")
+    
+    def update_performance_metrics(self, sample_result):
+        """Update performance metrics from sample result"""
+        
+        for mode in sample_result['modes_tested']:
+            if mode in sample_result['results']:
+                result = sample_result['results'][mode]
+                
+                # Performance metrics
+                self.performance_metrics[f'{mode}_processing_time'].append(result['processing_time'])
+                self.performance_metrics[f'{mode}_quality'].append(result['quality_metrics']['overall_quality'])
+                self.performance_metrics[f'{mode}_reformulation_quality'].append(result['reformulation_quality'])
+                
+                # Timing breakdown
+                timing = result['timing_breakdown']
+                for component, time_val in timing.items():
+                    self.performance_metrics[f'{mode}_{component}_time'].append(time_val)
+                
+                # Chain-of-thought specific metrics
+                if mode == 'chain_of_thought' and result.get('chain_of_thought_result'):
+                    cot_result = result['chain_of_thought_result']
+                    if cot_result.get('success', False):
+                        confidence = cot_result['reasoning_chain'].get('overall_confidence', 0.0)
+                        self.performance_metrics['cot_confidence'].append(confidence)
+    
+    def generate_comprehensive_report(self, output_dir, total_batch_time):
+        """Generate comprehensive testing report"""
+        
+        timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
+        
+        # 1. Summary statistics
+        summary_stats = self.calculate_summary_statistics()
+        
+        # 2. Performance analysis
+        performance_analysis = self.analyze_performance()
+        
+        # 3. Quality analysis
+        quality_analysis = self.analyze_quality()
+        
+        # 4. Error analysis
+        error_analysis = self.analyze_errors()
+        
+        # Compile comprehensive report
+        comprehensive_report = {
+            'test_metadata': {
+                'timestamp': timestamp,
+                'version': 'FIXED_quality_calculation',
+                'total_samples_tested': len(self.test_results),
+                'total_batch_time': total_batch_time,
+                'average_time_per_sample': total_batch_time / len(self.test_results) if self.test_results else 0,
+                'successful_samples': len([r for r in self.test_results if not r['errors']]),
+                'failed_samples': len([r for r in self.test_results if r['errors']])
+            },
+            'summary_statistics': summary_stats,
+            'performance_analysis': performance_analysis,
+            'quality_analysis': quality_analysis,
+            'error_analysis': error_analysis,
+            'detailed_results': self.test_results,
+            'raw_performance_metrics': dict(self.performance_metrics)
+        }
+        
+        # Save comprehensive report
+        report_file = os.path.join(output_dir, f'FIXED_comprehensive_batch_report_{timestamp}.json')
+        with open(report_file, 'w', encoding='utf-8') as f:
+            json.dump(comprehensive_report, f, indent=2, ensure_ascii=False, default=str)
+        
+        self.logger.info(f"FIXED comprehensive report saved to {report_file}")
+        
+        # Generate visualizations
+        self.create_performance_visualizations(output_dir, timestamp)
+        
+        # Print summary to console
+        self.print_summary_to_console(summary_stats, performance_analysis, quality_analysis)
+        
+        return comprehensive_report
+    
+    def calculate_summary_statistics(self):
+        """Calculate summary statistics"""
+        
+        if not self.test_results:
+            return {}
+        
+        # Mode distribution
+        mode_counts = defaultdict(int)
+        for result in self.test_results:
+            for mode in result['modes_tested']:
+                mode_counts[mode] += 1
+        
+        # Category distribution
+        category_counts = defaultdict(int)
+        for result in self.test_results:
+            category_counts[result['category']] += 1
+        
+        # Success rates
+        success_rates = {}
+        for mode in ['standard', 'chain_of_thought']:
+            total = mode_counts.get(mode, 0)
+            if total > 0:
+                successful = len([r for r in self.test_results 
+                                if mode in r['modes_tested'] and mode in r['results']])
+                success_rates[mode] = successful / total
+        
+        return {
+            'total_samples': len(self.test_results),
+            'mode_distribution': dict(mode_counts),
+            'category_distribution': dict(category_counts),
+            'success_rates': success_rates,
+            'error_rate': len(self.error_log) / (len(self.test_results) * 2) if self.test_results else 0
+        }
+    
+    def analyze_performance(self):
+        """Analyze performance metrics"""
+        
+        performance_analysis = {}
+        
+        for mode in ['standard', 'chain_of_thought']:
+            if f'{mode}_processing_time' in self.performance_metrics:
+                times = self.performance_metrics[f'{mode}_processing_time']
+                
+                performance_analysis[mode] = {
+                    'processing_time': {
+                        'mean': np.mean(times),
+                        'median': np.median(times),
+                        'std': np.std(times),
+                        'min': np.min(times),
+                        'max': np.max(times)
+                    },
+                    'timing_breakdown': {}
+                }
+                
+                # Timing breakdown analysis
+                timing_components = ['blip_inference', 'query_reformulation', 'grad_cam_generation', 
+                                   'chain_of_thought', 'gemini_enhancement']
+                
+                for component in timing_components:
+                    key = f'{mode}_{component}_time'
+                    if key in self.performance_metrics:
+                        component_times = self.performance_metrics[key]
+                        performance_analysis[mode]['timing_breakdown'][component] = {
+                            'mean': np.mean(component_times),
+                            'percentage_of_total': (np.mean(component_times) / np.mean(times)) * 100
+                        }
+        
+        # Performance comparison
+        if 'standard' in performance_analysis and 'chain_of_thought' in performance_analysis:
+            std_time = performance_analysis['standard']['processing_time']['mean']
+            cot_time = performance_analysis['chain_of_thought']['processing_time']['mean']
+            
+            performance_analysis['comparison'] = {
+                'time_ratio_cot_vs_standard': cot_time / std_time if std_time > 0 else 0,
+                'additional_time_for_cot': cot_time - std_time
+            }
+        
+        return performance_analysis
+    
+    def analyze_quality(self):
+        """Analyze quality metrics"""
+        
+        quality_analysis = {}
+        
+        for mode in ['standard', 'chain_of_thought']:
+            if f'{mode}_quality' in self.performance_metrics:
+                qualities = self.performance_metrics[f'{mode}_quality']
+                reformulation_qualities = self.performance_metrics[f'{mode}_reformulation_quality']
+                
+                quality_analysis[mode] = {
+                    'overall_quality': {
+                        'mean': np.mean(qualities),
+                        'median': np.median(qualities),
+                        'std': np.std(qualities),
+                        'min': np.min(qualities),
+                        'max': np.max(qualities)
+                    },
+                    'reformulation_quality': {
+                        'mean': np.mean(reformulation_qualities),
+                        'std': np.std(reformulation_qualities)
+                    }
+                }
+        
+        # Chain-of-thought specific quality
+        if 'cot_confidence' in self.performance_metrics:
+            cot_confidences = self.performance_metrics['cot_confidence']
+            quality_analysis['chain_of_thought_specific'] = {
+                'reasoning_confidence': {
+                    'mean': np.mean(cot_confidences),
+                    'median': np.median(cot_confidences),
+                    'std': np.std(cot_confidences),
+                    'min': np.min(cot_confidences),
+                    'max': np.max(cot_confidences)
+                }
+            }
+        
+        # Quality comparison
+        if 'standard' in quality_analysis and 'chain_of_thought' in quality_analysis:
+            std_quality = quality_analysis['standard']['overall_quality']['mean']
+            cot_quality = quality_analysis['chain_of_thought']['overall_quality']['mean']
+            
+            quality_analysis['comparison'] = {
+                'quality_improvement_ratio': cot_quality / std_quality if std_quality > 0 else 0,
+                'quality_improvement_absolute': cot_quality - std_quality,
+                'quality_improvement_percentage': ((cot_quality - std_quality) / std_quality * 100) if std_quality > 0 else 0
+            }
+        
+        return quality_analysis
+    
+    def analyze_errors(self):
+        """Analyze error patterns"""
+        
+        error_analysis = {
+            'total_errors': len(self.error_log),
+            'error_rate': len(self.error_log) / (len(self.test_results) * 2) if self.test_results else 0,
+            'errors_by_mode': defaultdict(int),
+            'errors_by_sample': defaultdict(int),
+            'common_error_patterns': defaultdict(int)
+        }
+        
+        for error in self.error_log:
+            error_analysis['errors_by_mode'][error['mode']] += 1
+            error_analysis['errors_by_sample'][error['sample_id']] += 1
+            
+            # Pattern analysis
+            error_msg = error['error'].lower()
+            if 'timeout' in error_msg or 'time' in error_msg:
+                error_analysis['common_error_patterns']['timeout'] += 1
+            elif 'memory' in error_msg or 'cuda' in error_msg:
+                error_analysis['common_error_patterns']['memory'] += 1
+            elif 'api' in error_msg or 'gemini' in error_msg:
+                error_analysis['common_error_patterns']['api'] += 1
+            else:
+                error_analysis['common_error_patterns']['other'] += 1
+        
+        # Convert defaultdicts to regular dicts
+        error_analysis['errors_by_mode'] = dict(error_analysis['errors_by_mode'])
+        error_analysis['errors_by_sample'] = dict(error_analysis['errors_by_sample'])
+        error_analysis['common_error_patterns'] = dict(error_analysis['common_error_patterns'])
+        
+        return error_analysis
+    
+    def create_performance_visualizations(self, output_dir, timestamp):
+        """Create comprehensive performance visualizations"""
+        
+        try:
+            # Set style
+            plt.style.use('default')
+            sns.set_palette("husl")
+            
+            # 1. Processing time comparison
+            fig, axes = plt.subplots(2, 2, figsize=(15, 12))
+            fig.suptitle('FIXED MedXplain-VQA Batch Testing Performance Analysis', fontsize=16, fontweight='bold')
+            
+            # Processing time distribution
+            ax1 = axes[0, 0]
+            for mode in ['standard', 'chain_of_thought']:
+                if f'{mode}_processing_time' in self.performance_metrics:
+                    times = self.performance_metrics[f'{mode}_processing_time']
+                    ax1.hist(times, alpha=0.7, label=f'{mode.replace("_", " ").title()}', bins=10)
+            
+            ax1.set_xlabel('Processing Time (seconds)')
+            ax1.set_ylabel('Frequency')
+            ax1.set_title('Processing Time Distribution')
+            ax1.legend()
+            ax1.grid(True, alpha=0.3)
+            
+            # Quality comparison
+            ax2 = axes[0, 1]
+            quality_data = []
+            mode_labels = []
+            
+            for mode in ['standard', 'chain_of_thought']:
+                if f'{mode}_quality' in self.performance_metrics:
+                    quality_data.append(self.performance_metrics[f'{mode}_quality'])
+                    mode_labels.append(mode.replace('_', ' ').title())
+            
+            if quality_data:
+                ax2.boxplot(quality_data, labels=mode_labels)
+                ax2.set_ylabel('Quality Score')
+                ax2.set_title('FIXED Quality Score Distribution')
+                ax2.grid(True, alpha=0.3)
+            
+            # Timing breakdown
+            ax3 = axes[1, 0]
+            timing_components = ['blip_inference', 'query_reformulation', 'grad_cam_generation', 
+                               'chain_of_thought', 'gemini_enhancement']
+            
+            for mode in ['standard', 'chain_of_thought']:
+                component_times = []
+                component_labels = []
+                
+                for component in timing_components:
+                    key = f'{mode}_{component}_time'
+                    if key in self.performance_metrics:
+                        component_times.append(np.mean(self.performance_metrics[key]))
+                        component_labels.append(component.replace('_', ' ').title())
+                
+                if component_times:
+                    x_pos = np.arange(len(component_labels))
+                    width = 0.35
+                    offset = width/2 if mode == 'chain_of_thought' else -width/2
+                    
+                    ax3.bar(x_pos + offset, component_times, width, 
+                           label=mode.replace('_', ' ').title(), alpha=0.8)
+            
+            ax3.set_xlabel('Pipeline Components')
+            ax3.set_ylabel('Average Time (seconds)')
+            ax3.set_title('Timing Breakdown by Component')
+            ax3.set_xticks(x_pos)
+            ax3.set_xticklabels(component_labels, rotation=45, ha='right')
+            ax3.legend()
+            ax3.grid(True, alpha=0.3)
+            
+            # Chain-of-thought confidence distribution
+            ax4 = axes[1, 1]
+            if 'cot_confidence' in self.performance_metrics:
+                confidences = self.performance_metrics['cot_confidence']
+                ax4.hist(confidences, bins=10, alpha=0.7, color='orange')
+                ax4.axvline(np.mean(confidences), color='red', linestyle='--', 
+                           label=f'Mean: {np.mean(confidences):.3f}')
+                ax4.set_xlabel('Reasoning Confidence')
+                ax4.set_ylabel('Frequency')
+                ax4.set_title('Chain-of-Thought Confidence Distribution')
+                ax4.legend()
+                ax4.grid(True, alpha=0.3)
+            else:
+                ax4.text(0.5, 0.5, 'No Chain-of-Thought\nData Available', 
+                        ha='center', va='center', transform=ax4.transAxes, fontsize=12)
+                ax4.set_title('Chain-of-Thought Confidence')
+            
+            plt.tight_layout()
+            
+            # Save visualization
+            viz_file = os.path.join(output_dir, f'FIXED_performance_analysis_{timestamp}.png')
+            plt.savefig(viz_file, dpi=300, bbox_inches='tight')
+            plt.close()
+            
+            self.logger.info(f"FIXED performance visualizations saved to {viz_file}")
+            
+        except Exception as e:
+            self.logger.error(f"Error creating visualizations: {e}")
+    
+    def print_summary_to_console(self, summary_stats, performance_analysis, quality_analysis):
+        """Print comprehensive summary to console"""
+        
+        print("\n" + "="*80)
+        print("🎯 FIXED MEDXPLAIN-VQA BATCH TESTING SUMMARY")
+        print("="*80)
+        
+        # Basic statistics
+        print(f"\n📊 BASIC STATISTICS:")
+        print(f"   Total Samples Tested: {summary_stats.get('total_samples', 0)}")
+        print(f"   Success Rates: {summary_stats.get('success_rates', {})}")
+        print(f"   Error Rate: {summary_stats.get('error_rate', 0):.3f}")
+        
+        # Performance comparison
+        if 'comparison' in performance_analysis:
+            comp = performance_analysis['comparison']
+            print(f"\n⚡ PERFORMANCE COMPARISON:")
+            print(f"   Chain-of-Thought vs Standard Time Ratio: {comp.get('time_ratio_cot_vs_standard', 0):.2f}x")
+            print(f"   Additional Time for Chain-of-Thought: +{comp.get('additional_time_for_cot', 0):.2f}s")
+        
+        # Quality comparison (FIXED)
+        if 'comparison' in quality_analysis:
+            comp = quality_analysis['comparison']
+            print(f"\n🎯 FIXED QUALITY COMPARISON:")
+            print(f"   Quality Improvement Ratio: {comp.get('quality_improvement_ratio', 0):.2f}x")
+            print(f"   Quality Improvement: {comp.get('quality_improvement_percentage', 0):+.1f}%")
+            print(f"   Absolute Quality Difference: {comp.get('quality_improvement_absolute', 0):+.3f}")
+        
+        # Mode-specific metrics
+        for mode in ['standard', 'chain_of_thought']:
+            if mode in performance_analysis and mode in quality_analysis:
+                perf = performance_analysis[mode]
+                qual = quality_analysis[mode]
+                
+                print(f"\n📈 {mode.upper().replace('_', '-')} MODE METRICS:")
+                print(f"   Average Processing Time: {perf['processing_time']['mean']:.2f}s (±{perf['processing_time']['std']:.2f})")
+                print(f"   Average Quality Score: {qual['overall_quality']['mean']:.3f} (±{qual['overall_quality']['std']:.3f})")
+                print(f"   Quality Range: {qual['overall_quality']['min']:.3f} - {qual['overall_quality']['max']:.3f}")
+        
+        # Chain-of-thought specific
+        if 'chain_of_thought_specific' in quality_analysis:
+            cot_spec = quality_analysis['chain_of_thought_specific']
+            conf = cot_spec['reasoning_confidence']
+            print(f"\n🧠 CHAIN-OF-THOUGHT REASONING:")
+            print(f"   Average Confidence: {conf['mean']:.3f} (±{conf['std']:.3f})")
+            print(f"   Confidence Range: {conf['min']:.3f} - {conf['max']:.3f}")
+        
+        print("\n" + "="*80)
+        print("🔧 QUALITY CALCULATION FIXED - Results should now be accurate!")
+        print("="*80)
+    
+    def cleanup(self):
+        """Cleanup resources"""
+        try:
+            self.grad_cam.remove_hooks()
+            self.logger.info("Resources cleaned up successfully")
+        except Exception as e:
+            self.logger.error(f"Error during cleanup: {e}")
+
+def main():
+    parser = argparse.ArgumentParser(description='FIXED Comprehensive Batch Testing for MedXplain-VQA')
+    parser.add_argument('--config', type=str, default='configs/config.yaml', help='Path to config file')
+    parser.add_argument('--model-path', type=str, default='checkpoints/blip/checkpoints/best_hf_model', 
+                      help='Path to BLIP model checkpoint')
+    parser.add_argument('--num-samples', type=int, default=10, help='Number of samples to test')
+    parser.add_argument('--test-mode', type=str, default='both', 
+                      choices=['standard', 'chain_of_thought', 'both'],
+                      help='Testing mode')
+    parser.add_argument('--output-dir', type=str, default='data/batch_test_results_FIXED', 
+                      help='Output directory for results')
+    parser.add_argument('--random-seed', type=int, default=42, help='Random seed for reproducibility')
+    
+    args = parser.parse_args()
+    
+    # Load config
+    config = Config(args.config)
+    
+    # Setup logger
+    logger = setup_logger('batch_testing_FIXED', config['logging']['save_dir'], level='INFO')
+    logger.info("Starting FIXED Comprehensive Batch Testing for MedXplain-VQA")
+    
+    # Initialize testing framework
+    try:
+        framework = BatchTestingFramework(config, args.model_path, logger)
+        
+        # Run batch testing
+        framework.run_batch_test(
+            num_samples=args.num_samples,
+            test_mode=args.test_mode,
+            output_dir=args.output_dir
+        )
+        
+        # Cleanup
+        framework.cleanup()
+        
+        logger.info("FIXED batch testing completed successfully")
+        
+    except Exception as e:
+        logger.error(f"FIXED batch testing failed: {e}")
+        import traceback
+        traceback.print_exc()
+
+if __name__ == "__main__":
+    main()

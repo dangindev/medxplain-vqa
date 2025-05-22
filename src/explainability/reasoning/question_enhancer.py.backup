@@ -321,17 +321,20 @@ class QuestionEnhancer:
         return summary
     
     def _find_image_path(self, image_id: str) -> Optional[str]:
-        """Find image path for given image ID"""
-        # Try different image directories and extensions
+        """Find image path for given image ID using config paths"""
+        # Get image directories from config
         image_dirs = [
-            self.config.get('data.test_images', 'data/images/test'),
-            self.config.get('data.train_images', 'data/images/train'),
-            self.config.get('data.val_images', 'data/images/val')
+            self.config.get('data', {}).get('test_images', 'data/images/test'),
+            self.config.get('data', {}).get('train_images', 'data/images/train'),
+            self.config.get('data', {}).get('val_images', 'data/images/val')
         ]
         
         extensions = ['.jpg', '.jpeg', '.png']
         
         for image_dir in image_dirs:
+            if not os.path.exists(image_dir):
+                continue
+                
             for ext in extensions:
                 image_path = Path(image_dir) / f"{image_id}{ext}"
                 if image_path.exists():
