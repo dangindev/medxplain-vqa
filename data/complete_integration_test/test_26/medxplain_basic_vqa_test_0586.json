@@ -1,0 +1,15 @@
+{
+  "sample_id": "test_0586",
+  "processing_mode": "basic_vqa",
+  "success": true,
+  "image_path": "data/images/test/test_0586.jpg",
+  "question": "Is there any abnormality present?",
+  "ground_truth": "Unknown (custom input)",
+  "blip_answer": "yes",
+  "unified_answer": "This image shows portal triads, the defining structural units of the liver.  The image quality is poor, but there appears to be an increase in fibrous tissue surrounding the portal triads, suggestive of portal fibrosis.  Further investigation would be needed to determine the extent and cause of this fibrosis.\n",
+  "processing_steps": [
+    "BLIP inference",
+    "Gemini enhancement"
+  ],
+  "error_messages": []
+}

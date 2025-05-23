@@ -1,0 +1,110 @@
+{
+  "sample_id": "test_0050",
+  "processing_mode": "explainable_vqa",
+  "success": true,
+  "image_path": "data/images/test/test_0050.jpg",
+  "question": "What pathological changes are visible?",
+  "ground_truth": "Unknown (custom input)",
+  "blip_answer": "no",
+  "unified_answer": "This image appears to show a section of tissue, possibly a lung, given the spongy texture and lobar architecture.  However, without further context or scale, a definitive organ identification is not possible.  The tissue appears generally preserved, though some areas exhibit a denser appearance, potentially due to atelectasis, congestion, or the presence of connective tissue.  No discrete masses, lesions, or areas of hemorrhage are readily apparent.  The overall assessment is limited by the image quality and lack of clinical information.  Further investigation with additional imaging or histological analysis may be necessary for a conclusive diagnosis.\n",
+  "processing_steps": [
+    "BLIP inference",
+    "Query reformulation",
+    "Enhanced Grad-CAM attention",
+    "Chain-of-Thought reasoning",
+    "Enhanced unified answer generation"
+  ],
+  "error_messages": [],
+  "chain_of_thought_enabled": true,
+  "reformulated_question": "In this 224x224 medical image, focusing on the central region with secondary regions of interest also noted, what pathological changes, if any, are observed?  Describe any visible abnormalities in terms of their appearance (e.g., size, shape, density, texture, margins) and location within the image.?",
+  "reformulation_quality": 1.0,
+  "grad_cam_available": true,
+  "bbox_enabled": true,
+  "grad_cam_mode": "enhanced",
+  "bbox_regions_count": 5,
+  "bounding_box_analysis": {
+    "total_regions": 5,
+    "average_attention_score": 0.38576105833053587,
+    "max_attention_score": 0.5839614868164062,
+    "regions_details": [
+      {
+        "rank": 1,
+        "bbox": [
+          0,
+          0,
+          224,
+          224
+        ],
+        "attention_score": 0.5839614868164062,
+        "center": [
+          112,
+          104
+        ]
+      },
+      {
+        "rank": 2,
+        "bbox": [
+          27,
+          184,
+          9,
+          21
+        ],
+        "attention_score": 0.34162038564682007,
+        "center": [
+          31,
+          194
+        ]
+      },
+      {
+        "rank": 3,
+        "bbox": [
+          55,
+          122,
+          13,
+          9
+        ],
+        "attention_score": 0.33486831188201904,
+        "center": [
+          61,
+          126
+        ]
+      },
+      {
+        "rank": 4,
+        "bbox": [
+          18,
+          129,
+          8,
+          24
+        ],
+        "attention_score": 0.33432716131210327,
+        "center": [
+          22,
+          141
+        ]
+      },
+      {
+        "rank": 5,
+        "bbox": [
+          27,
+          152,
+          8,
+          7
+        ],
+        "attention_score": 0.3340279459953308,
+        "center": [
+          31,
+          155
+        ]
+      }
+    ]
+  },
+  "reasoning_analysis": {
+    "reasoning_confidence": 0.8264228031593243,
+    "reasoning_flow": "attention_guided",
+    "reasoning_steps_count": 6,
+    "confidence_method": "confidence_cascade",
+    "validation_score": 0.0,
+    "validation_validity": false
+  }
+}

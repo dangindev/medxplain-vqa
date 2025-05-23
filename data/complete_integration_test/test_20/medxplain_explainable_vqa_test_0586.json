@@ -1,0 +1,110 @@
+{
+  "sample_id": "test_0586",
+  "processing_mode": "explainable_vqa",
+  "success": true,
+  "image_path": "data/images/test/test_0586.jpg",
+  "question": "What does this image show?",
+  "ground_truth": "Unknown (custom input)",
+  "blip_answer": "yes",
+  "unified_answer": "This image appears to be a microscopic section, possibly stained with a silver stain given the black-and-white/blue-green hues.  The lower central portion, along with several other areas, shows linear structures resembling connective tissue or possibly fungal hyphae.  Without higher magnification, special stains, and clinical context, a more specific diagnosis is not possible.  The spatial relationships between the areas of interest are difficult to determine with certainty given the lack of clear anatomical landmarks.\n",
+  "processing_steps": [
+    "BLIP inference",
+    "Query reformulation",
+    "Enhanced Grad-CAM attention",
+    "Chain-of-Thought reasoning",
+    "Enhanced unified answer generation"
+  ],
+  "error_messages": [],
+  "chain_of_thought_enabled": true,
+  "reformulated_question": "This 224x224 medical image demonstrates distributed attention across multiple regions.  The primary focus appears in the lower central region. Four secondary attention regions are also evident.  What findings are present in the lower central region, and what are the other four regions of interest? Describe their appearance and, if possible, their anatomical location relative to each other.?",
+  "reformulation_quality": 1.0,
+  "grad_cam_available": true,
+  "bbox_enabled": false,
+  "grad_cam_mode": "basic",
+  "bbox_regions_count": 5,
+  "bounding_box_analysis": {
+    "total_regions": 5,
+    "average_attention_score": 0.8474897980690003,
+    "max_attention_score": 1.0,
+    "regions_details": [
+      {
+        "rank": 1,
+        "bbox": [
+          161,
+          77,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          172,
+          88
+        ]
+      },
+      {
+        "rank": 2,
+        "bbox": [
+          124,
+          3,
+          22,
+          22
+        ],
+        "attention_score": 0.9233400821685791,
+        "center": [
+          135,
+          14
+        ]
+      },
+      {
+        "rank": 3,
+        "bbox": [
+          198,
+          21,
+          22,
+          22
+        ],
+        "attention_score": 0.8309313058853149,
+        "center": [
+          209,
+          32
+        ]
+      },
+      {
+        "rank": 4,
+        "bbox": [
+          96,
+          2,
+          22,
+          22
+        ],
+        "attention_score": 0.755081057548523,
+        "center": [
+          107,
+          13
+        ]
+      },
+      {
+        "rank": 5,
+        "bbox": [
+          180,
+          58,
+          22,
+          22
+        ],
+        "attention_score": 0.7280965447425842,
+        "center": [
+          191,
+          69
+        ]
+      }
+    ]
+  },
+  "reasoning_analysis": {
+    "reasoning_confidence": 0.8655392864577763,
+    "reasoning_flow": "attention_guided",
+    "reasoning_steps_count": 6,
+    "confidence_method": "confidence_cascade",
+    "validation_score": 0.0,
+    "validation_validity": false
+  }
+}

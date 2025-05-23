@@ -1,0 +1,101 @@
+{
+  "sample_id": "test_6551",
+  "processing_mode": "explainable_vqa",
+  "success": true,
+  "image_path": "data/images/test/test_6551.jpg",
+  "question": "Is there any abnormality present?",
+  "ground_truth": "Unknown (custom input)",
+  "blip_answer": "no",
+  "unified_answer": "The provided images appear to show a gross specimen of a segment of esophagus and trachea, likely from an autopsy or surgical resection.  Image A and B provide macroscopic views, while C shows a microscopic view.  Focusing on the middle left portion of images A and B, which corresponds to the upper esophagus/trachea, no gross anatomical abnormalities are readily apparent.  The mucosal folds of the esophagus appear unremarkable, and the tracheal rings seem intact.  The microscopic image (C) shows esophageal mucosa, and without further clinical information or higher magnification, it is difficult to definitively assess for subtle microscopic changes.  Normal esophageal mucosa is stratified squamous epithelium, and the sample in C appears consistent with this, but detailed evaluation of cellular architecture and features like inflammation or dysplasia would require higher resolution and potentially special stains.  The criteria for abnormality would include disruption of the normal layered structure of the esophageal wall, presence of masses, ulcerations, discolorations, or significant deviations from the expected size and shape of the organs.  At the present resolution and with the available information, no definitive abnormalities are identified in the specified region.\n",
+  "processing_steps": [
+    "BLIP inference",
+    "Query reformulation",
+    "Enhanced Grad-CAM attention",
+    "Enhanced unified answer generation"
+  ],
+  "error_messages": [],
+  "chain_of_thought_enabled": false,
+  "reformulated_question": "Based on this 224x224 image with distributed attention and a primary focus in the middle left region, are there any visible abnormalities in the anatomical structures present within this region?  Specifically, evaluate the structures within the middle left quadrant of the image, considering the image resolution and any artifacts that may be present. Describe any observed deviations from expected normal anatomy, including changes in size, shape, density, or texture. If anatomical landmarks are visible within or near this region, use them as reference points to describe the location and extent of any potential abnormalities.  Clearly state the criteria used to determine if a finding is considered abnormal.?",
+  "reformulation_quality": 1.0,
+  "grad_cam_available": true,
+  "bbox_enabled": false,
+  "grad_cam_mode": "basic",
+  "bbox_regions_count": 5,
+  "bounding_box_analysis": {
+    "total_regions": 5,
+    "average_attention_score": 0.9126851797103882,
+    "max_attention_score": 1.0,
+    "regions_details": [
+      {
+        "rank": 1,
+        "bbox": [
+          96,
+          11,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          107,
+          22
+        ]
+      },
+      {
+        "rank": 2,
+        "bbox": [
+          12,
+          77,
+          22,
+          22
+        ],
+        "attention_score": 0.9278433322906494,
+        "center": [
+          23,
+          88
+        ]
+      },
+      {
+        "rank": 3,
+        "bbox": [
+          143,
+          77,
+          22,
+          22
+        ],
+        "attention_score": 0.9028719663619995,
+        "center": [
+          154,
+          88
+        ]
+      },
+      {
+        "rank": 4,
+        "bbox": [
+          30,
+          96,
+          22,
+          22
+        ],
+        "attention_score": 0.8775274753570557,
+        "center": [
+          41,
+          107
+        ]
+      },
+      {
+        "rank": 5,
+        "bbox": [
+          143,
+          21,
+          22,
+          22
+        ],
+        "attention_score": 0.8551831245422363,
+        "center": [
+          154,
+          32
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,101 @@
+{
+  "sample_id": "test_2297",
+  "processing_mode": "explainable_vqa",
+  "success": true,
+  "image_path": "data/images/test/test_2297.jpg",
+  "question": "What pathological changes are visible?",
+  "ground_truth": "Unknown (custom input)",
+  "blip_answer": "yes",
+  "unified_answer": "The image appears to show edematous, erythematous  tissue, possibly  mucosal or serosal, with prominent folds and a glistening surface.  The tissue appears swollen and congested.  Without further clinical context or information regarding the anatomical site, a more specific diagnosis is not possible.\n",
+  "processing_steps": [
+    "BLIP inference",
+    "Query reformulation",
+    "Enhanced Grad-CAM attention",
+    "Enhanced unified answer generation"
+  ],
+  "error_messages": [],
+  "chain_of_thought_enabled": false,
+  "reformulated_question": "In this 224x224 medical image, focusing on the lower central region with additional attention drawn to eight other areas, what pathological changes, if any, are observable?  Describe any abnormalities in terms of their appearance (e.g., size, shape, density, texture, margins), and their location within the image (e.g., lower central, peripheral, upper left quadrant).?",
+  "reformulation_quality": 1.0,
+  "grad_cam_available": true,
+  "bbox_enabled": true,
+  "grad_cam_mode": "enhanced",
+  "bbox_regions_count": 5,
+  "bounding_box_analysis": {
+    "total_regions": 5,
+    "average_attention_score": 0.4903762638568878,
+    "max_attention_score": 0.5543047189712524,
+    "regions_details": [
+      {
+        "rank": 1,
+        "bbox": [
+          172,
+          194,
+          48,
+          30
+        ],
+        "attention_score": 0.5543047189712524,
+        "center": [
+          196,
+          210
+        ]
+      },
+      {
+        "rank": 2,
+        "bbox": [
+          44,
+          193,
+          15,
+          15
+        ],
+        "attention_score": 0.5129711031913757,
+        "center": [
+          51,
+          200
+        ]
+      },
+      {
+        "rank": 3,
+        "bbox": [
+          73,
+          156,
+          13,
+          24
+        ],
+        "attention_score": 0.4635450541973114,
+        "center": [
+          79,
+          168
+        ]
+      },
+      {
+        "rank": 4,
+        "bbox": [
+          0,
+          0,
+          177,
+          224
+        ],
+        "attention_score": 0.4634615480899811,
+        "center": [
+          74,
+          112
+        ]
+      },
+      {
+        "rank": 5,
+        "bbox": [
+          148,
+          44,
+          51,
+          33
+        ],
+        "attention_score": 0.45759889483451843,
+        "center": [
+          173,
+          60
+        ]
+      }
+    ]
+  }
+}

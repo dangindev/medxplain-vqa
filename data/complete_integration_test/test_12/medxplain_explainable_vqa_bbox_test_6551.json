@@ -1,0 +1,101 @@
+{
+  "sample_id": "test_6551",
+  "processing_mode": "explainable_vqa",
+  "success": true,
+  "image_path": "data/images/test/test_6551.jpg",
+  "question": "Is there any abnormality present?",
+  "ground_truth": "Unknown (custom input)",
+  "blip_answer": "no",
+  "unified_answer": "The provided images appear to show a gross specimen of a trachea and esophagus, likely from an autopsy or surgical resection.  Image A and B provide macroscopic views, while C offers a microscopic view of the esophageal wall.  The macroscopic images demonstrate the trachea and esophagus in their anatomical relationship.  No gross abnormalities are readily apparent within the trachea or esophagus themselves.  The microscopic image in C shows esophageal mucosa, submucosa, and a portion of the muscularis propria.  The tissue appears generally unremarkable at this magnification and with this staining; however, a definitive assessment of microscopic features would require higher magnification and potentially additional special stains.  Given the provided images and their resolution, no specific abnormalities of size, shape, density, or texture are identified within the trachea or esophagus.\n",
+  "processing_steps": [
+    "BLIP inference",
+    "Query reformulation",
+    "Enhanced Grad-CAM attention",
+    "Enhanced unified answer generation"
+  ],
+  "error_messages": [],
+  "chain_of_thought_enabled": false,
+  "reformulated_question": "Based on this 224x224 image with distributed attention and a primary focus in the middle left region, are there any visible abnormalities in the anatomical structures present within this region?  Specifically, evaluate the [mention specific anatomical structures expected in this region, e.g.,  \"lung parenchyma, vasculature, and visible pleura\" or \"bone cortex, medullary cavity, and adjacent soft tissues\"]. Consider the image quality and resolution when assessing for abnormalities.  Describe any observed deviations from expected anatomical appearance, including changes in [mention specific features like \"size, shape, density, texture, or margins\" or \"alignment, cortical thickness, and trabecular pattern\"].  If relevant, use identifiable anatomical landmarks [mention specific landmarks, e.g., \"the costophrenic angle, carina, or aortic arch\" or \"the greater trochanter, femoral head, or acetabulum\"] to further localize and characterize any potential abnormalities.?",
+  "reformulation_quality": 1.0,
+  "grad_cam_available": true,
+  "bbox_enabled": true,
+  "grad_cam_mode": "enhanced",
+  "bbox_regions_count": 5,
+  "bounding_box_analysis": {
+    "total_regions": 5,
+    "average_attention_score": 0.5319784820079804,
+    "max_attention_score": 0.6220831871032715,
+    "regions_details": [
+      {
+        "rank": 1,
+        "bbox": [
+          128,
+          0,
+          96,
+          224
+        ],
+        "attention_score": 0.6220831871032715,
+        "center": [
+          180,
+          112
+        ]
+      },
+      {
+        "rank": 2,
+        "bbox": [
+          59,
+          0,
+          31,
+          224
+        ],
+        "attention_score": 0.5865280628204346,
+        "center": [
+          74,
+          112
+        ]
+      },
+      {
+        "rank": 3,
+        "bbox": [
+          85,
+          0,
+          53,
+          224
+        ],
+        "attention_score": 0.5088151097297668,
+        "center": [
+          111,
+          107
+        ]
+      },
+      {
+        "rank": 4,
+        "bbox": [
+          11,
+          0,
+          53,
+          181
+        ],
+        "attention_score": 0.49498504400253296,
+        "center": [
+          37,
+          75
+        ]
+      },
+      {
+        "rank": 5,
+        "bbox": [
+          14,
+          139,
+          28,
+          85
+        ],
+        "attention_score": 0.4474810063838959,
+        "center": [
+          28,
+          185
+        ]
+      }
+    ]
+  }
+}

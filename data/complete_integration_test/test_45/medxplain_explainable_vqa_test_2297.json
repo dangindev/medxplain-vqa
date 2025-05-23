@@ -1,0 +1,110 @@
+{
+  "sample_id": "test_2297",
+  "processing_mode": "explainable_vqa",
+  "success": true,
+  "image_path": "data/images/test/test_2297.jpg",
+  "question": "Is there any abnormality present?",
+  "ground_truth": "Unknown (custom input)",
+  "blip_answer": "yes",
+  "unified_answer": "The image appears to show edematous and erythematous arytenoid cartilages and surrounding tissues, suggestive of inflammation.  While the exact anatomical location isn't definitively clear without more context, the structures resemble the larynx.  The tissues appear swollen and the normal sharp contours of the arytenoids seem blunted.  The image quality is somewhat limited, making precise characterization of the tissue changes difficult.  The apparent redness could be due to inflammation or hemorrhage, but the image resolution and color reproduction make it challenging to differentiate.  Overall, the appearance suggests an inflammatory process affecting the larynx, but further investigation with higher quality imaging and potentially histological analysis would be necessary for a definitive diagnosis.\n",
+  "processing_steps": [
+    "BLIP inference",
+    "Query reformulation",
+    "Enhanced Grad-CAM attention",
+    "Chain-of-Thought reasoning",
+    "Enhanced unified answer generation"
+  ],
+  "error_messages": [],
+  "chain_of_thought_enabled": true,
+  "reformulated_question": "Based on this 224x224 image with distributed attention, and focusing primarily on the lower central region with 8 additional secondary attention regions, are there any visible abnormalities in the depicted anatomical structures within the field of view?  Specifically, evaluate the following:\n\n1. **Lower Central Region:** Describe the structures present in this primary focus area.  Are there any irregularities in tissue texture, density, or shape compared to expected normal anatomy?  Note any asymmetry, masses, lesions, or disruptions in normal architecture.\n\n2. **Secondary Attention Regions:**  Describe the anatomical location of each of the 8 secondary attention regions relative to the primary focus and any identifiable anatomical landmarks.  Assess these regions for the same criteria as the primary focus area (texture, density, shape, asymmetry, masses, lesions, architectural disruption).\n\n3. **Image Quality:** Comment on the image quality, including resolution, contrast, and any artifacts that may hinder interpretation.  Does the image quality limit the evaluation of specific structures?\n\n4. **Overall Impression:**  Considering all regions of interest and the image quality, provide an overall assessment of whether the visualized anatomy appears normal or if any abnormalities are present.  If abnormalities are present, describe them in detail, including their location, size, and characteristics.?",
+  "reformulation_quality": 1.0,
+  "grad_cam_available": true,
+  "bbox_enabled": false,
+  "grad_cam_mode": "basic",
+  "bbox_regions_count": 5,
+  "bounding_box_analysis": {
+    "total_regions": 5,
+    "average_attention_score": 0.9468443393707275,
+    "max_attention_score": 1.0,
+    "regions_details": [
+      {
+        "rank": 1,
+        "bbox": [
+          59,
+          31,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          70,
+          42
+        ]
+      },
+      {
+        "rank": 2,
+        "bbox": [
+          40,
+          189,
+          22,
+          22
+        ],
+        "attention_score": 0.9696170091629028,
+        "center": [
+          51,
+          200
+        ]
+      },
+      {
+        "rank": 3,
+        "bbox": [
+          12,
+          123,
+          22,
+          22
+        ],
+        "attention_score": 0.9595274925231934,
+        "center": [
+          23,
+          134
+        ]
+      },
+      {
+        "rank": 4,
+        "bbox": [
+          189,
+          21,
+          22,
+          22
+        ],
+        "attention_score": 0.9044025540351868,
+        "center": [
+          200,
+          32
+        ]
+      },
+      {
+        "rank": 5,
+        "bbox": [
+          96,
+          106,
+          22,
+          22
+        ],
+        "attention_score": 0.9006746411323547,
+        "center": [
+          107,
+          117
+        ]
+      }
+    ]
+  },
+  "reasoning_analysis": {
+    "reasoning_confidence": 0.8498358912034987,
+    "reasoning_flow": "pathology_focused",
+    "reasoning_steps_count": 6,
+    "confidence_method": "weighted_geometric_mean",
+    "validation_score": 0.0,
+    "validation_validity": false
+  }
+}

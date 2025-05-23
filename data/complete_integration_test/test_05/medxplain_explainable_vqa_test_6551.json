@@ -1,0 +1,110 @@
+{
+  "sample_id": "test_6551",
+  "processing_mode": "explainable_vqa",
+  "success": true,
+  "image_path": "data/images/test/test_6551.jpg",
+  "question": "What does this image show?",
+  "ground_truth": "Unknown (custom input)",
+  "blip_answer": "no",
+  "unified_answer": "The images appear to show a gross specimen of a tubular organ, possibly a segment of the gastrointestinal tract, opened longitudinally.  Panel A and B show the gross appearance of the specimen, while Panel C shows a microscopic view, likely a histological section stained with hematoxylin and eosin (H&E).  In Panel C, the mucosa, submucosa, and parts of the muscularis propria are visible. The mucosa appears to have some glandular structures. Without additional clinical information or higher magnification of the histology, a more specific diagnosis or characterization of the tissue is not possible.\n",
+  "processing_steps": [
+    "BLIP inference",
+    "Query reformulation",
+    "Enhanced Grad-CAM attention",
+    "Chain-of-Thought reasoning",
+    "Enhanced unified answer generation"
+  ],
+  "error_messages": [],
+  "chain_of_thought_enabled": true,
+  "reformulated_question": "This 224x224 medical image displays distributed attention across multiple regions, with the primary focus in the middle left.  What anatomical structures are present in the middle left region of interest, and what other regions are highlighted by the attention mechanism? Describe the visual characteristics of these regions (e.g., tissue density, shape, texture).?",
+  "reformulation_quality": 1.0,
+  "grad_cam_available": true,
+  "bbox_enabled": false,
+  "grad_cam_mode": "basic",
+  "bbox_regions_count": 5,
+  "bounding_box_analysis": {
+    "total_regions": 5,
+    "average_attention_score": 0.9126851797103882,
+    "max_attention_score": 1.0,
+    "regions_details": [
+      {
+        "rank": 1,
+        "bbox": [
+          96,
+          11,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          107,
+          22
+        ]
+      },
+      {
+        "rank": 2,
+        "bbox": [
+          12,
+          77,
+          22,
+          22
+        ],
+        "attention_score": 0.9278433322906494,
+        "center": [
+          23,
+          88
+        ]
+      },
+      {
+        "rank": 3,
+        "bbox": [
+          143,
+          77,
+          22,
+          22
+        ],
+        "attention_score": 0.9028719663619995,
+        "center": [
+          154,
+          88
+        ]
+      },
+      {
+        "rank": 4,
+        "bbox": [
+          30,
+          96,
+          22,
+          22
+        ],
+        "attention_score": 0.8775274753570557,
+        "center": [
+          41,
+          107
+        ]
+      },
+      {
+        "rank": 5,
+        "bbox": [
+          143,
+          21,
+          22,
+          22
+        ],
+        "attention_score": 0.8551831245422363,
+        "center": [
+          154,
+          32
+        ]
+      }
+    ]
+  },
+  "reasoning_analysis": {
+    "reasoning_confidence": 0.8498358912034987,
+    "reasoning_flow": "pathology_focused",
+    "reasoning_steps_count": 6,
+    "confidence_method": "weighted_geometric_mean",
+    "validation_score": 0.0,
+    "validation_validity": false
+  }
+}

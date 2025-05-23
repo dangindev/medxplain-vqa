@@ -1,0 +1,101 @@
+{
+  "sample_id": "test_0586",
+  "processing_mode": "explainable_vqa",
+  "success": true,
+  "image_path": "data/images/test/test_0586.jpg",
+  "question": "What does this image show?",
+  "ground_truth": "Unknown (custom input)",
+  "blip_answer": "yes",
+  "unified_answer": "This image appears to show a histological section of cardiac muscle, likely stained with a trichrome stain. The lower central area of focus likely corresponds to an intercalated disc, a specialized cell junction between cardiomyocytes. The four secondary areas of attention could represent other intercalated discs or areas with similar staining intensity, such as dense areas of the cytoskeleton or areas where the tissue section is thicker.  It's difficult to be definitive without more context or higher magnification.\n",
+  "processing_steps": [
+    "BLIP inference",
+    "Query reformulation",
+    "Enhanced Grad-CAM attention",
+    "Enhanced unified answer generation"
+  ],
+  "error_messages": [],
+  "chain_of_thought_enabled": false,
+  "reformulated_question": "This 224x224 medical image demonstrates distributed attention across multiple regions. The primary focus appears in the lower central region. Four secondary attention regions are also detectable.  Based on these attention patterns and the visible features, what anatomical structure is likely being highlighted in the lower central region, and what might the four secondary regions of attention represent?",
+  "reformulation_quality": 1.0,
+  "grad_cam_available": true,
+  "bbox_enabled": false,
+  "grad_cam_mode": "basic",
+  "bbox_regions_count": 5,
+  "bounding_box_analysis": {
+    "total_regions": 5,
+    "average_attention_score": 0.8474897980690003,
+    "max_attention_score": 1.0,
+    "regions_details": [
+      {
+        "rank": 1,
+        "bbox": [
+          161,
+          77,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          172,
+          88
+        ]
+      },
+      {
+        "rank": 2,
+        "bbox": [
+          124,
+          3,
+          22,
+          22
+        ],
+        "attention_score": 0.9233400821685791,
+        "center": [
+          135,
+          14
+        ]
+      },
+      {
+        "rank": 3,
+        "bbox": [
+          198,
+          21,
+          22,
+          22
+        ],
+        "attention_score": 0.8309313058853149,
+        "center": [
+          209,
+          32
+        ]
+      },
+      {
+        "rank": 4,
+        "bbox": [
+          96,
+          2,
+          22,
+          22
+        ],
+        "attention_score": 0.755081057548523,
+        "center": [
+          107,
+          13
+        ]
+      },
+      {
+        "rank": 5,
+        "bbox": [
+          180,
+          58,
+          22,
+          22
+        ],
+        "attention_score": 0.7280965447425842,
+        "center": [
+          191,
+          69
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,101 @@
+{
+  "sample_id": "test_0586",
+  "processing_mode": "explainable_vqa",
+  "success": true,
+  "image_path": "data/images/test/test_0586.jpg",
+  "question": "What pathological changes are visible?",
+  "ground_truth": "Unknown (custom input)",
+  "blip_answer": "yes",
+  "unified_answer": "This image appears to depict a section of cardiac muscle tissue with intercalated discs.  While the quality of the image is suboptimal, making definitive assessment challenging, there are linear structures suggestive of fibrosis. These appear as lighter, slightly thicker bands traversing the muscle fibers, particularly in the central and upper portions of the image.  Further evaluation with higher quality imaging would be necessary for a more precise characterization and diagnosis.\n",
+  "processing_steps": [
+    "BLIP inference",
+    "Query reformulation",
+    "Enhanced Grad-CAM attention",
+    "Enhanced unified answer generation"
+  ],
+  "error_messages": [],
+  "chain_of_thought_enabled": false,
+  "reformulated_question": "In this 224x224 medical image, focusing on the lower central region with additional areas of interest noted, what pathological changes, if any, are observed?  Describe any abnormalities in terms of their appearance (e.g., size, shape, density, texture, margins), and their location within the image.?",
+  "reformulation_quality": 1.0,
+  "grad_cam_available": true,
+  "bbox_enabled": true,
+  "grad_cam_mode": "enhanced",
+  "bbox_regions_count": 5,
+  "bounding_box_analysis": {
+    "total_regions": 5,
+    "average_attention_score": 0.41811755299568176,
+    "max_attention_score": 0.4582235515117645,
+    "regions_details": [
+      {
+        "rank": 1,
+        "bbox": [
+          146,
+          50,
+          63,
+          72
+        ],
+        "attention_score": 0.4582235515117645,
+        "center": [
+          177,
+          86
+        ]
+      },
+      {
+        "rank": 2,
+        "bbox": [
+          160,
+          3,
+          64,
+          91
+        ],
+        "attention_score": 0.42518794536590576,
+        "center": [
+          194,
+          48
+        ]
+      },
+      {
+        "rank": 3,
+        "bbox": [
+          25,
+          9,
+          44,
+          60
+        ],
+        "attention_score": 0.4168732464313507,
+        "center": [
+          47,
+          39
+        ]
+      },
+      {
+        "rank": 4,
+        "bbox": [
+          37,
+          53,
+          24,
+          29
+        ],
+        "attention_score": 0.39612430334091187,
+        "center": [
+          49,
+          67
+        ]
+      },
+      {
+        "rank": 5,
+        "bbox": [
+          57,
+          0,
+          116,
+          141
+        ],
+        "attention_score": 0.39417871832847595,
+        "center": [
+          115,
+          59
+        ]
+      }
+    ]
+  }
+}

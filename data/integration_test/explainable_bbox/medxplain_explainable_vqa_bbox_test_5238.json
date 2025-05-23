@@ -1,0 +1,73 @@
+{
+  "sample_id": "test_5238",
+  "processing_mode": "explainable_vqa",
+  "success": true,
+  "image_path": "data/images/test/test_5238.jpg",
+  "question": "what does this image show?",
+  "ground_truth": "intramucosal nevus",
+  "blip_answer": "no",
+  "unified_answer": "This image shows a skin biopsy with a dense dermal infiltrate of mononuclear cells, consistent with an inflammatory process.  The infiltrate extends into the subcutaneous fat.  While there appears to be some variation in cellular density within the infiltrate, there is no distinct pattern or organization suggesting granulomas or other specific structures.  The overlying epidermis shows mild hyperkeratosis.  Further workup, including special stains and possibly clinical correlation, would be needed for a definitive diagnosis.\n",
+  "processing_steps": [
+    "BLIP inference",
+    "Query reformulation",
+    "Enhanced Grad-CAM attention",
+    "Enhanced unified answer generation"
+  ],
+  "error_messages": [],
+  "chain_of_thought_enabled": false,
+  "reformulated_question": "This 224x224 medical image demonstrates distributed attention, with a primary focus in the middle-left region.  Ten additional secondary attention regions are also detected.  Describing the appearance of these regions, what findings are present in the primary focus area, and what, if any, relationship can be observed between the primary and secondary attention regions in terms of appearance and/or spatial distribution?",
+  "reformulation_quality": 0.8,
+  "grad_cam_available": true,
+  "bbox_enabled": true,
+  "grad_cam_mode": "enhanced",
+  "bbox_regions_count": 3,
+  "bounding_box_analysis": {
+    "total_regions": 3,
+    "average_attention_score": 0.4054856101671855,
+    "max_attention_score": 0.5062823295593262,
+    "regions_details": [
+      {
+        "rank": 1,
+        "bbox": [
+          0,
+          0,
+          224,
+          224
+        ],
+        "attention_score": 0.5062823295593262,
+        "center": [
+          112,
+          112
+        ]
+      },
+      {
+        "rank": 2,
+        "bbox": [
+          0,
+          0,
+          48,
+          18
+        ],
+        "attention_score": 0.3955473005771637,
+        "center": [
+          20,
+          8
+        ]
+      },
+      {
+        "rank": 3,
+        "bbox": [
+          169,
+          188,
+          7,
+          27
+        ],
+        "attention_score": 0.31462720036506653,
+        "center": [
+          172,
+          201
+        ]
+      }
+    ]
+  }
+}

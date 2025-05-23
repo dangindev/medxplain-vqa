@@ -1,0 +1,15 @@
+{
+  "sample_id": "test_0586",
+  "processing_mode": "basic_vqa",
+  "success": true,
+  "image_path": "data/images/test/test_0586.jpg",
+  "question": "What does this image show?",
+  "ground_truth": "Unknown (custom input)",
+  "blip_answer": "yes",
+  "unified_answer": "This image appears to depict a microscopic view of cardiac muscle tissue, likely stained with a trichrome stain.  The prominent, vertically oriented structures are cardiac muscle fibers.  The lighter areas between the fibers represent interstitial space, which may contain connective tissue, blood vessels, and other cellular components. The image quality is suboptimal, making definitive identification of specific structures challenging.\n",
+  "processing_steps": [
+    "BLIP inference",
+    "Gemini enhancement"
+  ],
+  "error_messages": []
+}

@@ -1,0 +1,110 @@
+{
+  "sample_id": "test_0001",
+  "processing_mode": "explainable_vqa",
+  "success": true,
+  "image_path": "data/images/test/test_0001.jpg",
+  "question": "What pathological changes are visible?",
+  "ground_truth": "Unknown (custom input)",
+  "blip_answer": "yes",
+  "unified_answer": "This image appears to depict a molecular model, likely of a nucleosome, showing DNA wrapped around a histone core.  No pathological changes are observable. This is a representation of normal molecular structure, not a pathological image.\n",
+  "processing_steps": [
+    "BLIP inference",
+    "Query reformulation",
+    "Enhanced Grad-CAM attention",
+    "Chain-of-Thought reasoning",
+    "Enhanced unified answer generation"
+  ],
+  "error_messages": [],
+  "chain_of_thought_enabled": true,
+  "reformulated_question": "In this 224x224 medical image, with a primary focus on the upper central region and six other secondary regions of interest, what pathological changes, if any, are observable?  Describe any abnormalities in terms of their appearance (e.g., size, shape, density, texture, margins), and their location within the image (e.g., upper central, peripheral).?",
+  "reformulation_quality": 1.0,
+  "grad_cam_available": true,
+  "bbox_enabled": true,
+  "grad_cam_mode": "enhanced",
+  "bbox_regions_count": 5,
+  "bounding_box_analysis": {
+    "total_regions": 5,
+    "average_attention_score": 0.45827258825302125,
+    "max_attention_score": 0.5175654888153076,
+    "regions_details": [
+      {
+        "rank": 1,
+        "bbox": [
+          72,
+          72,
+          16,
+          15
+        ],
+        "attention_score": 0.5175654888153076,
+        "center": [
+          80,
+          79
+        ]
+      },
+      {
+        "rank": 2,
+        "bbox": [
+          0,
+          0,
+          224,
+          224
+        ],
+        "attention_score": 0.4962076246738434,
+        "center": [
+          112,
+          112
+        ]
+      },
+      {
+        "rank": 3,
+        "bbox": [
+          81,
+          54,
+          16,
+          15
+        ],
+        "attention_score": 0.45217353105545044,
+        "center": [
+          89,
+          61
+        ]
+      },
+      {
+        "rank": 4,
+        "bbox": [
+          99,
+          60,
+          26,
+          36
+        ],
+        "attention_score": 0.41435253620147705,
+        "center": [
+          112,
+          78
+        ]
+      },
+      {
+        "rank": 5,
+        "bbox": [
+          95,
+          44,
+          18,
+          15
+        ],
+        "attention_score": 0.4110637605190277,
+        "center": [
+          104,
+          51
+        ]
+      }
+    ]
+  },
+  "reasoning_analysis": {
+    "reasoning_confidence": 0.8264228031593243,
+    "reasoning_flow": "attention_guided",
+    "reasoning_steps_count": 6,
+    "confidence_method": "confidence_cascade",
+    "validation_score": 0.0,
+    "validation_validity": false
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "sample_id": "test_6551",
+  "processing_mode": "basic_vqa",
+  "success": true,
+  "image_path": "data/images/test/test_6551.jpg",
+  "question": "What does this image show?",
+  "ground_truth": "Unknown (custom input)",
+  "blip_answer": "no",
+  "unified_answer": "This image displays gross and microscopic pathology of a segment of trachea.  Panels A and B show the trachea opened longitudinally, demonstrating tracheal rings and the posterior membranous portion. Panel C shows a microscopic view of the tracheal wall, likely demonstrating respiratory epithelium, submucosal glands, and cartilage.\n",
+  "processing_steps": [
+    "BLIP inference",
+    "Gemini enhancement"
+  ],
+  "error_messages": []
+}

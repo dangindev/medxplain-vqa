@@ -5,6 +5,7 @@ import torch
 import argparse
 from PIL import Image
 import matplotlib.pyplot as plt
+import matplotlib.patches as patches
 from pathlib import Path
 import json
 import random
@@ -22,6 +23,10 @@ from src.models.llm.gemini_integration import GeminiIntegration
 from src.explainability.reasoning.visual_context_extractor import VisualContextExtractor
 from src.explainability.reasoning.query_reformulator import QueryReformulator
 from src.explainability.rationale.chain_of_thought import ChainOfThoughtGenerator
+
+# 🆕 NEW: Import Bounding Box components
+from src.explainability.enhanced_grad_cam import EnhancedGradCAM
+from src.explainability.bounding_box_extractor import BoundingBoxExtractor
 from src.explainability.grad_cam import GradCAM
 
 def load_model(config, model_path, logger):
@@ -92,10 +97,16 @@ def load_test_samples(config, num_samples=1, random_seed=42):
     
     return samples
 
-def initialize_explainable_components(config, blip_model, logger):
+def initialize_explainable_components(config, blip_model, enable_bbox, logger):
     """
-    FIXED: Initialize all explainable AI components với proper GradCAM setup
+    🆕 ENHANCED: Initialize explainable AI components với Bounding Box support
     
+    Args:
+        config: Configuration object
+        blip_model: BLIP model instance
+        enable_bbox: Enable bounding box extraction
+        logger: Logger instance
+        
     Returns:
         Dict with all initialized components or None if critical failure
     """
@@ -121,26 +132,61 @@ def initialize_explainable_components(config, blip_model, logger):
         )
         logger.info("✅ Query Reformulator ready")
         
-        # FIXED: Grad-CAM with proper model setup
-        logger.info("Initializing Grad-CAM...")
-        try:
-            # Ensure blip_model.model has processor attribute for GradCAM
-            if not hasattr(blip_model.model, 'processor'):
-                blip_model.model.processor = blip_model.processor
-                logger.debug("Added processor attribute to model for GradCAM compatibility")
-            
-            components['grad_cam'] = GradCAM(blip_model.model, layer_name="vision_model.encoder.layers.11")
-            logger.info("✅ Grad-CAM ready")
-        except Exception as e:
-            logger.warning(f"Grad-CAM initialization failed: {e}. Continuing without Grad-CAM.")
-            components['grad_cam'] = None
+        # 🆕 ENHANCED: Bounding Box components initialization
+        if enable_bbox:
+            logger.info("🆕 Initializing Enhanced Grad-CAM with Bounding Boxes...")
+            try:
+                # Ensure model compatibility
+                if not hasattr(blip_model.model, 'processor'):
+                    blip_model.model.processor = blip_model.processor
+                    logger.debug("Added processor attribute for Enhanced Grad-CAM compatibility")
+                
+                # Get bounding box config
+                bbox_config = config.get('bounding_box', {})
+                
+                # Initialize Enhanced Grad-CAM with BoundingBoxExtractor
+                components['enhanced_grad_cam'] = EnhancedGradCAM(
+                    blip_model.model, 
+                    layer_name="vision_model.encoder.layers.11",
+                    bbox_config=bbox_config
+                )
+                
+                # Initialize standalone BoundingBoxExtractor for utility functions
+                components['bbox_extractor'] = BoundingBoxExtractor(bbox_config)
+                
+                logger.info("✅ Enhanced Grad-CAM with Bounding Boxes ready")
+                components['grad_cam_mode'] = 'enhanced'
+                
+            except Exception as e:
+                logger.warning(f"Enhanced Grad-CAM initialization failed: {e}")
+                logger.info("Falling back to basic Grad-CAM...")
+                enable_bbox = False
+        
+        # Basic Grad-CAM fallback
+        if not enable_bbox:
+            logger.info("Initializing Basic Grad-CAM...")
+            try:
+                if not hasattr(blip_model.model, 'processor'):
+                    blip_model.model.processor = blip_model.processor
+                
+                components['grad_cam'] = GradCAM(blip_model.model, layer_name="vision_model.encoder.layers.11")
+                logger.info("✅ Basic Grad-CAM ready")
+                components['grad_cam_mode'] = 'basic'
+                
+            except Exception as e:
+                logger.warning(f"Basic Grad-CAM initialization failed: {e}. Continuing without Grad-CAM.")
+                components['grad_cam'] = None
+                components['grad_cam_mode'] = 'none'
         
         # Chain-of-Thought Generator
         logger.info("Initializing Chain-of-Thought Generator...")
         components['cot_generator'] = ChainOfThoughtGenerator(components['gemini'], config)
         logger.info("✅ Chain-of-Thought Generator ready")
         
-        logger.info("🎉 All explainable AI components initialized successfully")
+        # Set bounding box enabled flag
+        components['bbox_enabled'] = enable_bbox
+        
+        logger.info(f"🎉 All explainable AI components initialized successfully (bbox_mode: {'enabled' if enable_bbox else 'disabled'})")
         return components
         
     except Exception as e:
@@ -186,7 +232,7 @@ def process_basic_vqa(blip_model, gemini, sample, logger):
 
 def process_explainable_vqa(blip_model, components, sample, enable_cot, logger):
     """
-    ENHANCED: Explainable VQA processing với improved Chain-of-Thought integration
+    🆕 ENHANCED: Explainable VQA processing với Bounding Box integration
     """
     image_path = sample['image_path']
     question = sample['question']  
@@ -195,12 +241,14 @@ def process_explainable_vqa(blip_model, components, sample, enable_cot, logger):
     # Tải hình ảnh
     image = Image.open(image_path).convert('RGB')
     
-    logger.info(f"🔬 Processing explainable VQA for image {sample['image_id']}")
+    logger.info(f"🔬 Processing explainable VQA for image {sample['image_id']} (bbox: {components['bbox_enabled']})")
     
     # Initialize result structure
     result = {
         'mode': 'explainable_vqa',
         'chain_of_thought_enabled': enable_cot,
+        'bbox_enabled': components['bbox_enabled'],
+        'grad_cam_mode': components['grad_cam_mode'],
         'image': image,
         'image_path': image_path,
         'question': question,
@@ -231,42 +279,68 @@ def process_explainable_vqa(blip_model, components, sample, enable_cot, logger):
         result['processing_steps'].append('Query reformulation')
         logger.info(f"✅ Query reformulated (quality: {reformulation_quality:.3f})")
         
-        # Step 3: Grad-CAM generation (FIXED)
-        logger.info("Step 3: Grad-CAM attention analysis...")
+        # Step 3: 🆕 ENHANCED Grad-CAM generation with Bounding Boxes
+        logger.info("Step 3: Enhanced Grad-CAM attention analysis...")
         grad_cam_heatmap = None
         grad_cam_data = {}
+        bbox_regions = []
         
-        if components['grad_cam'] is not None:
+        if components['grad_cam_mode'] == 'enhanced':
+            # 🆕 NEW: Enhanced Grad-CAM with Bounding Boxes
             try:
-                # FIXED: Use proper GradCAM call method
-                grad_cam_heatmap = components['grad_cam'](
-                    image, question, 
-                    inputs=None,  # Let GradCAM handle input processing
-                    original_size=image.size
+                enhanced_grad_cam = components['enhanced_grad_cam']
+                
+                logger.info("🆕 Running Enhanced Grad-CAM with bounding box extraction...")
+                analysis_result = enhanced_grad_cam.analyze_image_with_question(
+                    image, question, save_dir=None
                 )
                 
-                if grad_cam_heatmap is not None:
-                    # IMPROVED: Better region extraction from heatmap
+                if analysis_result['success']:
+                    grad_cam_heatmap = analysis_result['heatmap']
+                    bbox_regions = analysis_result['regions']
+                    
                     grad_cam_data = {
                         'heatmap': grad_cam_heatmap,
-                        'regions': extract_attention_regions(grad_cam_heatmap, image.size)
+                        'regions': bbox_regions,
+                        'bbox_enabled': True
                     }
-                    logger.info("✅ Grad-CAM generated successfully")
+                    
+                    logger.info(f"✅ Enhanced Grad-CAM generated: {len(bbox_regions)} bounding boxes detected")
                 else:
-                    logger.warning("⚠️ Grad-CAM returned None")
-                    result['error_messages'].append("Grad-CAM generation returned None")
+                    logger.warning(f"⚠️ Enhanced Grad-CAM failed: {analysis_result.get('error', 'Unknown error')}")
+                    result['error_messages'].append(f"Enhanced Grad-CAM error: {analysis_result.get('error', 'Unknown')}")
                     
             except Exception as e:
-                logger.error(f"❌ Grad-CAM error: {e}")
-                result['error_messages'].append(f"Grad-CAM error: {str(e)}")
-                import traceback
-                logger.debug(f"Grad-CAM traceback: {traceback.format_exc()}")
-        else:
-            logger.warning("⚠️ Grad-CAM not available")
-            result['error_messages'].append("Grad-CAM component not initialized")
+                logger.error(f"❌ Enhanced Grad-CAM error: {e}")
+                result['error_messages'].append(f"Enhanced Grad-CAM error: {str(e)}")
+                
+        elif components['grad_cam_mode'] == 'basic':
+            # Fallback to basic Grad-CAM
+            try:
+                grad_cam = components['grad_cam']
+                grad_cam_heatmap = grad_cam(image, question, original_size=image.size)
+                
+                if grad_cam_heatmap is not None:
+                    # Extract basic attention regions
+                    bbox_regions = extract_attention_regions_basic(grad_cam_heatmap, image.size)
+                    
+                    grad_cam_data = {
+                        'heatmap': grad_cam_heatmap,
+                        'regions': bbox_regions,
+                        'bbox_enabled': False
+                    }
+                    logger.info(f"✅ Basic Grad-CAM generated: {len(bbox_regions)} attention regions detected")
+                else:
+                    logger.warning("⚠️ Basic Grad-CAM returned None")
+                    result['error_messages'].append("Basic Grad-CAM generation returned None")
+                    
+            except Exception as e:
+                logger.error(f"❌ Basic Grad-CAM error: {e}")
+                result['error_messages'].append(f"Basic Grad-CAM error: {str(e)}")
         
         result['grad_cam_heatmap'] = grad_cam_heatmap
-        result['processing_steps'].append('Grad-CAM attention')
+        result['bbox_regions'] = bbox_regions
+        result['processing_steps'].append('Enhanced Grad-CAM attention')
         
         # Step 4: Chain-of-Thought reasoning (if enabled)
         reasoning_result = None
@@ -300,10 +374,10 @@ def process_explainable_vqa(blip_model, components, sample, enable_cot, logger):
         
         result['reasoning_result'] = reasoning_result
         
-        # Step 5: Unified answer generation
-        logger.info("Step 5: Final unified answer generation...")
+        # Step 5: 🆕 ENHANCED Unified answer generation
+        logger.info("Step 5: Enhanced unified answer generation...")
         
-        # IMPROVED: Enhanced context for unified answer
+        # Prepare enhanced context
         enhanced_context = None
         if reasoning_result and reasoning_result['success']:
             # Extract conclusion from Chain-of-Thought
@@ -317,7 +391,23 @@ def process_explainable_vqa(blip_model, components, sample, enable_cot, logger):
                 step_summaries = [f"{step['type']}: {step['content'][:100]}..." for step in reasoning_steps[:3]]
                 enhanced_context = "Chain-of-thought analysis: " + " | ".join(step_summaries)
         
-        # Generate unified answer
+        # 🆕 ENHANCED: Add bounding box region descriptions
+        region_descriptions = None
+        if bbox_regions:
+            region_descs = []
+            for i, region in enumerate(bbox_regions[:3]):  # Top 3 regions
+                bbox = region['bbox']
+                score = region.get('attention_score', region.get('score', 0))
+                region_descs.append(f"Region {i+1}: bbox {bbox} (attention: {score:.3f})")
+            
+            region_descriptions = "Attention regions: " + "; ".join(region_descs)
+            
+            if enhanced_context:
+                enhanced_context += f" | {region_descriptions}"
+            else:
+                enhanced_context = region_descriptions
+        
+        # Generate unified answer with enhanced context
         unified_answer = components['gemini'].generate_unified_answer(
             image, reformulated_question, blip_answer, 
             heatmap=grad_cam_heatmap,
@@ -325,8 +415,8 @@ def process_explainable_vqa(blip_model, components, sample, enable_cot, logger):
         )
         
         result['unified_answer'] = unified_answer
-        result['processing_steps'].append('Unified answer generation')
-        logger.info("✅ Explainable VQA processing completed")
+        result['processing_steps'].append('Enhanced unified answer generation')
+        logger.info("✅ Enhanced explainable VQA processing completed")
         
     except Exception as e:
         logger.error(f"❌ Critical error in explainable VQA processing: {e}")
@@ -336,17 +426,9 @@ def process_explainable_vqa(blip_model, components, sample, enable_cot, logger):
     
     return result
 
-def extract_attention_regions(heatmap, image_size, threshold=0.5):
+def extract_attention_regions_basic(heatmap, image_size, threshold=0.5):
     """
-    IMPROVED: Extract attention regions from Grad-CAM heatmap
-    
-    Args:
-        heatmap: Numpy array heatmap
-        image_size: (width, height) of original image
-        threshold: Attention threshold for region detection
-        
-    Returns:
-        List of region dictionaries
+    FALLBACK: Basic attention region extraction (when Enhanced Grad-CAM unavailable)
     """
     import numpy as np
     
@@ -357,8 +439,7 @@ def extract_attention_regions(heatmap, image_size, threshold=0.5):
         # Find high-attention areas
         high_attention = heatmap > threshold
         
-        # Simple region extraction - find contours or connected components
-        # For now, use a simple approach with peak detection
+        # Simple region extraction
         try:
             from scipy import ndimage
             
@@ -384,6 +465,7 @@ def extract_attention_regions(heatmap, image_size, threshold=0.5):
                 regions.append({
                     'bbox': [orig_x - region_size//2, orig_y - region_size//2, region_size, region_size],
                     'score': float(score),
+                    'attention_score': float(score),  # For compatibility
                     'center': [orig_x, orig_y]
                 })
             
@@ -393,7 +475,6 @@ def extract_attention_regions(heatmap, image_size, threshold=0.5):
             
         except ImportError:
             # Fallback without scipy
-            # Simple peak detection
             max_val = np.max(heatmap)
             peak_locations = np.where(heatmap > max_val * 0.8)
             
@@ -413,18 +494,19 @@ def extract_attention_regions(heatmap, image_size, threshold=0.5):
                 regions.append({
                     'bbox': [orig_x - region_size//2, orig_y - region_size//2, region_size, region_size],
                     'score': float(score),
+                    'attention_score': float(score),
                     'center': [orig_x, orig_y]
                 })
             
             return regions
         
     except Exception as e:
-        print(f"Error extracting attention regions: {e}")
+        print(f"Error extracting basic attention regions: {e}")
         return []
 
 def create_visualization(result, output_dir, logger):
     """
-    ENHANCED: Create visualization với improved layout và error handling
+    🆕 ENHANCED: Create visualization với Bounding Box support
     """
     # Tạo thư mục đầu ra
     os.makedirs(output_dir, exist_ok=True)
@@ -433,6 +515,8 @@ def create_visualization(result, output_dir, logger):
     image = result['image']
     sample_id = Path(result['image_path']).stem
     success = result['success']
+    bbox_enabled = result.get('bbox_enabled', False)
+    bbox_regions = result.get('bbox_regions', [])
     
     try:
         if mode == 'basic_vqa':
@@ -464,24 +548,51 @@ def create_visualization(result, output_dir, logger):
             output_file = os.path.join(output_dir, f"medxplain_basic_{sample_id}.png")
             
         else:  # explainable_vqa mode
-            # Enhanced visualization
+            # 🆕 ENHANCED: Explainable visualization with Bounding Boxes
             enable_cot = result['chain_of_thought_enabled']
             
             if enable_cot:
-                # 2x3 layout for full explainable pipeline
-                fig = plt.figure(figsize=(18, 12))
+                # 2x3 layout for full explainable pipeline + bounding boxes
+                fig = plt.figure(figsize=(20, 12))
                 
-                # Original image
+                # Original image with bounding boxes
                 ax_image = plt.subplot2grid((2, 3), (0, 0))
                 ax_image.imshow(image)
-                ax_image.set_title("Original Image", fontsize=12)
+                
+                # 🆕 NEW: Draw bounding boxes on original image
+                if bbox_regions:
+                    colors = ['red', 'blue', 'green', 'yellow', 'purple', 'orange', 'pink']
+                    for i, region in enumerate(bbox_regions[:5]):  # Max 5 boxes
+                        bbox = region['bbox']
+                        color = colors[i % len(colors)]
+                        score = region.get('attention_score', region.get('score', 0))
+                        
+                        # Draw bounding box
+                        rect = patches.Rectangle(
+                            (bbox[0], bbox[1]), bbox[2], bbox[3],
+                            linewidth=3, edgecolor=color, facecolor='none', alpha=0.8
+                        )
+                        ax_image.add_patch(rect)
+                        
+                        # Add label
+                        ax_image.text(
+                            bbox[0], bbox[1] - 5,
+                            f"R{i+1}: {score:.3f}",
+                            color=color, fontsize=10, fontweight='bold',
+                            bbox=dict(boxstyle="round,pad=0.2", facecolor='white', alpha=0.8)
+                        )
+                    
+                    ax_image.set_title(f"Image + Bounding Boxes ({len(bbox_regions)} regions)", fontsize=12)
+                else:
+                    ax_image.set_title("Original Image (No boxes detected)", fontsize=12)
                 ax_image.axis('off')
                 
                 # Grad-CAM heatmap
                 ax_heatmap = plt.subplot2grid((2, 3), (0, 1))
                 if result['grad_cam_heatmap'] is not None:
                     ax_heatmap.imshow(result['grad_cam_heatmap'], cmap='jet')
-                    ax_heatmap.set_title("Attention Heatmap", fontsize=12)
+                    mode_label = "Enhanced" if bbox_enabled else "Basic"
+                    ax_heatmap.set_title(f"{mode_label} Attention Heatmap", fontsize=12)
                 else:
                     ax_heatmap.text(0.5, 0.5, "Heatmap not available", ha='center', va='center')
                     ax_heatmap.set_title("Attention Heatmap (N/A)", fontsize=12)
@@ -521,19 +632,44 @@ def create_visualization(result, output_dir, logger):
                 
             else:
                 # 2x2 layout for basic explainable (no Chain-of-Thought)
-                fig = plt.figure(figsize=(15, 10))
+                fig = plt.figure(figsize=(16, 10))
                 
-                # Original image
+                # Original image with bounding boxes
                 ax_image = plt.subplot2grid((2, 2), (0, 0))
                 ax_image.imshow(image)
-                ax_image.set_title("Original Image", fontsize=12)
+                
+                # 🆕 NEW: Draw bounding boxes
+                if bbox_regions:
+                    colors = ['red', 'blue', 'green', 'yellow', 'purple']
+                    for i, region in enumerate(bbox_regions[:5]):
+                        bbox = region['bbox']
+                        color = colors[i % len(colors)]
+                        score = region.get('attention_score', region.get('score', 0))
+                        
+                        rect = patches.Rectangle(
+                            (bbox[0], bbox[1]), bbox[2], bbox[3],
+                            linewidth=2, edgecolor=color, facecolor='none', alpha=0.8
+                        )
+                        ax_image.add_patch(rect)
+                        
+                        ax_image.text(
+                            bbox[0], bbox[1] - 5,
+                            f"R{i+1}: {score:.3f}",
+                            color=color, fontsize=9, fontweight='bold',
+                            bbox=dict(boxstyle="round,pad=0.2", facecolor='white', alpha=0.8)
+                        )
+                    
+                    ax_image.set_title(f"Image + Bounding Boxes ({len(bbox_regions)})", fontsize=12)
+                else:
+                    ax_image.set_title("Original Image", fontsize=12)
                 ax_image.axis('off')
                 
                 # Grad-CAM heatmap
                 ax_heatmap = plt.subplot2grid((2, 2), (0, 1))
                 if result['grad_cam_heatmap'] is not None:
                     ax_heatmap.imshow(result['grad_cam_heatmap'], cmap='jet')
-                    ax_heatmap.set_title("Attention Heatmap", fontsize=12)
+                    mode_label = "Enhanced" if bbox_enabled else "Basic"
+                    ax_heatmap.set_title(f"{mode_label} Heatmap", fontsize=12)
                 else:
                     ax_heatmap.text(0.5, 0.5, "Heatmap not available", ha='center', va='center')
                     ax_heatmap.set_title("Attention Heatmap (N/A)", fontsize=12)
@@ -550,6 +686,12 @@ def create_visualization(result, output_dir, logger):
             text_content += f"Processing: {' → '.join(result['processing_steps'])}\n"
             text_content += f"Reformulation quality: {result['reformulation_quality']:.3f}"
             
+            # 🆕 NEW: Add bounding box information
+            if bbox_regions:
+                text_content += f" | Bounding boxes: {len(bbox_regions)} detected"
+                avg_score = sum(r.get('attention_score', r.get('score', 0)) for r in bbox_regions) / len(bbox_regions)
+                text_content += f" (avg score: {avg_score:.3f})"
+            
             if enable_cot and result['reasoning_result'] and result['reasoning_result']['success']:
                 confidence = result['reasoning_result']['reasoning_chain']['overall_confidence']
                 text_content += f" | Reasoning confidence: {confidence:.3f}"
@@ -562,28 +704,30 @@ def create_visualization(result, output_dir, logger):
                         fontsize=10, verticalalignment='top', wrap=True)
             ax_text.axis('off')
             
-            # Set title without unicode characters (fix font warning)
+            # Set title
             mode_title = "Enhanced" if enable_cot else "Basic"
+            bbox_status = f"+ BBox" if bbox_enabled else ""
             success_indicator = "SUCCESS" if success else "WARNING"
-            plt.suptitle(f"[{success_indicator}] MedXplain-VQA {mode_title} Explainable Analysis: {sample_id}", fontsize=14)
+            plt.suptitle(f"[{success_indicator}] MedXplain-VQA {mode_title} {bbox_status} Explainable Analysis: {sample_id}", fontsize=14)
             plt.tight_layout(rect=[0, 0, 1, 0.96])
             
             mode_suffix = "enhanced" if enable_cot else "explainable"
-            output_file = os.path.join(output_dir, f"medxplain_{mode_suffix}_{sample_id}.png")
+            bbox_suffix = "_bbox" if bbox_enabled else ""
+            output_file = os.path.join(output_dir, f"medxplain_{mode_suffix}{bbox_suffix}_{sample_id}.png")
         
         # Save visualization
         plt.savefig(output_file, bbox_inches='tight', pad_inches=0.5)
         plt.close(fig)
-        logger.info(f"✅ Visualization saved to {output_file}")
+        logger.info(f"✅ Enhanced visualization saved to {output_file}")
         
         return output_file
         
     except Exception as e:
-        logger.error(f"❌ Error creating visualization: {e}")
+        logger.error(f"❌ Error creating enhanced visualization: {e}")
         return None
 
 def save_results_metadata(result, output_dir, logger):
-    """Save detailed results metadata với improved structure"""
+    """🆕 ENHANCED: Save detailed results metadata với Bounding Box support"""
     try:
         sample_id = Path(result['image_path']).stem
         mode = result['mode']
@@ -608,8 +752,32 @@ def save_results_metadata(result, output_dir, logger):
                 'chain_of_thought_enabled': result['chain_of_thought_enabled'],
                 'reformulated_question': result['reformulated_question'],
                 'reformulation_quality': result['reformulation_quality'],
-                'grad_cam_available': result['grad_cam_heatmap'] is not None
+                'grad_cam_available': result['grad_cam_heatmap'] is not None,
+                
+                # 🆕 NEW: Bounding box metadata
+                'bbox_enabled': result.get('bbox_enabled', False),
+                'grad_cam_mode': result.get('grad_cam_mode', 'unknown'),
+                'bbox_regions_count': len(result.get('bbox_regions', [])),
             })
+            
+            # 🆕 NEW: Detailed bounding box information
+            bbox_regions = result.get('bbox_regions', [])
+            if bbox_regions:
+                bbox_metadata = {
+                    'total_regions': len(bbox_regions),
+                    'average_attention_score': sum(r.get('attention_score', r.get('score', 0)) for r in bbox_regions) / len(bbox_regions),
+                    'max_attention_score': max(r.get('attention_score', r.get('score', 0)) for r in bbox_regions),
+                    'regions_details': [
+                        {
+                            'rank': i + 1,
+                            'bbox': region['bbox'],
+                            'attention_score': region.get('attention_score', region.get('score', 0)),
+                            'center': region.get('center', [0, 0])
+                        }
+                        for i, region in enumerate(bbox_regions[:5])  # Top 5 regions
+                    ]
+                }
+                metadata['bounding_box_analysis'] = bbox_metadata
             
             if result['reasoning_result'] and result['reasoning_result']['success']:
                 reasoning_chain = result['reasoning_result']['reasoning_chain']
@@ -626,19 +794,20 @@ def save_results_metadata(result, output_dir, logger):
                 metadata['reasoning_analysis'] = reasoning_metadata
         
         # Save metadata
-        metadata_file = os.path.join(output_dir, f"medxplain_{mode}_{sample_id}.json")
+        bbox_suffix = "_bbox" if result.get('bbox_enabled', False) else ""
+        metadata_file = os.path.join(output_dir, f"medxplain_{mode}{bbox_suffix}_{sample_id}.json")
         with open(metadata_file, 'w', encoding='utf-8') as f:
             json.dump(metadata, f, indent=2, ensure_ascii=False)
         
-        logger.info(f"✅ Metadata saved to {metadata_file}")
+        logger.info(f"✅ Enhanced metadata saved to {metadata_file}")
         return metadata_file
         
     except Exception as e:
-        logger.error(f"❌ Error saving metadata: {e}")
+        logger.error(f"❌ Error saving enhanced metadata: {e}")
         return None
 
 def main():
-    parser = argparse.ArgumentParser(description='Enhanced MedXplain-VQA with Chain-of-Thought')
+    parser = argparse.ArgumentParser(description='🆕 Enhanced MedXplain-VQA with Bounding Box Support')
     parser.add_argument('--config', type=str, default='configs/config.yaml', help='Path to config file')
     parser.add_argument('--model-path', type=str, default='checkpoints/blip/checkpoints/best_hf_model', 
                       help='Path to BLIP model checkpoint')
@@ -653,6 +822,10 @@ def main():
                       help='Processing mode: basic (BLIP+Gemini), explainable (+ Query reformulation + Grad-CAM), enhanced (+ Chain-of-Thought)')
     parser.add_argument('--enable-cot', action='store_true', 
                       help='Enable Chain-of-Thought reasoning (same as --mode enhanced)')
+    
+    # 🆕 NEW: Bounding box support
+    parser.add_argument('--enable-bbox', action='store_true', 
+                      help='🆕 NEW: Enable bounding box extraction and visualization')
     
     args = parser.parse_args()
     
@@ -672,7 +845,9 @@ def main():
     
     # Setup logger
     logger = setup_logger('medxplain_vqa_enhanced', config['logging']['save_dir'], level='INFO')
-    logger.info(f"🚀 Starting Enhanced MedXplain-VQA (mode: {processing_mode})")
+    
+    bbox_status = "ENABLED" if args.enable_bbox else "DISABLED"
+    logger.info(f"🚀 Starting Enhanced MedXplain-VQA (mode: {processing_mode}, bounding_boxes: {bbox_status})")
     
     # Tải mô hình BLIP
     blip_model = load_model(config, args.model_path, logger)
@@ -691,8 +866,8 @@ def main():
             logger.error(f"❌ Failed to initialize Gemini: {e}")
             return
     else:
-        # Explainable/Enhanced mode: full component suite
-        components = initialize_explainable_components(config, blip_model, logger)
+        # Explainable/Enhanced mode: full component suite with optional bounding boxes
+        components = initialize_explainable_components(config, blip_model, args.enable_bbox, logger)
         if components is None:
             logger.error("❌ Failed to initialize explainable components. Exiting.")
             return
@@ -717,7 +892,8 @@ def main():
             logger.error("❌ No test samples found. Exiting.")
             return
     
-    logger.info(f"🎯 Processing {len(samples)} samples in {processing_mode} mode")
+    bbox_mode = "with bounding boxes" if args.enable_bbox else "standard"
+    logger.info(f"🎯 Processing {len(samples)} samples in {processing_mode} mode ({bbox_mode})")
     
     # Process each sample
     results = []
@@ -758,16 +934,20 @@ def main():
             logger.error(f"❌ Error processing sample {sample['image_id']}: {e}")
             continue
     
-    # Clean up Grad-CAM hooks if needed
-    if components and 'grad_cam' in components and components['grad_cam'] is not None:
-        components['grad_cam'].remove_hooks()
-        logger.info("🧹 Grad-CAM hooks cleaned up")
+    # Clean up hooks if needed
+    if components:
+        if 'enhanced_grad_cam' in components and components['enhanced_grad_cam'] is not None:
+            components['enhanced_grad_cam'].grad_cam.remove_hooks()
+            logger.info("🧹 Enhanced Grad-CAM hooks cleaned up")
+        elif 'grad_cam' in components and components['grad_cam'] is not None:
+            components['grad_cam'].remove_hooks()
+            logger.info("🧹 Basic Grad-CAM hooks cleaned up")
     
     # Final summary
     logger.info(f"\n{'='*60}")
     logger.info(f"🎉 Enhanced MedXplain-VQA COMPLETED")
     logger.info(f"{'='*60}")
-    logger.info(f"Mode: {processing_mode}")
+    logger.info(f"Mode: {processing_mode} ({bbox_mode})")
     logger.info(f"Samples processed: {successful_results}/{len(samples)} successful")
     logger.info(f"Results saved to: {args.output_dir}")
     
@@ -782,6 +962,12 @@ def main():
             
             if 'reformulation_quality' in first_successful:
                 logger.info(f"Reformulation quality: {first_successful['reformulation_quality']:.3f}")
+            
+            # 🆕 NEW: Bounding box summary
+            if first_successful.get('bbox_regions'):
+                bbox_count = len(first_successful['bbox_regions'])
+                avg_score = sum(r.get('attention_score', r.get('score', 0)) for r in first_successful['bbox_regions']) / bbox_count
+                logger.info(f"Bounding boxes: {bbox_count} detected (avg score: {avg_score:.3f})")
             
             if enable_cot and first_successful.get('reasoning_result'):
                 reasoning = first_successful['reasoning_result']
