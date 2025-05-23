@@ -1,0 +1,24 @@
+{
+  "test_image": "data/images/test/test_0697.jpg",
+  "question": "What does this image show?",
+  "analysis_result": {
+    "success": true,
+    "regions_found": 4,
+    "error": null
+  },
+  "summary": {
+    "status": "success",
+    "regions_found": 4,
+    "avg_attention": 0.47751495242118835,
+    "max_attention": 0.5643841624259949,
+    "primary_region": {
+      "bbox": [
+        183,
+        202,
+        26,
+        22
+      ],
+      "score": 0.5643841624259949
+    }
+  }
+}

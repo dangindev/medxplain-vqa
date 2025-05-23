@@ -85,3 +85,25 @@ pipeline:
   default_enable_gradcam: true
   save_detailed_results: true
   create_visualizations: true
+
+# Bounding Box Configuration
+bounding_box:
+  min_area_ratio: 0.001        # Minimum area as ratio of image (0.1%)
+  max_area_ratio: 0.25         # Maximum area as ratio of image (25%)
+  attention_threshold: 0.3     # Minimum attention score for regions
+  min_confidence: 0.1          # Minimum confidence for boxes
+  max_boxes: 8                 # Maximum number of boxes per image
+  morphology_kernel_size: 3    # Kernel size for morphological operations
+
+# Visual Overlay Configuration  
+visual_overlay:
+  box_thickness: 3             # Bounding box line thickness
+  text_size: 12               # Text annotation size
+  alpha: 0.7                  # Transparency for overlays
+
+# Evidence Linking Configuration
+evidence_linking:
+  spatial_threshold: 0.3       # Spatial relevance threshold
+  semantic_threshold: 0.4      # Semantic relevance threshold
+  confidence_threshold: 0.2    # Minimum confidence for links
+  max_links: 10               # Maximum number of evidence links

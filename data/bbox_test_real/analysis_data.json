@@ -1,0 +1,53 @@
+{
+  "success": true,
+  "total_regions": 3,
+  "average_attention": 0.4276047945022583,
+  "max_attention": 0.49929970502853394,
+  "regions": [
+    {
+      "bbox": [
+        0,
+        0,
+        224,
+        224
+      ],
+      "center": [
+        112,
+        112
+      ],
+      "attention_score": 0.49929970502853394,
+      "confidence": 0.9727770954370499,
+      "rank": 1
+    },
+    {
+      "bbox": [
+        99,
+        62,
+        24,
+        32
+      ],
+      "center": [
+        111,
+        78
+      ],
+      "attention_score": 0.426099956035614,
+      "confidence": 0.6184564103277362,
+      "rank": 2
+    },
+    {
+      "bbox": [
+        103,
+        104,
+        28,
+        19
+      ],
+      "center": [
+        117,
+        113
+      ],
+      "attention_score": 0.35741472244262695,
+      "confidence": 0.5596518960230205,
+      "rank": 3
+    }
+  ]
+}
