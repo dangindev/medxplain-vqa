@@ -504,10 +504,16 @@ def extract_attention_regions_basic(heatmap, image_size, threshold=0.5):
         print(f"Error extracting basic attention regions: {e}")
         return []
 
+
 def create_visualization(result, output_dir, logger):
     """
-    🆕 ENHANCED: Create visualization với Bounding Box support
+    🆕 ENHANCED: Create visualization với text đầy đủ, không cắt, căn giữa, chữ to
     """
+    import matplotlib.pyplot as plt
+    import matplotlib.patches as patches
+    from pathlib import Path
+    import os
+    
     # Tạo thư mục đầu ra
     os.makedirs(output_dir, exist_ok=True)
     
@@ -521,12 +527,12 @@ def create_visualization(result, output_dir, logger):
     try:
         if mode == 'basic_vqa':
             # Basic visualization (2x1 layout)
-            fig = plt.figure(figsize=(12, 6))
+            fig = plt.figure(figsize=(14, 8))
             
             # Image
             ax_image = plt.subplot(1, 2, 1)
             ax_image.imshow(image)
-            ax_image.set_title(f"MedXplain-VQA: {sample_id}", fontsize=12)
+            ax_image.set_title(f"MedXplain-VQA: {sample_id}", fontsize=14, fontweight='bold')
             ax_image.axis('off')
             
             # Text
@@ -540,192 +546,207 @@ def create_visualization(result, output_dir, logger):
             if not success:
                 text_content += f"\n\nErrors: {'; '.join(result['error_messages'])}"
             
-            ax_text.text(0.01, 0.99, text_content, transform=ax_text.transAxes,
-                        fontsize=10, verticalalignment='top', wrap=True)
+            ax_text.text(0.05, 0.95, text_content, transform=ax_text.transAxes,
+                        fontsize=12, verticalalignment='top', wrap=True,
+                        bbox=dict(boxstyle="round,pad=0.5", facecolor='#f8f9fa', alpha=0.9))
             ax_text.axis('off')
             
             plt.tight_layout()
             output_file = os.path.join(output_dir, f"medxplain_basic_{sample_id}.png")
             
         else:  # explainable_vqa mode
-            # 🆕 ENHANCED: Explainable visualization with Bounding Boxes
             enable_cot = result['chain_of_thought_enabled']
             
-            if enable_cot:
-                # 2x3 layout for full explainable pipeline + bounding boxes
-                fig = plt.figure(figsize=(20, 12))
+            if bbox_enabled and result['grad_cam_heatmap'] is not None:
+                # 🎯 IMPROVED: 4-panel layout với text area lớn hơn và chữ to
+                fig = plt.figure(figsize=(32, 18))  # Lớn hơn để có space cho text
                 
-                # Original image with bounding boxes
-                ax_image = plt.subplot2grid((2, 3), (0, 0))
-                ax_image.imshow(image)
+                # Create grid - tăng height ratio cho text area
+                gs = fig.add_gridspec(3, 4, height_ratios=[4, 0.2, 1.5], hspace=0.3, wspace=0.1)
                 
-                # 🆕 NEW: Draw bounding boxes on original image
+                # ===== 4 IMAGE PANELS (TOP ROW) =====
+                
+                # 1. Original Image
+                ax1 = fig.add_subplot(gs[0, 0])
+                ax1.imshow(image)
+                ax1.set_title('Original Image', fontsize=16, fontweight='bold', pad=20)
+                ax1.axis('off')
+                
+                # 2. Bounding Boxes
+                ax2 = fig.add_subplot(gs[0, 1])
+                ax2.imshow(image)
+                ax2.set_title(f'Bounding Boxes ({len(bbox_regions)} regions)', fontsize=16, fontweight='bold', pad=20)
+                ax2.axis('off')
+                
+                # Draw bounding boxes with improved styling
+                colors = ['#FF0000', '#0066FF', '#00CC00', '#FFD700', '#8A2BE2', '#FF8C00', '#FF1493']
+                for i, region in enumerate(bbox_regions[:5]):
+                    bbox = region['bbox']
+                    color = colors[i % len(colors)]
+                    score = region.get('attention_score', region.get('score', 0))
+                    
+                    rect = patches.Rectangle(
+                        (bbox[0], bbox[1]), bbox[2], bbox[3],
+                        linewidth=4, edgecolor=color, facecolor='none', alpha=0.9
+                    )
+                    ax2.add_patch(rect)
+                    
+                    # Improved label
+                    ax2.text(
+                        bbox[0], bbox[1] - 10,
+                        f"R{i+1}: {score:.3f}",
+                        color=color, fontsize=12, fontweight='bold',
+                        bbox=dict(boxstyle="round,pad=0.3", facecolor='white', alpha=0.95, 
+                                edgecolor=color, linewidth=2)
+                    )
+                
+                # 3. Heatmap Only
+                ax3 = fig.add_subplot(gs[0, 2])
+                ax3.imshow(result['grad_cam_heatmap'], cmap='jet', interpolation='bilinear')
+                ax3.set_title('Enhanced Attention Heatmap', fontsize=16, fontweight='bold', pad=20)
+                ax3.axis('off')
+                
+                # 4. Combined View
+                ax4 = fig.add_subplot(gs[0, 3])
+                ax4.imshow(image, alpha=0.65)
+                ax4.imshow(result['grad_cam_heatmap'], cmap='jet', alpha=0.35, interpolation='bilinear')
+                ax4.set_title('Combined View', fontsize=16, fontweight='bold', pad=20)
+                ax4.axis('off')
+                
+                # Draw bounding boxes on combined view
+                for i, region in enumerate(bbox_regions[:5]):
+                    bbox = region['bbox']
+                    color = colors[i % len(colors)]
+                    
+                    rect = patches.Rectangle(
+                        (bbox[0], bbox[1]), bbox[2], bbox[3],
+                        linewidth=3, edgecolor=color, facecolor='none', alpha=0.8
+                    )
+                    ax4.add_patch(rect)
+                
+                # ===== TEXT AREA (BOTTOM ROW) - FULL WIDTH =====
+                ax_text = fig.add_subplot(gs[2, :])
+                
+                # 🎯 IMPROVED TEXT CONTENT - NO TRUNCATION, LARGER FONT
+                question_text = f"🔍 Question: {result['question']}"
+                
+                reformulated_text = f"📝 Reformulated: {result['reformulated_question']}"
+                
+                ground_truth_text = f"🎯 Ground Truth: {result['ground_truth']}"
+                
+                answer_text = f"🤖 MedXplain-VQA Answer: {result['unified_answer']}"
+                
+                processing_text = f"⚙️  Processing Pipeline: {' → '.join(result['processing_steps'])}"
+                
+                # Metrics line
+                metrics_parts = []
+                metrics_parts.append(f"Query Quality: {result['reformulation_quality']:.3f}")
+                
                 if bbox_regions:
-                    colors = ['red', 'blue', 'green', 'yellow', 'purple', 'orange', 'pink']
-                    for i, region in enumerate(bbox_regions[:5]):  # Max 5 boxes
-                        bbox = region['bbox']
-                        color = colors[i % len(colors)]
-                        score = region.get('attention_score', region.get('score', 0))
-                        
-                        # Draw bounding box
-                        rect = patches.Rectangle(
-                            (bbox[0], bbox[1]), bbox[2], bbox[3],
-                            linewidth=3, edgecolor=color, facecolor='none', alpha=0.8
-                        )
-                        ax_image.add_patch(rect)
-                        
-                        # Add label
-                        ax_image.text(
-                            bbox[0], bbox[1] - 5,
-                            f"R{i+1}: {score:.3f}",
-                            color=color, fontsize=10, fontweight='bold',
-                            bbox=dict(boxstyle="round,pad=0.2", facecolor='white', alpha=0.8)
-                        )
-                    
-                    ax_image.set_title(f"Image + Bounding Boxes ({len(bbox_regions)} regions)", fontsize=12)
-                else:
-                    ax_image.set_title("Original Image (No boxes detected)", fontsize=12)
-                ax_image.axis('off')
+                    avg_score = sum(r.get('attention_score', r.get('score', 0)) for r in bbox_regions) / len(bbox_regions)
+                    metrics_parts.append(f"Bounding Boxes: {len(bbox_regions)} detected (avg: {avg_score:.3f})")
                 
-                # Grad-CAM heatmap
-                ax_heatmap = plt.subplot2grid((2, 3), (0, 1))
-                if result['grad_cam_heatmap'] is not None:
-                    ax_heatmap.imshow(result['grad_cam_heatmap'], cmap='jet')
-                    mode_label = "Enhanced" if bbox_enabled else "Basic"
-                    ax_heatmap.set_title(f"{mode_label} Attention Heatmap", fontsize=12)
-                else:
-                    ax_heatmap.text(0.5, 0.5, "Heatmap not available", ha='center', va='center')
-                    ax_heatmap.set_title("Attention Heatmap (N/A)", fontsize=12)
-                ax_heatmap.axis('off')
+                if enable_cot and result['reasoning_result'] and result['reasoning_result']['success']:
+                    confidence = result['reasoning_result']['reasoning_chain']['overall_confidence']
+                    metrics_parts.append(f"Reasoning Confidence: {confidence:.3f}")
                 
-                # Chain-of-Thought summary
-                ax_cot = plt.subplot2grid((2, 3), (0, 2))
-                if result['reasoning_result'] and result['reasoning_result']['success']:
-                    reasoning_chain = result['reasoning_result']['reasoning_chain']
-                    steps = reasoning_chain['steps']
-                    confidence = reasoning_chain['overall_confidence']
-                    
-                    cot_text = f"Chain-of-Thought Reasoning\n"
-                    cot_text += f"Flow: {reasoning_chain['flow_type']}\n"
-                    cot_text += f"Confidence: {confidence:.3f}\n"
-                    cot_text += f"Steps: {len(steps)}\n\n"
-                    
-                    # Show first 3 steps briefly
-                    for i, step in enumerate(steps[:3]):
-                        step_content = step['content'][:80] + "..." if len(step['content']) > 80 else step['content']
-                        cot_text += f"{i+1}. {step['type']}: {step_content}\n\n"
-                    
-                    if len(steps) > 3:
-                        cot_text += f"... and {len(steps)-3} more steps"
-                else:
-                    cot_text = "Chain-of-Thought reasoning\nnot available or failed"
-                    if result.get('reasoning_result') and not result['reasoning_result']['success']:
-                        cot_text += f"\nError: {result['reasoning_result'].get('error', 'Unknown')}"
+                metrics_text = f"📊 Metrics: {' | '.join(metrics_parts)}"
                 
-                ax_cot.text(0.01, 0.99, cot_text, transform=ax_cot.transAxes,
-                           fontsize=9, verticalalignment='top', wrap=True)
-                ax_cot.set_title("Reasoning Chain", fontsize=12)
-                ax_cot.axis('off')
+                # Combine all text
+                all_text_lines = [
+                    question_text,
+                    "",
+                    reformulated_text,
+                    "",
+                    ground_truth_text,
+                    "",
+                    answer_text,
+                    "",
+                    processing_text,
+                    "",
+                    metrics_text
+                ]
                 
-                # Main text area (full width)
-                ax_text = plt.subplot2grid((2, 3), (1, 0), colspan=3)
+                if result['error_messages']:
+                    all_text_lines.extend(["", f"⚠️  Issues: {'; '.join(result['error_messages'])}"])
+                
+                full_text = '\n'.join(all_text_lines)
+                
+                # 🎯 ENHANCED TEXT DISPLAY - LARGER FONT, CENTERED, NO WRAP ISSUES
+                ax_text.text(0.5, 0.5, full_text, 
+                           transform=ax_text.transAxes,
+                           fontsize=14,  # Increased from 12
+                           verticalalignment='center',  # Center vertically
+                           horizontalalignment='center',  # Center horizontally
+                           wrap=True,
+                           bbox=dict(boxstyle="round,pad=1.0", facecolor='#f8f9fa', 
+                                   alpha=0.9, edgecolor='#dee2e6', linewidth=2))
+                ax_text.axis('off')
+                
+                # Enhanced title
+                success_indicator = "✅ SUCCESS" if success else "⚠️ WARNING"
+                mode_title = "Enhanced" if enable_cot else "Explainable"
+                plt.suptitle(f"{success_indicator} | MedXplain-VQA {mode_title} + BBox Analysis: {sample_id}", 
+                           fontsize=20, fontweight='bold', y=0.98)
                 
             else:
-                # 2x2 layout for basic explainable (no Chain-of-Thought)
-                fig = plt.figure(figsize=(16, 10))
+                # Fallback layout for no bbox or heatmap
+                fig = plt.figure(figsize=(18, 12))
                 
-                # Original image with bounding boxes
                 ax_image = plt.subplot2grid((2, 2), (0, 0))
                 ax_image.imshow(image)
-                
-                # 🆕 NEW: Draw bounding boxes
-                if bbox_regions:
-                    colors = ['red', 'blue', 'green', 'yellow', 'purple']
-                    for i, region in enumerate(bbox_regions[:5]):
-                        bbox = region['bbox']
-                        color = colors[i % len(colors)]
-                        score = region.get('attention_score', region.get('score', 0))
-                        
-                        rect = patches.Rectangle(
-                            (bbox[0], bbox[1]), bbox[2], bbox[3],
-                            linewidth=2, edgecolor=color, facecolor='none', alpha=0.8
-                        )
-                        ax_image.add_patch(rect)
-                        
-                        ax_image.text(
-                            bbox[0], bbox[1] - 5,
-                            f"R{i+1}: {score:.3f}",
-                            color=color, fontsize=9, fontweight='bold',
-                            bbox=dict(boxstyle="round,pad=0.2", facecolor='white', alpha=0.8)
-                        )
-                    
-                    ax_image.set_title(f"Image + Bounding Boxes ({len(bbox_regions)})", fontsize=12)
-                else:
-                    ax_image.set_title("Original Image", fontsize=12)
+                ax_image.set_title("Original Image", fontsize=16, fontweight='bold')
                 ax_image.axis('off')
                 
-                # Grad-CAM heatmap
                 ax_heatmap = plt.subplot2grid((2, 2), (0, 1))
                 if result['grad_cam_heatmap'] is not None:
                     ax_heatmap.imshow(result['grad_cam_heatmap'], cmap='jet')
-                    mode_label = "Enhanced" if bbox_enabled else "Basic"
-                    ax_heatmap.set_title(f"{mode_label} Heatmap", fontsize=12)
+                    ax_heatmap.set_title("Attention Heatmap", fontsize=16, fontweight='bold')
                 else:
-                    ax_heatmap.text(0.5, 0.5, "Heatmap not available", ha='center', va='center')
-                    ax_heatmap.set_title("Attention Heatmap (N/A)", fontsize=12)
+                    ax_heatmap.text(0.5, 0.5, "Heatmap not available", ha='center', va='center', fontsize=14)
+                    ax_heatmap.set_title("Heatmap (N/A)", fontsize=16, fontweight='bold')
                 ax_heatmap.axis('off')
                 
-                # Main text area
                 ax_text = plt.subplot2grid((2, 2), (1, 0), colspan=2)
+                
+                # Text content for fallback
+                text_content = f"🔍 Question: {result['question']}\n\n"
+                text_content += f"📝 Reformulated: {result['reformulated_question']}\n\n"
+                text_content += f"🎯 Ground Truth: {result['ground_truth']}\n\n"
+                text_content += f"🤖 MedXplain-VQA Answer: {result['unified_answer']}\n\n"
+                text_content += f"⚙️ Processing: {' → '.join(result['processing_steps'])}\n"
+                text_content += f"📊 Quality: {result['reformulation_quality']:.3f}"
+                
+                if result['error_messages']:
+                    text_content += f"\n\n⚠️ Issues: {'; '.join(result['error_messages'])}"
+                
+                ax_text.text(0.5, 0.5, text_content, transform=ax_text.transAxes,
+                           fontsize=14, verticalalignment='center', horizontalalignment='center',
+                           wrap=True, bbox=dict(boxstyle="round,pad=1.0", facecolor='#f8f9fa', alpha=0.9))
+                ax_text.axis('off')
+                
+                mode_title = "Enhanced" if enable_cot else "Explainable"
+                success_indicator = "✅ SUCCESS" if success else "⚠️ WARNING"
+                plt.suptitle(f"{success_indicator} | MedXplain-VQA {mode_title} Analysis: {sample_id}", 
+                           fontsize=18, fontweight='bold')
             
-            # Common text content for explainable mode
-            text_content = f"Question: {result['question']}\n\n"
-            text_content += f"Reformulated: {result['reformulated_question']}\n\n"
-            text_content += f"Ground truth: {result['ground_truth']}\n\n"
-            text_content += f"MedXplain-VQA answer: {result['unified_answer']}\n\n"
-            text_content += f"Processing: {' → '.join(result['processing_steps'])}\n"
-            text_content += f"Reformulation quality: {result['reformulation_quality']:.3f}"
-            
-            # 🆕 NEW: Add bounding box information
-            if bbox_regions:
-                text_content += f" | Bounding boxes: {len(bbox_regions)} detected"
-                avg_score = sum(r.get('attention_score', r.get('score', 0)) for r in bbox_regions) / len(bbox_regions)
-                text_content += f" (avg score: {avg_score:.3f})"
-            
-            if enable_cot and result['reasoning_result'] and result['reasoning_result']['success']:
-                confidence = result['reasoning_result']['reasoning_chain']['overall_confidence']
-                text_content += f" | Reasoning confidence: {confidence:.3f}"
-            
-            # Add error information if any
-            if result['error_messages']:
-                text_content += f"\n\nIssues encountered: {'; '.join(result['error_messages'])}"
-            
-            ax_text.text(0.01, 0.99, text_content, transform=ax_text.transAxes,
-                        fontsize=10, verticalalignment='top', wrap=True)
-            ax_text.axis('off')
-            
-            # Set title
-            mode_title = "Enhanced" if enable_cot else "Basic"
-            bbox_status = f"+ BBox" if bbox_enabled else ""
-            success_indicator = "SUCCESS" if success else "WARNING"
-            plt.suptitle(f"[{success_indicator}] MedXplain-VQA {mode_title} {bbox_status} Explainable Analysis: {sample_id}", fontsize=14)
-            plt.tight_layout(rect=[0, 0, 1, 0.96])
-            
+            # File naming
             mode_suffix = "enhanced" if enable_cot else "explainable"
             bbox_suffix = "_bbox" if bbox_enabled else ""
             output_file = os.path.join(output_dir, f"medxplain_{mode_suffix}{bbox_suffix}_{sample_id}.png")
         
-        # Save visualization
-        plt.savefig(output_file, bbox_inches='tight', pad_inches=0.5)
+        # Save with high quality
+        plt.savefig(output_file, bbox_inches='tight', pad_inches=0.5, dpi=300, facecolor='white')
         plt.close(fig)
         logger.info(f"✅ Enhanced visualization saved to {output_file}")
         
         return output_file
         
     except Exception as e:
-        logger.error(f"❌ Error creating enhanced visualization: {e}")
+        logger.error(f"❌ Error creating visualization: {e}")
         return None
 
+    
 def save_results_metadata(result, output_dir, logger):
     """🆕 ENHANCED: Save detailed results metadata với Bounding Box support"""
     try:

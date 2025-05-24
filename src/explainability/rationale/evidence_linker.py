@@ -197,11 +197,19 @@ class EvidenceLinker:
             }
             
             # Localization precision metrics
-            bbox_evidence['localization_precision'] = {
-                'average_region_size': np.mean([r['relative_size'] for r in sorted_regions[:5]]),
-                'size_variance': np.var([r['relative_size'] for r in sorted_regions[:5]]),
-                'precision_score': self._calculate_localization_precision(sorted_regions)
-            }
+            all_processed_regions = bbox_evidence['primary_regions'] + bbox_evidence['secondary_regions']
+            if all_processed_regions:
+                bbox_evidence['localization_precision'] = {
+                    'average_region_size': np.mean([r['relative_size'] for r in all_processed_regions[:5]]),
+                    'size_variance': np.var([r['relative_size'] for r in all_processed_regions[:5]]) if len(all_processed_regions) > 1 else 0.0,
+                    'precision_score': self._calculate_localization_precision(sorted_regions)
+                }
+            else:
+                bbox_evidence['localization_precision'] = {
+                    'average_region_size': 0.0,
+                    'size_variance': 0.0,
+                    'precision_score': 0.0
+                }
             
             # Region characteristics
             primary_region = sorted_regions[0]
