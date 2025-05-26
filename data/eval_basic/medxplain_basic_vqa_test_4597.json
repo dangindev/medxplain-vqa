@@ -1,0 +1,15 @@
+{
+  "sample_id": "test_4597",
+  "processing_mode": "basic_vqa",
+  "success": true,
+  "image_path": "data/images/test/test_4597.jpg",
+  "question": "what does this image show?",
+  "ground_truth": "rib with obvious focal lesion squamous cell carcinoma primary in penis",
+  "blip_answer": "yes",
+  "unified_answer": "This image shows a segment of resected rib with an attached, expansile,  tan-white mass.  Areas of hemorrhage are also visible.  The gross appearance is suggestive of a neoplasm, possibly a chondrosarcoma. Microscopic examination and further workup would be required for a definitive diagnosis.\n",
+  "processing_steps": [
+    "BLIP inference",
+    "Gemini enhancement"
+  ],
+  "error_messages": []
+}

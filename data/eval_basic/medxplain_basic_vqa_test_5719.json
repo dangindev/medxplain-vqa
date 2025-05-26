@@ -1,0 +1,15 @@
+{
+  "sample_id": "test_5719",
+  "processing_mode": "basic_vqa",
+  "success": true,
+  "image_path": "data/images/test/test_5719.jpg",
+  "question": "where is this?",
+  "ground_truth": "lung",
+  "blip_answer": "yes",
+  "unified_answer": "This appears to be a gross pathology specimen of a lung, demonstrating diffuse areas of hemorrhage and consolidation, possibly consistent with pneumonia.  There is also a suggestion of a cavitary lesion near the hilum.\n",
+  "processing_steps": [
+    "BLIP inference",
+    "Gemini enhancement"
+  ],
+  "error_messages": []
+}

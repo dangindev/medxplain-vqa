@@ -1,0 +1,15 @@
+{
+  "sample_id": "test_1716",
+  "processing_mode": "basic_vqa",
+  "success": true,
+  "image_path": "data/images/test/test_1716.jpg",
+  "question": "what is present?",
+  "ground_truth": "hemochromatosis",
+  "blip_answer": "no",
+  "unified_answer": "This image shows sections of pancreatic tissue with areas of acinar atrophy and fatty replacement.  \n",
+  "processing_steps": [
+    "BLIP inference",
+    "Gemini enhancement"
+  ],
+  "error_messages": []
+}

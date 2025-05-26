@@ -1,0 +1,110 @@
+{
+  "sample_id": "test_5771",
+  "processing_mode": "explainable_vqa",
+  "success": true,
+  "image_path": "data/images/test/test_5771.jpg",
+  "question": "was talc used to sclerose emphysematous lung, alpha-1 antitrypsin deficiency?",
+  "ground_truth": "yes",
+  "blip_answer": "no",
+  "unified_answer": "This image shows a liver biopsy with pigmented Kupffer cells, likely containing hemosiderin.  The question regarding talc pleurodesis and emphysema is irrelevant as this is not a chest image but a liver biopsy.  No features of talc pleurodesis, pleural thickening, or calcification are present.\n",
+  "processing_steps": [
+    "BLIP inference",
+    "Query reformulation",
+    "Enhanced Grad-CAM attention",
+    "Chain-of-Thought reasoning",
+    "Enhanced unified answer generation"
+  ],
+  "error_messages": [],
+  "chain_of_thought_enabled": true,
+  "reformulated_question": "Given this chest image showing [describe specific visual features, e.g., hyperlucent lung fields, flattened diaphragms, bullae in the middle right lung zone, etc.], can we observe any radiographic signs suggestive of talc pleurodesis, such as pleural thickening or calcification, that might have been performed for management of emphysema, potentially related to alpha-1 antitrypsin deficiency?",
+  "reformulation_quality": 0.8,
+  "grad_cam_available": true,
+  "bbox_enabled": false,
+  "grad_cam_mode": "basic",
+  "bbox_regions_count": 5,
+  "bounding_box_analysis": {
+    "total_regions": 5,
+    "average_attention_score": 1.0,
+    "max_attention_score": 1.0,
+    "regions_details": [
+      {
+        "rank": 1,
+        "bbox": [
+          -11,
+          49,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          0,
+          60
+        ]
+      },
+      {
+        "rank": 2,
+        "bbox": [
+          -10,
+          49,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          1,
+          60
+        ]
+      },
+      {
+        "rank": 3,
+        "bbox": [
+          -9,
+          49,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          2,
+          60
+        ]
+      },
+      {
+        "rank": 4,
+        "bbox": [
+          -8,
+          49,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          3,
+          60
+        ]
+      },
+      {
+        "rank": 5,
+        "bbox": [
+          -7,
+          49,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          4,
+          60
+        ]
+      }
+    ]
+  },
+  "reasoning_analysis": {
+    "reasoning_confidence": 0.8573125678156895,
+    "reasoning_flow": "standard_diagnostic",
+    "reasoning_steps_count": 6,
+    "confidence_method": "weighted_harmonic_mean",
+    "validation_score": 0.0,
+    "validation_validity": false
+  }
+}

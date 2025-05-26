@@ -1,0 +1,101 @@
+{
+  "sample_id": "test_0204",
+  "processing_mode": "explainable_vqa",
+  "success": true,
+  "image_path": "data/images/test/test_0204.jpg",
+  "question": "what is present?",
+  "ground_truth": "retroperitoneum",
+  "blip_answer": "yes",
+  "unified_answer": "The image displays a resected liver specimen with a large, well-circumscribed mass. This mass is centrally located and exhibits a variegated appearance with areas of hemorrhage and necrosis intermixed with paler, potentially viable tumor tissue.  The surrounding liver parenchyma appears congested.  Further diagnostic workup would be needed to determine the specific nature of this mass.\n",
+  "processing_steps": [
+    "BLIP inference",
+    "Query reformulation",
+    "Enhanced Grad-CAM attention",
+    "Enhanced unified answer generation"
+  ],
+  "error_messages": [],
+  "chain_of_thought_enabled": false,
+  "reformulated_question": "Based on this 224x224 medical image with distributed attention, particularly in the middle center region and four secondary regions, what findings or structures are present? Describe any visible abnormalities, their location within the image (e.g., central, peripheral, upper, lower), and any other relevant visual characteristics (e.g., size, shape, density).?",
+  "reformulation_quality": 1.0,
+  "grad_cam_available": true,
+  "bbox_enabled": false,
+  "grad_cam_mode": "basic",
+  "bbox_regions_count": 5,
+  "bounding_box_analysis": {
+    "total_regions": 5,
+    "average_attention_score": 0.9677300930023194,
+    "max_attention_score": 1.0,
+    "regions_details": [
+      {
+        "rank": 1,
+        "bbox": [
+          170,
+          152,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          181,
+          163
+        ]
+      },
+      {
+        "rank": 2,
+        "bbox": [
+          105,
+          68,
+          22,
+          22
+        ],
+        "attention_score": 0.9966962337493896,
+        "center": [
+          116,
+          79
+        ]
+      },
+      {
+        "rank": 3,
+        "bbox": [
+          189,
+          86,
+          22,
+          22
+        ],
+        "attention_score": 0.9766316413879395,
+        "center": [
+          200,
+          97
+        ]
+      },
+      {
+        "rank": 4,
+        "bbox": [
+          96,
+          95,
+          22,
+          22
+        ],
+        "attention_score": 0.934603214263916,
+        "center": [
+          107,
+          106
+        ]
+      },
+      {
+        "rank": 5,
+        "bbox": [
+          199,
+          77,
+          22,
+          22
+        ],
+        "attention_score": 0.9307193756103516,
+        "center": [
+          210,
+          88
+        ]
+      }
+    ]
+  }
+}

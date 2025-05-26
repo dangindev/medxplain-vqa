@@ -1,0 +1,110 @@
+{
+  "sample_id": "test_0712",
+  "processing_mode": "explainable_vqa",
+  "success": true,
+  "image_path": "data/images/test/test_0712.jpg",
+  "question": "is cardiovascular present?",
+  "ground_truth": "yes",
+  "blip_answer": "yes",
+  "unified_answer": "This image shows a cross-section of the heart.  A portion of the left ventricle, including the interventricular septum and papillary muscles, is visible.  The myocardium appears hemorrhagic.  Due to the limited field of view, the atria, major vessels, and other mediastinal structures are not fully visualized, precluding a comprehensive assessment of cardiac size, shape, and position, as well as any potential abnormalities.  The image quality is adequate for identifying the basic structures described, but the restricted view limits a complete cardiovascular evaluation.  Further imaging is necessary for a more thorough analysis.\n",
+  "processing_steps": [
+    "BLIP inference",
+    "Query reformulation",
+    "Enhanced Grad-CAM attention",
+    "Chain-of-Thought reasoning",
+    "Enhanced unified answer generation"
+  ],
+  "error_messages": [],
+  "chain_of_thought_enabled": true,
+  "reformulated_question": "Based on this 224x224 image with distributed attention and focus in the middle center region, assess the presence and appearance of cardiovascular structures within the visible field. Specifically, evaluate the following:\n\n1. **Heart:** Examine the heart size, shape, and position.  Are the cardiac borders clearly defined?  Assess the visibility and clarity of the atria, ventricles, and major vessels (e.g., aorta, pulmonary artery, superior and inferior vena cava).  If visible, comment on the thickness of the myocardial walls.\n\n2. **Great Vessels:**  Evaluate the visibility and course of the aorta (including ascending, arch, and descending portions), pulmonary artery, and vena cavae.  Are there any apparent abnormalities in their caliber or branching pattern?\n\n3. **Mediastinum:**  Consider the position of the heart and great vessels within the mediastinum.  Is there any evidence of mediastinal widening or shift?\n\n4. **Lung Fields (if visible):**  If portions of the lung fields are visible, assess the pulmonary vasculature for any signs of congestion, enlargement, or other abnormalities.\n\n5. **Image Quality:**  Comment on the overall image quality, including resolution, contrast, and any artifacts that may impact the evaluation of cardiovascular structures.  Note any limitations imposed by the image size and field of view.\n\nBased on these observations, determine if the visualized cardiovascular structures appear normal or if there are any findings suggestive of pathology.?",
+  "reformulation_quality": 1.0,
+  "grad_cam_available": true,
+  "bbox_enabled": false,
+  "grad_cam_mode": "basic",
+  "bbox_regions_count": 5,
+  "bounding_box_analysis": {
+    "total_regions": 5,
+    "average_attention_score": 0.9582784295082092,
+    "max_attention_score": 1.0,
+    "regions_details": [
+      {
+        "rank": 1,
+        "bbox": [
+          189,
+          124,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          200,
+          135
+        ]
+      },
+      {
+        "rank": 2,
+        "bbox": [
+          170,
+          189,
+          22,
+          22
+        ],
+        "attention_score": 0.9849121570587158,
+        "center": [
+          181,
+          200
+        ]
+      },
+      {
+        "rank": 3,
+        "bbox": [
+          58,
+          161,
+          22,
+          22
+        ],
+        "attention_score": 0.9603821039199829,
+        "center": [
+          69,
+          172
+        ]
+      },
+      {
+        "rank": 4,
+        "bbox": [
+          78,
+          124,
+          22,
+          22
+        ],
+        "attention_score": 0.9351600408554077,
+        "center": [
+          89,
+          135
+        ]
+      },
+      {
+        "rank": 5,
+        "bbox": [
+          115,
+          86,
+          22,
+          22
+        ],
+        "attention_score": 0.9109378457069397,
+        "center": [
+          126,
+          97
+        ]
+      }
+    ]
+  },
+  "reasoning_analysis": {
+    "reasoning_confidence": 0.8818293268516388,
+    "reasoning_flow": "pathology_focused",
+    "reasoning_steps_count": 6,
+    "confidence_method": "weighted_geometric_mean",
+    "validation_score": 0.0,
+    "validation_validity": false
+  }
+}

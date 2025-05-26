@@ -1,0 +1,15 @@
+{
+  "sample_id": "test_5207",
+  "processing_mode": "basic_vqa",
+  "success": true,
+  "image_path": "data/images/test/test_5207.jpg",
+  "question": "does this image show pemphigus vulgaris?",
+  "ground_truth": "yes",
+  "blip_answer": "no",
+  "unified_answer": "This image shows a stratified squamous epithelium with elongated rete ridges.  While there is some clear separation/cleaving at the suprabasal layer in some areas, there is no evidence of acantholysis or the characteristic \"tombstoning\" of basal keratinocytes that would be expected in pemphigus vulgaris.  The findings are nonspecific and could be seen in a variety of conditions.\n",
+  "processing_steps": [
+    "BLIP inference",
+    "Gemini enhancement"
+  ],
+  "error_messages": []
+}

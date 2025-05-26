@@ -1,0 +1,101 @@
+{
+  "sample_id": "test_3100",
+  "processing_mode": "explainable_vqa",
+  "success": true,
+  "image_path": "data/images/test/test_3100.jpg",
+  "question": "is basilar skull fracture present?",
+  "ground_truth": "yes",
+  "blip_answer": "yes",
+  "unified_answer": "This image appears to show the cranial base from an inferior perspective.  While portions of the sphenoid bone, petrous temporal bones, and occipital bone are visible, the image quality and resolution are insufficient to confidently assess for basilar skull fractures.  It is difficult to clearly delineate subtle findings such as discontinuities in the cortical bone or displacement of bony landmarks.  The clivus and sella turcica are not adequately visualized.  Furthermore, the presence of blood and soft tissue obscures portions of the bony anatomy, further limiting evaluation.\n",
+  "processing_steps": [
+    "BLIP inference",
+    "Query reformulation",
+    "Enhanced Grad-CAM attention",
+    "Enhanced unified answer generation"
+  ],
+  "error_messages": [],
+  "chain_of_thought_enabled": false,
+  "reformulated_question": "Based on this 224x224 image, and considering its distributed attention across multiple regions with a primary focus in the middle center,  evaluate the visualized bony structures of the skull base for any evidence of fracture. Specifically, assess the integrity of the clivus, sphenoid bone (including the sella turcica), petrous temporal bones, and occipital bone around the foramen magnum.  Consider image quality and resolution when evaluating for subtle findings such as discontinuities in the cortical bone, air-fluid levels within the sinuses (if visualized), or displacement of bony landmarks. Describe any suspected fracture lines, their location, and any associated abnormalities.  If the image quality or visualized anatomy is insufficient to confidently assess for basilar skull fracture, explicitly state this limitation.?",
+  "reformulation_quality": 1.0,
+  "grad_cam_available": true,
+  "bbox_enabled": false,
+  "grad_cam_mode": "basic",
+  "bbox_regions_count": 5,
+  "bounding_box_analysis": {
+    "total_regions": 5,
+    "average_attention_score": 0.9442951679229736,
+    "max_attention_score": 1.0,
+    "regions_details": [
+      {
+        "rank": 1,
+        "bbox": [
+          106,
+          133,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          117,
+          144
+        ]
+      },
+      {
+        "rank": 2,
+        "bbox": [
+          143,
+          180,
+          22,
+          22
+        ],
+        "attention_score": 0.9393978118896484,
+        "center": [
+          154,
+          191
+        ]
+      },
+      {
+        "rank": 3,
+        "bbox": [
+          179,
+          86,
+          22,
+          22
+        ],
+        "attention_score": 0.9371019005775452,
+        "center": [
+          190,
+          97
+        ]
+      },
+      {
+        "rank": 4,
+        "bbox": [
+          105,
+          68,
+          22,
+          22
+        ],
+        "attention_score": 0.9263268113136292,
+        "center": [
+          116,
+          79
+        ]
+      },
+      {
+        "rank": 5,
+        "bbox": [
+          198,
+          152,
+          22,
+          22
+        ],
+        "attention_score": 0.9186493158340454,
+        "center": [
+          209,
+          163
+        ]
+      }
+    ]
+  }
+}

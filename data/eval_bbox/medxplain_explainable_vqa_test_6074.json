@@ -1,0 +1,101 @@
+{
+  "sample_id": "test_6074",
+  "processing_mode": "explainable_vqa",
+  "success": true,
+  "image_path": "data/images/test/test_6074.jpg",
+  "question": "what is present?",
+  "ground_truth": "demodex folliculorum",
+  "blip_answer": "yes",
+  "unified_answer": "This image shows a section of ovarian tissue, likely representing a corpus luteum.  The characteristic features seen are large, eosinophilic granulosa lutein cells arranged in cords and clusters.  There are also areas of what appear to be theca lutein cells, smaller and more densely packed.  A clear space, possibly representing an area of prior hemorrhage or follicular fluid resorption, is also visible.  The overall morphology is consistent with a corpus luteum.\n",
+  "processing_steps": [
+    "BLIP inference",
+    "Query reformulation",
+    "Enhanced Grad-CAM attention",
+    "Enhanced unified answer generation"
+  ],
+  "error_messages": [],
+  "chain_of_thought_enabled": false,
+  "reformulated_question": "In this 224x224 medical image, with particular focus on the lower right quadrant and several other secondary regions of interest, what findings are present?",
+  "reformulation_quality": 0.8,
+  "grad_cam_available": true,
+  "bbox_enabled": false,
+  "grad_cam_mode": "basic",
+  "bbox_regions_count": 5,
+  "bounding_box_analysis": {
+    "total_regions": 5,
+    "average_attention_score": 0.7066710472106934,
+    "max_attention_score": 1.0,
+    "regions_details": [
+      {
+        "rank": 1,
+        "bbox": [
+          86,
+          115,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          97,
+          126
+        ]
+      },
+      {
+        "rank": 2,
+        "bbox": [
+          77,
+          40,
+          22,
+          22
+        ],
+        "attention_score": 0.666547417640686,
+        "center": [
+          88,
+          51
+        ]
+      },
+      {
+        "rank": 3,
+        "bbox": [
+          96,
+          2,
+          22,
+          22
+        ],
+        "attention_score": 0.6437710523605347,
+        "center": [
+          107,
+          13
+        ]
+      },
+      {
+        "rank": 4,
+        "bbox": [
+          96,
+          3,
+          22,
+          22
+        ],
+        "attention_score": 0.6437710523605347,
+        "center": [
+          107,
+          14
+        ]
+      },
+      {
+        "rank": 5,
+        "bbox": [
+          115,
+          12,
+          22,
+          22
+        ],
+        "attention_score": 0.5792657136917114,
+        "center": [
+          126,
+          23
+        ]
+      }
+    ]
+  }
+}

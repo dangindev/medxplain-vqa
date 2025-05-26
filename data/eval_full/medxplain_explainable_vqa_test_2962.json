@@ -1,0 +1,110 @@
+{
+  "sample_id": "test_2962",
+  "processing_mode": "explainable_vqa",
+  "success": true,
+  "image_path": "data/images/test/test_2962.jpg",
+  "question": "is gastrointestinal present?",
+  "ground_truth": "yes",
+  "blip_answer": "no",
+  "unified_answer": "No gastrointestinal structures (esophagus, stomach, duodenum, small or large bowel) are definitively visualized in this image. The resolution and lack of clear anatomical landmarks preclude identification.\n",
+  "processing_steps": [
+    "BLIP inference",
+    "Query reformulation",
+    "Enhanced Grad-CAM attention",
+    "Chain-of-Thought reasoning",
+    "Enhanced unified answer generation"
+  ],
+  "error_messages": [],
+  "chain_of_thought_enabled": true,
+  "reformulated_question": "Based on this 224x224 image with distributed attention, primarily in the upper left quadrant, and eight secondary attention regions, are any of the following gastrointestinal structures clearly visualized and identifiable: esophagus, stomach, duodenum, small bowel (including jejunum and ileum), large bowel (including cecum, ascending, transverse, descending, and sigmoid colon, and rectum)?  Specifically, assess the upper left quadrant for the presence of these structures.  Consider image quality and resolution when evaluating visibility.  If the stomach is potentially visualized, use anatomical landmarks such as the gastroesophageal junction and pylorus to confirm its identity.  Similarly, if the duodenum is suspected, look for its relationship to the head of the pancreas.  For the small and large bowel, evaluate for characteristic features such as haustra (large bowel) and plicae circulares (small bowel), if discernible given the image resolution.  Describe the location and appearance of any identified GI structures. If no GI structures are clearly visualized, state that as the finding.?",
+  "reformulation_quality": 1.0,
+  "grad_cam_available": true,
+  "bbox_enabled": false,
+  "grad_cam_mode": "basic",
+  "bbox_regions_count": 5,
+  "bounding_box_analysis": {
+    "total_regions": 5,
+    "average_attention_score": 0.8879291653633118,
+    "max_attention_score": 1.0,
+    "regions_details": [
+      {
+        "rank": 1,
+        "bbox": [
+          21,
+          58,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          32,
+          69
+        ]
+      },
+      {
+        "rank": 2,
+        "bbox": [
+          180,
+          143,
+          22,
+          22
+        ],
+        "attention_score": 0.8721822500228882,
+        "center": [
+          191,
+          154
+        ]
+      },
+      {
+        "rank": 3,
+        "bbox": [
+          161,
+          161,
+          22,
+          22
+        ],
+        "attention_score": 0.8673962950706482,
+        "center": [
+          172,
+          172
+        ]
+      },
+      {
+        "rank": 4,
+        "bbox": [
+          -11,
+          68,
+          22,
+          22
+        ],
+        "attention_score": 0.8500336408615112,
+        "center": [
+          0,
+          79
+        ]
+      },
+      {
+        "rank": 5,
+        "bbox": [
+          -10,
+          68,
+          22,
+          22
+        ],
+        "attention_score": 0.8500336408615112,
+        "center": [
+          1,
+          79
+        ]
+      }
+    ]
+  },
+  "reasoning_analysis": {
+    "reasoning_confidence": 0.8981608579160874,
+    "reasoning_flow": "attention_guided",
+    "reasoning_steps_count": 6,
+    "confidence_method": "confidence_cascade",
+    "validation_score": 0.0,
+    "validation_validity": false
+  }
+}

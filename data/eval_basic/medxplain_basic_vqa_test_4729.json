@@ -1,0 +1,15 @@
+{
+  "sample_id": "test_4729",
+  "processing_mode": "basic_vqa",
+  "success": true,
+  "image_path": "data/images/test/test_4729.jpg",
+  "question": "what does this image show?",
+  "ground_truth": "tracheotomy site",
+  "blip_answer": "no",
+  "unified_answer": "This image shows a tissue section with a dense inflammatory infiltrate composed predominantly of lymphocytes and plasma cells, along with scattered eosinophils.  There are also interspersed blood vessels.  This appearance is consistent with chronic inflammation.  Further clinical information and special stains would be needed for a more specific diagnosis.\n",
+  "processing_steps": [
+    "BLIP inference",
+    "Gemini enhancement"
+  ],
+  "error_messages": []
+}

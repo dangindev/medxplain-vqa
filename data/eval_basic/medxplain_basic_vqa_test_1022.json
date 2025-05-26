@@ -1,0 +1,15 @@
+{
+  "sample_id": "test_1022",
+  "processing_mode": "basic_vqa",
+  "success": true,
+  "image_path": "data/images/test/test_1022.jpg",
+  "question": "is very good example present?",
+  "ground_truth": "no",
+  "blip_answer": "no",
+  "unified_answer": "This image shows a cross-section of a blood vessel, likely an artery, with marked intimal thickening and luminal narrowing.  The thickening appears composed of fibrous tissue.  Without further clinical information or special stains, a specific diagnosis cannot be made from this image alone.\n",
+  "processing_steps": [
+    "BLIP inference",
+    "Gemini enhancement"
+  ],
+  "error_messages": []
+}

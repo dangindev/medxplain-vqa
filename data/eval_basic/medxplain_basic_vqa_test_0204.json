@@ -1,0 +1,15 @@
+{
+  "sample_id": "test_0204",
+  "processing_mode": "basic_vqa",
+  "success": true,
+  "image_path": "data/images/test/test_0204.jpg",
+  "question": "what is present?",
+  "ground_truth": "retroperitoneum",
+  "blip_answer": "yes",
+  "unified_answer": "This image shows a liver with a large, well-circumscribed mass. The mass exhibits a heterogeneous appearance with areas of hemorrhage and necrosis. The surrounding liver parenchyma appears congested.  Further investigation, including microscopy, would be needed for a definitive diagnosis.\n",
+  "processing_steps": [
+    "BLIP inference",
+    "Gemini enhancement"
+  ],
+  "error_messages": []
+}

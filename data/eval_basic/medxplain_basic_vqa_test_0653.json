@@ -1,0 +1,15 @@
+{
+  "sample_id": "test_0653",
+  "processing_mode": "basic_vqa",
+  "success": true,
+  "image_path": "data/images/test/test_0653.jpg",
+  "question": "is conjoined twins present?",
+  "ground_truth": "no",
+  "blip_answer": "no",
+  "unified_answer": "No, conjoined twins are not present. This image shows a microscopic view of a reticulin stain, likely of a tissue sample.  The staining pattern highlights the reticulin fibers, which form a supporting network within tissues.  There are no discernible fetal or embryonic structures.\n",
+  "processing_steps": [
+    "BLIP inference",
+    "Gemini enhancement"
+  ],
+  "error_messages": []
+}

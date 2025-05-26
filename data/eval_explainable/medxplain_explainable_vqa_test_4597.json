@@ -1,0 +1,101 @@
+{
+  "sample_id": "test_4597",
+  "processing_mode": "explainable_vqa",
+  "success": true,
+  "image_path": "data/images/test/test_4597.jpg",
+  "question": "what does this image show?",
+  "ground_truth": "rib with obvious focal lesion squamous cell carcinoma primary in penis",
+  "blip_answer": "yes",
+  "unified_answer": "The primary area of interest shows a segment of bone with an apparent fracture and associated hemorrhage and soft tissue disruption.  The surrounding areas demonstrate further hemorrhage and soft tissue changes, likely related to the traumatic event that caused the fracture.\n",
+  "processing_steps": [
+    "BLIP inference",
+    "Query reformulation",
+    "Enhanced Grad-CAM attention",
+    "Enhanced unified answer generation"
+  ],
+  "error_messages": [],
+  "chain_of_thought_enabled": false,
+  "reformulated_question": "This 224x224 medical image demonstrates distributed attention across multiple regions.  The primary focus appears in the middle left portion of the image. Five secondary regions of attention are also evident.  What findings are present in the primary region of interest, and what is the relationship, if any, between the primary and secondary regions of attention based on the visual features present?",
+  "reformulation_quality": 0.8,
+  "grad_cam_available": true,
+  "bbox_enabled": false,
+  "grad_cam_mode": "basic",
+  "bbox_regions_count": 5,
+  "bounding_box_analysis": {
+    "total_regions": 5,
+    "average_attention_score": 0.9887245178222657,
+    "max_attention_score": 1.0,
+    "regions_details": [
+      {
+        "rank": 1,
+        "bbox": [
+          49,
+          124,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          60,
+          135
+        ]
+      },
+      {
+        "rank": 2,
+        "bbox": [
+          -11,
+          133,
+          22,
+          22
+        ],
+        "attention_score": 0.985905647277832,
+        "center": [
+          0,
+          144
+        ]
+      },
+      {
+        "rank": 3,
+        "bbox": [
+          -10,
+          133,
+          22,
+          22
+        ],
+        "attention_score": 0.985905647277832,
+        "center": [
+          1,
+          144
+        ]
+      },
+      {
+        "rank": 4,
+        "bbox": [
+          -9,
+          133,
+          22,
+          22
+        ],
+        "attention_score": 0.985905647277832,
+        "center": [
+          2,
+          144
+        ]
+      },
+      {
+        "rank": 5,
+        "bbox": [
+          -8,
+          133,
+          22,
+          22
+        ],
+        "attention_score": 0.985905647277832,
+        "center": [
+          3,
+          144
+        ]
+      }
+    ]
+  }
+}

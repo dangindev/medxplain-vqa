@@ -1,0 +1,110 @@
+{
+  "sample_id": "test_4375",
+  "processing_mode": "explainable_vqa",
+  "success": true,
+  "image_path": "data/images/test/test_4375.jpg",
+  "question": "does side show lymph nodes, nodular sclerosing hodgkins disease?",
+  "ground_truth": "no",
+  "blip_answer": "no",
+  "unified_answer": "This image shows a section of tissue on H&E stain. There is a population of cells with prominent nucleoli distributed throughout the image.  Features consistent with nodular sclerosing Hodgkin's disease, such as lacunar cells or bands of collagen, are not identified in this image.  Therefore, this diagnosis cannot be made based on the provided visual evidence.\n",
+  "processing_steps": [
+    "BLIP inference",
+    "Query reformulation",
+    "Enhanced Grad-CAM attention",
+    "Chain-of-Thought reasoning",
+    "Enhanced unified answer generation"
+  ],
+  "error_messages": [],
+  "chain_of_thought_enabled": true,
+  "reformulated_question": "This image shows [describe the imaging modality, e.g., a section of a lymph node on H&E stain, a region from a CT scan, etc.].  There is a [describe the dominant visual feature, e.g., nodular structure, cellular infiltrate, area of increased density, etc.] in the [describe the location within the image, e.g., middle left of the image, within the capsule, etc.].  Can features consistent with nodular sclerosing Hodgkin's disease, such as lacunar cells or bands of collagen, be identified in this image?",
+  "reformulation_quality": 1.0,
+  "grad_cam_available": true,
+  "bbox_enabled": false,
+  "grad_cam_mode": "basic",
+  "bbox_regions_count": 5,
+  "bounding_box_analysis": {
+    "total_regions": 5,
+    "average_attention_score": 0.9982595920562745,
+    "max_attention_score": 1.0,
+    "regions_details": [
+      {
+        "rank": 1,
+        "bbox": [
+          68,
+          22,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          79,
+          33
+        ]
+      },
+      {
+        "rank": 2,
+        "bbox": [
+          49,
+          -11,
+          22,
+          22
+        ],
+        "attention_score": 0.997824490070343,
+        "center": [
+          60,
+          0
+        ]
+      },
+      {
+        "rank": 3,
+        "bbox": [
+          49,
+          -10,
+          22,
+          22
+        ],
+        "attention_score": 0.997824490070343,
+        "center": [
+          60,
+          1
+        ]
+      },
+      {
+        "rank": 4,
+        "bbox": [
+          49,
+          -9,
+          22,
+          22
+        ],
+        "attention_score": 0.997824490070343,
+        "center": [
+          60,
+          2
+        ]
+      },
+      {
+        "rank": 5,
+        "bbox": [
+          49,
+          -8,
+          22,
+          22
+        ],
+        "attention_score": 0.997824490070343,
+        "center": [
+          60,
+          3
+        ]
+      }
+    ]
+  },
+  "reasoning_analysis": {
+    "reasoning_confidence": 0.8972909963570033,
+    "reasoning_flow": "standard_diagnostic",
+    "reasoning_steps_count": 6,
+    "confidence_method": "weighted_harmonic_mean",
+    "validation_score": 0.0,
+    "validation_validity": false
+  }
+}

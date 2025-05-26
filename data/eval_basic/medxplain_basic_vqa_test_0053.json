@@ -1,0 +1,15 @@
+{
+  "sample_id": "test_0053",
+  "processing_mode": "basic_vqa",
+  "success": true,
+  "image_path": "data/images/test/test_0053.jpg",
+  "question": "what is the end of the long bone expanded in?",
+  "ground_truth": "region of epiphysis",
+  "blip_answer": "yes",
+  "unified_answer": "The end of the long bone is expanded into a structure resembling a metaphysis, which appears to contain trabecular (spongy) bone.\n",
+  "processing_steps": [
+    "BLIP inference",
+    "Gemini enhancement"
+  ],
+  "error_messages": []
+}

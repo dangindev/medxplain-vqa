@@ -1,0 +1,363 @@
+{
+  "evaluation_results": {
+    "basic": {
+      "total_samples": 5,
+      "successful_samples": 5,
+      "success_rate": 1.0,
+      "answer_relevance": {
+        "mean": 0.12,
+        "std": 0.14696938456699069,
+        "scores": [
+          0.3,
+          0.0,
+          0.0,
+          0.3,
+          0.0
+        ]
+      },
+      "semantic_similarity": {
+        "mean": 0.32596280574798586,
+        "std": 0.14234541830126168,
+        "scores": [
+          0.4642476439476013,
+          0.481941819190979,
+          0.10469453036785126,
+          0.3453001081943512,
+          0.23362992703914642
+        ]
+      },
+      "clinical_accuracy": {
+        "mean": 0.44000000000000006,
+        "std": 0.332264954516723,
+        "scores": [
+          0.1,
+          0.5,
+          1.0,
+          0.1,
+          0.5
+        ]
+      },
+      "reformulation_quality": {
+        "mean": 0,
+        "std": 0,
+        "count": 0
+      },
+      "attention_metrics": {
+        "bbox_detection_rate": 0.0,
+        "avg_regions_per_image": 0,
+        "avg_attention_score": 0,
+        "max_attention_score": 0,
+        "total_images_with_bbox": 0
+      },
+      "reasoning_metrics": {
+        "reasoning_usage_rate": 0.0,
+        "avg_reasoning_confidence": 0,
+        "avg_reasoning_steps": 0,
+        "reasoning_flow_distribution": {},
+        "total_with_reasoning": 0
+      }
+    },
+    "explainable": {
+      "total_samples": 5,
+      "successful_samples": 5,
+      "success_rate": 1.0,
+      "answer_relevance": {
+        "mean": 0.12,
+        "std": 0.14696938456699069,
+        "scores": [
+          0.3,
+          0.0,
+          0.0,
+          0.3,
+          0.0
+        ]
+      },
+      "semantic_similarity": {
+        "mean": 0.2953107237815857,
+        "std": 0.15759312219295235,
+        "scores": [
+          0.27465179562568665,
+          0.22100001573562622,
+          0.050436973571777344,
+          0.481344074010849,
+          0.44912075996398926
+        ]
+      },
+      "clinical_accuracy": {
+        "mean": 0.34,
+        "std": 0.19595917942265423,
+        "scores": [
+          0.1,
+          0.5,
+          0.5,
+          0.1,
+          0.5
+        ]
+      },
+      "reformulation_quality": {
+        "mean": 0.96,
+        "std": 0.07999999999999999,
+        "count": 5
+      },
+      "attention_metrics": {
+        "bbox_detection_rate": 1.0,
+        "avg_regions_per_image": 5.0,
+        "avg_attention_score": 0.9023295974731445,
+        "max_attention_score": 1.0,
+        "total_images_with_bbox": 5
+      },
+      "reasoning_metrics": {
+        "reasoning_usage_rate": 0.0,
+        "avg_reasoning_confidence": 0,
+        "avg_reasoning_steps": 0,
+        "reasoning_flow_distribution": {},
+        "total_with_reasoning": 0
+      }
+    },
+    "explainable_bbox": {
+      "total_samples": 5,
+      "successful_samples": 5,
+      "success_rate": 1.0,
+      "answer_relevance": {
+        "mean": 0.13999999999999999,
+        "std": 0.17435595774162696,
+        "scores": [
+          0.3,
+          0.0,
+          0.0,
+          0.4,
+          0.0
+        ]
+      },
+      "semantic_similarity": {
+        "mean": 0.3536121889948845,
+        "std": 0.17996024102223798,
+        "scores": [
+          0.3778237998485565,
+          0.249571293592453,
+          0.07780881971120834,
+          0.6063048839569092,
+          0.4565521478652954
+        ]
+      },
+      "clinical_accuracy": {
+        "mean": 0.62,
+        "std": 0.34292856398964494,
+        "scores": [
+          0.1,
+          0.5,
+          1.0,
+          1.0,
+          0.5
+        ]
+      },
+      "reformulation_quality": {
+        "mean": 0.96,
+        "std": 0.07999999999999999,
+        "count": 5
+      },
+      "attention_metrics": {
+        "bbox_detection_rate": 1.0,
+        "avg_regions_per_image": 5.0,
+        "avg_attention_score": 0.9023295974731445,
+        "max_attention_score": 1.0,
+        "total_images_with_bbox": 5
+      },
+      "reasoning_metrics": {
+        "reasoning_usage_rate": 0.0,
+        "avg_reasoning_confidence": 0,
+        "avg_reasoning_steps": 0,
+        "reasoning_flow_distribution": {},
+        "total_with_reasoning": 0
+      }
+    },
+    "enhanced": {
+      "total_samples": 5,
+      "successful_samples": 5,
+      "success_rate": 1.0,
+      "answer_relevance": {
+        "mean": 0.12,
+        "std": 0.14696938456699069,
+        "scores": [
+          0.3,
+          0.0,
+          0.0,
+          0.3,
+          0.0
+        ]
+      },
+      "semantic_similarity": {
+        "mean": 0.2767352879047394,
+        "std": 0.13216569899227437,
+        "scores": [
+          0.3514058291912079,
+          0.22194679081439972,
+          0.06563328206539154,
+          0.4615495204925537,
+          0.28314101696014404
+        ]
+      },
+      "clinical_accuracy": {
+        "mean": 0.44000000000000006,
+        "std": 0.17435595774162693,
+        "scores": [
+          0.1,
+          0.5,
+          0.5,
+          0.6,
+          0.5
+        ]
+      },
+      "reformulation_quality": {
+        "mean": 0.9199999999999999,
+        "std": 0.0979795897113271,
+        "count": 5
+      },
+      "attention_metrics": {
+        "bbox_detection_rate": 1.0,
+        "avg_regions_per_image": 5.0,
+        "avg_attention_score": 0.9023295974731445,
+        "max_attention_score": 1.0,
+        "total_images_with_bbox": 5
+      },
+      "reasoning_metrics": {
+        "reasoning_usage_rate": 1.0,
+        "avg_reasoning_confidence": 0.8923735707642626,
+        "avg_reasoning_steps": 6.0,
+        "reasoning_flow_distribution": {
+          "attention_guided": 3,
+          "comparative_analysis": 1,
+          "pathology_focused": 1
+        },
+        "total_with_reasoning": 5
+      }
+    },
+    "enhanced_bbox": {
+      "total_samples": 5,
+      "successful_samples": 5,
+      "success_rate": 1.0,
+      "answer_relevance": {
+        "mean": 0.12,
+        "std": 0.14696938456699069,
+        "scores": [
+          0.3,
+          0.0,
+          0.0,
+          0.3,
+          0.0
+        ]
+      },
+      "semantic_similarity": {
+        "mean": 0.3130878426134586,
+        "std": 0.16132354473088056,
+        "scores": [
+          0.34782874584198,
+          0.22117236256599426,
+          0.051351357251405716,
+          0.49613282084465027,
+          0.44895392656326294
+        ]
+      },
+      "clinical_accuracy": {
+        "mean": 0.44000000000000006,
+        "std": 0.17435595774162693,
+        "scores": [
+          0.1,
+          0.5,
+          0.5,
+          0.6,
+          0.5
+        ]
+      },
+      "reformulation_quality": {
+        "mean": 0.9199999999999999,
+        "std": 0.09797958971132709,
+        "count": 5
+      },
+      "attention_metrics": {
+        "bbox_detection_rate": 1.0,
+        "avg_regions_per_image": 5.0,
+        "avg_attention_score": 0.9023295974731445,
+        "max_attention_score": 1.0,
+        "total_images_with_bbox": 5
+      },
+      "reasoning_metrics": {
+        "reasoning_usage_rate": 1.0,
+        "avg_reasoning_confidence": 0.8948945517031976,
+        "avg_reasoning_steps": 6.0,
+        "reasoning_flow_distribution": {
+          "attention_guided": 4,
+          "pathology_focused": 1
+        },
+        "total_with_reasoning": 5
+      }
+    }
+  },
+  "baseline_results": {
+    "total_samples": 5,
+    "avg_similarity": 0.218097123503685,
+    "std_similarity": 0.25948389589061305
+  },
+  "summary_table": [
+    {
+      "Method": "BLIP-only",
+      "Success Rate (%)": "100.0",
+      "Answer Relevance": "\u2014",
+      "Semantic Similarity": "0.218",
+      "Clinical Accuracy": "\u2014",
+      "Query Quality": "\u2014",
+      "Attention Score": "\u2014",
+      "Reasoning Conf.": "\u2014"
+    },
+    {
+      "Method": "Basic",
+      "Success Rate (%)": "100.0",
+      "Answer Relevance": "0.120",
+      "Semantic Similarity": "0.326",
+      "Clinical Accuracy": "0.440",
+      "Query Quality": "\u2014",
+      "Attention Score": "\u2014",
+      "Reasoning Conf.": "\u2014"
+    },
+    {
+      "Method": "Explainable",
+      "Success Rate (%)": "100.0",
+      "Answer Relevance": "0.120",
+      "Semantic Similarity": "0.295",
+      "Clinical Accuracy": "0.340",
+      "Query Quality": "0.960",
+      "Attention Score": "0.902",
+      "Reasoning Conf.": "\u2014"
+    },
+    {
+      "Method": "ExplainableBBox",
+      "Success Rate (%)": "100.0",
+      "Answer Relevance": "0.140",
+      "Semantic Similarity": "0.354",
+      "Clinical Accuracy": "0.620",
+      "Query Quality": "0.960",
+      "Attention Score": "0.902",
+      "Reasoning Conf.": "\u2014"
+    },
+    {
+      "Method": "Enhanced",
+      "Success Rate (%)": "100.0",
+      "Answer Relevance": "0.120",
+      "Semantic Similarity": "0.277",
+      "Clinical Accuracy": "0.440",
+      "Query Quality": "0.920",
+      "Attention Score": "0.902",
+      "Reasoning Conf.": "0.892"
+    },
+    {
+      "Method": "Full",
+      "Success Rate (%)": "100.0",
+      "Answer Relevance": "0.120",
+      "Semantic Similarity": "0.313",
+      "Clinical Accuracy": "0.440",
+      "Query Quality": "0.920",
+      "Attention Score": "0.902",
+      "Reasoning Conf.": "0.895"
+    }
+  ]
+}

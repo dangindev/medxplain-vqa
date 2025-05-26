@@ -1,0 +1,15 @@
+{
+  "sample_id": "test_4392",
+  "processing_mode": "basic_vqa",
+  "success": true,
+  "image_path": "data/images/test/test_4392.jpg",
+  "question": "does capillary show lymph node, mycobacterium avium-intracellularae?",
+  "ground_truth": "no",
+  "blip_answer": "no",
+  "unified_answer": "This image shows a diffuse infiltrate of small lymphocytes.  There is no evidence of granulomas or other findings suggestive of mycobacterium avium-intracellulare infection.  While the image likely represents lymphoid tissue, definitive identification of a lymph node requires architectural features not visible at this magnification.\n",
+  "processing_steps": [
+    "BLIP inference",
+    "Gemini enhancement"
+  ],
+  "error_messages": []
+}

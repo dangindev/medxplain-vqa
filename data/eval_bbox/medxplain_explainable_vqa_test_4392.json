@@ -1,0 +1,101 @@
+{
+  "sample_id": "test_4392",
+  "processing_mode": "explainable_vqa",
+  "success": true,
+  "image_path": "data/images/test/test_4392.jpg",
+  "question": "does capillary show lymph node, mycobacterium avium-intracellularae?",
+  "ground_truth": "no",
+  "blip_answer": "no",
+  "unified_answer": "The image shows a relatively uniform field of spindle-shaped and ovoid cells with interspersed small, dark nuclei.  While some elongated structures are present, they lack the definitive features of capillaries, such as a clear lumen and endothelial lining.  There are no granulomas, acid-fast bacilli, lymphoid follicles, or a capsule evident, making a diagnosis of a lymph node or infection with *Mycobacterium avium-intracellulare* (MAI) unsupported by the provided image.\n",
+  "processing_steps": [
+    "BLIP inference",
+    "Query reformulation",
+    "Enhanced Grad-CAM attention",
+    "Enhanced unified answer generation"
+  ],
+  "error_messages": [],
+  "chain_of_thought_enabled": false,
+  "reformulated_question": "This image appears to show a microscopic view, possibly of tissue.  In the lower left quadrant, there is a structure [describe the structure with visual details, e.g., \"with a dense, irregular border\" or \"containing numerous small, dark ovoid shapes\"]. Can this structure be identified as a capillary?  Furthermore, are there any visual features present in this image, particularly within or around this structure, suggestive of a lymph node or the presence of *Mycobacterium avium-intracellulare* (MAI), such as [mention specific visual cues one might expect for MAI, e.g., \"granulomas,\" \"acid-fast bacilli,\" or for lymph nodes, e.g., \"lymphoid follicles,\" \"a capsule\"]?",
+  "reformulation_quality": 1.0,
+  "grad_cam_available": true,
+  "bbox_enabled": false,
+  "grad_cam_mode": "basic",
+  "bbox_regions_count": 5,
+  "bounding_box_analysis": {
+    "total_regions": 5,
+    "average_attention_score": 1.0,
+    "max_attention_score": 1.0,
+    "regions_details": [
+      {
+        "rank": 1,
+        "bbox": [
+          77,
+          -11,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          88,
+          0
+        ]
+      },
+      {
+        "rank": 2,
+        "bbox": [
+          77,
+          -10,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          88,
+          1
+        ]
+      },
+      {
+        "rank": 3,
+        "bbox": [
+          77,
+          -9,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          88,
+          2
+        ]
+      },
+      {
+        "rank": 4,
+        "bbox": [
+          77,
+          -8,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          88,
+          3
+        ]
+      },
+      {
+        "rank": 5,
+        "bbox": [
+          77,
+          -7,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          88,
+          4
+        ]
+      }
+    ]
+  }
+}

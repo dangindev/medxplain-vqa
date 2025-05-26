@@ -1,0 +1,110 @@
+{
+  "sample_id": "test_0584",
+  "processing_mode": "explainable_vqa",
+  "success": true,
+  "image_path": "data/images/test/test_0584.jpg",
+  "question": "what is present?",
+  "ground_truth": "vasculature",
+  "blip_answer": "no",
+  "unified_answer": "This electron micrograph shows a cross-section of a capillary.  The capillary lumen is clearly visible, surrounded by an endothelial cell.  Outside the endothelial cell, components of the basement membrane and surrounding connective tissue, including what appears to be a muscle cell process, are present.\n",
+  "processing_steps": [
+    "BLIP inference",
+    "Query reformulation",
+    "Enhanced Grad-CAM attention",
+    "Chain-of-Thought reasoning",
+    "Enhanced unified answer generation"
+  ],
+  "error_messages": [],
+  "chain_of_thought_enabled": true,
+  "reformulated_question": "In this 224x224 medical image, with particular attention drawn to the lower left quadrant, what findings are present?  Describe any observed features, including their location within the image and any potential anatomical correlations, based solely on the visual information provided.?",
+  "reformulation_quality": 1.0,
+  "grad_cam_available": true,
+  "bbox_enabled": false,
+  "grad_cam_mode": "basic",
+  "bbox_regions_count": 5,
+  "bounding_box_analysis": {
+    "total_regions": 5,
+    "average_attention_score": 0.964648449420929,
+    "max_attention_score": 1.0,
+    "regions_details": [
+      {
+        "rank": 1,
+        "bbox": [
+          11,
+          96,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          22,
+          107
+        ]
+      },
+      {
+        "rank": 2,
+        "bbox": [
+          49,
+          142,
+          22,
+          22
+        ],
+        "attention_score": 0.9883056282997131,
+        "center": [
+          60,
+          153
+        ]
+      },
+      {
+        "rank": 3,
+        "bbox": [
+          161,
+          189,
+          22,
+          22
+        ],
+        "attention_score": 0.9797917008399963,
+        "center": [
+          172,
+          200
+        ]
+      },
+      {
+        "rank": 4,
+        "bbox": [
+          189,
+          179,
+          22,
+          22
+        ],
+        "attention_score": 0.9332950711250305,
+        "center": [
+          200,
+          190
+        ]
+      },
+      {
+        "rank": 5,
+        "bbox": [
+          190,
+          171,
+          22,
+          22
+        ],
+        "attention_score": 0.9218498468399048,
+        "center": [
+          201,
+          182
+        ]
+      }
+    ]
+  },
+  "reasoning_analysis": {
+    "reasoning_confidence": 0.8981608579160874,
+    "reasoning_flow": "attention_guided",
+    "reasoning_steps_count": 6,
+    "confidence_method": "confidence_cascade",
+    "validation_score": 0.0,
+    "validation_validity": false
+  }
+}

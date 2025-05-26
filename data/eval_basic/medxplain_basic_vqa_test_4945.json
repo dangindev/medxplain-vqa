@@ -1,0 +1,15 @@
+{
+  "sample_id": "test_4945",
+  "processing_mode": "basic_vqa",
+  "success": true,
+  "image_path": "data/images/test/test_4945.jpg",
+  "question": "what is present?",
+  "ground_truth": "nervous",
+  "blip_answer": "no",
+  "unified_answer": "This image shows a coronal section of a brain demonstrating diffuse cerebral edema.  The gyri appear widened and flattened, and the sulci are narrowed.\n",
+  "processing_steps": [
+    "BLIP inference",
+    "Gemini enhancement"
+  ],
+  "error_messages": []
+}

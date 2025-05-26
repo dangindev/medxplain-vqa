@@ -1,0 +1,15 @@
+{
+  "sample_id": "test_3714",
+  "processing_mode": "basic_vqa",
+  "success": true,
+  "image_path": "data/images/test/test_3714.jpg",
+  "question": "is endocervical polyp present?",
+  "ground_truth": "no",
+  "blip_answer": "no",
+  "unified_answer": "This image shows a dense population of small, round cells consistent with hematopoietic cells, likely lymphocytes.  There is no evidence of endocervical polyp.\n",
+  "processing_steps": [
+    "BLIP inference",
+    "Gemini enhancement"
+  ],
+  "error_messages": []
+}

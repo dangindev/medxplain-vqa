@@ -1,0 +1,15 @@
+{
+  "sample_id": "test_5745",
+  "processing_mode": "basic_vqa",
+  "success": true,
+  "image_path": "data/images/test/test_5745.jpg",
+  "question": "does this image show lung, infarct, acute and organized?",
+  "ground_truth": "yes",
+  "blip_answer": "no",
+  "unified_answer": "This image shows a section of tissue with a dense inflammatory infiltrate, likely fibrinous, with some preserved underlying architecture.  It's difficult to definitively determine the organ or specific process without additional information or special stains. While there is an area of altered architecture, features of a classic acute or organized infarct, such as coagulative necrosis or granulation tissue, are not clearly identifiable.\n",
+  "processing_steps": [
+    "BLIP inference",
+    "Gemini enhancement"
+  ],
+  "error_messages": []
+}

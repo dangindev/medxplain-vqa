@@ -1,0 +1,110 @@
+{
+  "sample_id": "test_4837",
+  "processing_mode": "explainable_vqa",
+  "success": true,
+  "image_path": "data/images/test/test_4837.jpg",
+  "question": "what are gross and postmortx-rays of this lesion?",
+  "ground_truth": "7182 7183",
+  "blip_answer": "yes",
+  "unified_answer": "This radiograph shows the pelvis and proximal femurs.  It does not depict a skin lesion.  The image quality is suboptimal, but no obvious bony abnormalities or fractures are identified.  Further clinical information and potentially additional imaging would be required for a more definitive assessment.\n",
+  "processing_steps": [
+    "BLIP inference",
+    "Query reformulation",
+    "Enhanced Grad-CAM attention",
+    "Chain-of-Thought reasoning",
+    "Enhanced unified answer generation"
+  ],
+  "error_messages": [],
+  "chain_of_thought_enabled": true,
+  "reformulated_question": "This 224x224 pixel image appears to show a skin lesion.  What are the visual characteristics of this lesion, such as its size, shape, color, borders, and surface texture?  Are there any other notable features present in the image related to the lesion?",
+  "reformulation_quality": 1.0,
+  "grad_cam_available": true,
+  "bbox_enabled": false,
+  "grad_cam_mode": "basic",
+  "bbox_regions_count": 5,
+  "bounding_box_analysis": {
+    "total_regions": 5,
+    "average_attention_score": 0.9943325996398926,
+    "max_attention_score": 1.0,
+    "regions_details": [
+      {
+        "rank": 1,
+        "bbox": [
+          40,
+          68,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          51,
+          79
+        ]
+      },
+      {
+        "rank": 2,
+        "bbox": [
+          86,
+          208,
+          22,
+          22
+        ],
+        "attention_score": 0.9929157495498657,
+        "center": [
+          97,
+          219
+        ]
+      },
+      {
+        "rank": 3,
+        "bbox": [
+          86,
+          209,
+          22,
+          22
+        ],
+        "attention_score": 0.9929157495498657,
+        "center": [
+          97,
+          220
+        ]
+      },
+      {
+        "rank": 4,
+        "bbox": [
+          86,
+          210,
+          22,
+          22
+        ],
+        "attention_score": 0.9929157495498657,
+        "center": [
+          97,
+          221
+        ]
+      },
+      {
+        "rank": 5,
+        "bbox": [
+          86,
+          211,
+          22,
+          22
+        ],
+        "attention_score": 0.9929157495498657,
+        "center": [
+          97,
+          222
+        ]
+      }
+    ]
+  },
+  "reasoning_analysis": {
+    "reasoning_confidence": 0.8794124141586857,
+    "reasoning_flow": "standard_diagnostic",
+    "reasoning_steps_count": 6,
+    "confidence_method": "weighted_harmonic_mean",
+    "validation_score": 0.0,
+    "validation_validity": false
+  }
+}

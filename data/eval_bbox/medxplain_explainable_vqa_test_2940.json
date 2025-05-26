@@ -1,0 +1,101 @@
+{
+  "sample_id": "test_2940",
+  "processing_mode": "explainable_vqa",
+  "success": true,
+  "image_path": "data/images/test/test_2940.jpg",
+  "question": "is peritoneum present?",
+  "ground_truth": "no",
+  "blip_answer": "no",
+  "unified_answer": "This image appears to depict sections of a parasitic worm, likely a nematode, based on the presence of a cuticle, internal structures resembling a digestive tract, and the overall morphology.  While the image quality is adequate for identifying these larger structures, it lacks the resolution and detail needed to definitively identify the peritoneum.  The thin, smooth outer layer of the sections could be misinterpreted as peritoneum, but it is more consistent with the worm's cuticle.  Furthermore, the surrounding tissue and anatomical context necessary to confirm the presence of peritoneum are absent.  Therefore, I cannot confirm the presence of peritoneum in this image.\n",
+  "processing_steps": [
+    "BLIP inference",
+    "Query reformulation",
+    "Enhanced Grad-CAM attention",
+    "Enhanced unified answer generation"
+  ],
+  "error_messages": [],
+  "chain_of_thought_enabled": false,
+  "reformulated_question": "Based on this 224x224 image with distributed attention, particularly in the lower right quadrant, can the presence of peritoneum be confirmed or refuted by evaluating the following:\n\n1. **Lower Right Quadrant:**  Carefully examine the lower right quadrant, the primary focus of the image.  Assess for the presence of a thin, smooth, glistening membrane consistent with the appearance of peritoneum.  Describe the visibility and clarity of this potential peritoneal surface. Are there any structures that appear to be covered by it?\n\n2. **Secondary Attention Regions:**  Considering the 23 secondary attention regions, are any of these suggestive of peritoneal reflections, folds, or attachments?  Specify the locations of these regions and describe any potential peritoneal structures observed.\n\n3. **Anatomical Landmarks:**  If identifiable, use anatomical landmarks such as bowel loops, abdominal wall, or pelvic organs to help localize and contextualize any potential peritoneal structures. Describe the relationship of suspected peritoneum to these landmarks.\n\n4. **Image Quality:**  Comment on the image quality, particularly in the areas of interest. Does the resolution and contrast allow for adequate visualization of fine structures like the peritoneum? Are there any artifacts or limitations that hinder the assessment?\n\n5. **Overall Assessment:** Based on the combined evaluation of these factors, provide a conclusion regarding the visibility and likely presence or absence of peritoneum within this image.  If present, describe its appearance and location relative to other structures. If absent, explain the reasoning based on the image findings.?",
+  "reformulation_quality": 1.0,
+  "grad_cam_available": true,
+  "bbox_enabled": false,
+  "grad_cam_mode": "basic",
+  "bbox_regions_count": 5,
+  "bounding_box_analysis": {
+    "total_regions": 5,
+    "average_attention_score": 0.941626501083374,
+    "max_attention_score": 1.0,
+    "regions_details": [
+      {
+        "rank": 1,
+        "bbox": [
+          77,
+          22,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          88,
+          33
+        ]
+      },
+      {
+        "rank": 2,
+        "bbox": [
+          86,
+          12,
+          22,
+          22
+        ],
+        "attention_score": 0.9657058119773865,
+        "center": [
+          97,
+          23
+        ]
+      },
+      {
+        "rank": 3,
+        "bbox": [
+          2,
+          49,
+          22,
+          22
+        ],
+        "attention_score": 0.9230279922485352,
+        "center": [
+          13,
+          60
+        ]
+      },
+      {
+        "rank": 4,
+        "bbox": [
+          2,
+          86,
+          22,
+          22
+        ],
+        "attention_score": 0.9172450304031372,
+        "center": [
+          13,
+          97
+        ]
+      },
+      {
+        "rank": 5,
+        "bbox": [
+          3,
+          105,
+          22,
+          22
+        ],
+        "attention_score": 0.9021536707878113,
+        "center": [
+          14,
+          116
+        ]
+      }
+    ]
+  }
+}

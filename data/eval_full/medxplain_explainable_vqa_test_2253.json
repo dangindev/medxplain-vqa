@@ -1,0 +1,110 @@
+{
+  "sample_id": "test_2253",
+  "processing_mode": "explainable_vqa",
+  "success": true,
+  "image_path": "data/images/test/test_2253.jpg",
+  "question": "is female reproductive present?",
+  "ground_truth": "yes",
+  "blip_answer": "yes",
+  "unified_answer": "This image shows a section of tissue, likely from a surgical specimen.  A firm, pale, nodular structure is evident, possibly encapsulated.  The surrounding tissue appears congested.  The scale indicates the specimen is several centimeters in size.  Due to the limited field of view and lack of further clinical information, it is impossible to definitively identify this tissue as containing uterus, ovaries, or fallopian tubes.  While the appearance is suggestive of some type of mass within a parenchymal organ, the specific organ and the nature of the mass cannot be determined from this image alone.  Additional imaging and clinical history are necessary for a complete diagnosis.\n",
+  "processing_steps": [
+    "BLIP inference",
+    "Query reformulation",
+    "Enhanced Grad-CAM attention",
+    "Chain-of-Thought reasoning",
+    "Enhanced unified answer generation"
+  ],
+  "error_messages": [],
+  "chain_of_thought_enabled": true,
+  "reformulated_question": "Based on the provided 224x224 image, and considering its focus on the upper left region with additional secondary attention regions, can we identify the following female reproductive structures: uterus, ovaries, and fallopian tubes?  Specifically, assess the image quality in these regions and describe their appearance, size, and location relative to anatomical landmarks such as the bladder (if visible) or pelvic bones.  If the image quality is insufficient for definitive identification, note the limitations and specify what structures *are* visible and why a conclusive determination regarding the presence of female reproductive structures cannot be made.?",
+  "reformulation_quality": 1.0,
+  "grad_cam_available": true,
+  "bbox_enabled": false,
+  "grad_cam_mode": "basic",
+  "bbox_regions_count": 5,
+  "bounding_box_analysis": {
+    "total_regions": 5,
+    "average_attention_score": 0.876633596420288,
+    "max_attention_score": 1.0,
+    "regions_details": [
+      {
+        "rank": 1,
+        "bbox": [
+          77,
+          12,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          88,
+          23
+        ]
+      },
+      {
+        "rank": 2,
+        "bbox": [
+          -11,
+          2,
+          22,
+          22
+        ],
+        "attention_score": 0.8457919955253601,
+        "center": [
+          0,
+          13
+        ]
+      },
+      {
+        "rank": 3,
+        "bbox": [
+          -10,
+          2,
+          22,
+          22
+        ],
+        "attention_score": 0.8457919955253601,
+        "center": [
+          1,
+          13
+        ]
+      },
+      {
+        "rank": 4,
+        "bbox": [
+          -9,
+          2,
+          22,
+          22
+        ],
+        "attention_score": 0.8457919955253601,
+        "center": [
+          2,
+          13
+        ]
+      },
+      {
+        "rank": 5,
+        "bbox": [
+          -8,
+          2,
+          22,
+          22
+        ],
+        "attention_score": 0.8457919955253601,
+        "center": [
+          3,
+          13
+        ]
+      }
+    ]
+  },
+  "reasoning_analysis": {
+    "reasoning_confidence": 0.8981608579160874,
+    "reasoning_flow": "attention_guided",
+    "reasoning_steps_count": 6,
+    "confidence_method": "confidence_cascade",
+    "validation_score": 0.0,
+    "validation_validity": false
+  }
+}

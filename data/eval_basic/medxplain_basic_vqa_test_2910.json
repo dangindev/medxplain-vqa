@@ -1,0 +1,15 @@
+{
+  "sample_id": "test_2910",
+  "processing_mode": "basic_vqa",
+  "success": true,
+  "image_path": "data/images/test/test_2910.jpg",
+  "question": "what is present?",
+  "ground_truth": "gastrointestinal",
+  "blip_answer": "no",
+  "unified_answer": "This image shows a section of tissue with a dense inflammatory infiltrate, likely representing chronic inflammation.  There is also evidence of fibrosis, indicated by the increased pink staining and thicker collagenous bands.  The tissue architecture is disrupted.  Further clinical information and special stains would be required for a more specific diagnosis.\n",
+  "processing_steps": [
+    "BLIP inference",
+    "Gemini enhancement"
+  ],
+  "error_messages": []
+}

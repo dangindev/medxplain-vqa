@@ -1,0 +1,101 @@
+{
+  "sample_id": "test_0792",
+  "processing_mode": "explainable_vqa",
+  "success": true,
+  "image_path": "data/images/test/test_0792.jpg",
+  "question": "does nodular tumor show coronary artery atherosclerosis?",
+  "ground_truth": "no",
+  "blip_answer": "yes",
+  "unified_answer": "This image displays cross-sections of a coronary artery.  While a nodular mass is present within the lumen, the image does not provide sufficient information to determine if the mass is directly related to or caused by atherosclerosis.  Further clinical and possibly microscopic evaluation would be needed to assess for the presence of atherosclerotic plaque within the vessel wall.\n",
+  "processing_steps": [
+    "BLIP inference",
+    "Query reformulation",
+    "Enhanced Grad-CAM attention",
+    "Enhanced unified answer generation"
+  ],
+  "error_messages": [],
+  "chain_of_thought_enabled": false,
+  "reformulated_question": "This image shows a nodular mass. Can evidence of coronary artery atherosclerosis be observed in relation to this mass?",
+  "reformulation_quality": 0.8,
+  "grad_cam_available": true,
+  "bbox_enabled": false,
+  "grad_cam_mode": "basic",
+  "bbox_regions_count": 5,
+  "bounding_box_analysis": {
+    "total_regions": 5,
+    "average_attention_score": 0.8813536167144775,
+    "max_attention_score": 1.0,
+    "regions_details": [
+      {
+        "rank": 1,
+        "bbox": [
+          21,
+          180,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          32,
+          191
+        ]
+      },
+      {
+        "rank": 2,
+        "bbox": [
+          170,
+          171,
+          22,
+          22
+        ],
+        "attention_score": 0.8964827060699463,
+        "center": [
+          181,
+          182
+        ]
+      },
+      {
+        "rank": 3,
+        "bbox": [
+          124,
+          171,
+          22,
+          22
+        ],
+        "attention_score": 0.845453143119812,
+        "center": [
+          135,
+          182
+        ]
+      },
+      {
+        "rank": 4,
+        "bbox": [
+          170,
+          77,
+          22,
+          22
+        ],
+        "attention_score": 0.8324161171913147,
+        "center": [
+          181,
+          88
+        ]
+      },
+      {
+        "rank": 5,
+        "bbox": [
+          171,
+          77,
+          22,
+          22
+        ],
+        "attention_score": 0.8324161171913147,
+        "center": [
+          182,
+          88
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,101 @@
+{
+  "sample_id": "test_1628",
+  "processing_mode": "explainable_vqa",
+  "success": true,
+  "image_path": "data/images/test/test_1628.jpg",
+  "question": "is this image present?",
+  "ground_truth": "no",
+  "blip_answer": "no",
+  "unified_answer": "This image displays a section of tissue consistent with a salivary gland.  The architecture is predominantly composed of acini and ducts.  No distinct masses or other focal abnormalities are identified.\n",
+  "processing_steps": [
+    "BLIP inference",
+    "Query reformulation",
+    "Enhanced Grad-CAM attention",
+    "Enhanced unified answer generation"
+  ],
+  "error_messages": [],
+  "chain_of_thought_enabled": false,
+  "reformulated_question": "**Option 1 (Focusing on a hypothetical specific finding):**\n\n\"Given this 224x224 medical image with distributed attention and a primary focus in the middle center region, is a well-defined, circumscribed nodule visible within the lung parenchyma?  Evaluation should consider image quality, including resolution and contrast, and anatomical landmarks such as the hilum, mediastinum, and chest wall.  The nodule should be clearly distinguishable from surrounding vasculature and bronchi.\"\n\n\n**Option 2 (More general, adaptable to various findings):**\n\n\"Considering the 224x224 dimensions and distributed attention of this medical image, describe the visible anatomical structures in the central region of interest.  Specifically, assess the appearance of the [insert target organ/tissue, e.g., liver parenchyma,  bone cortex] regarding characteristics like [insert relevant features, e.g., texture, homogeneity, contour].  Note any deviations from expected normal anatomy, referencing relevant landmarks such as [insert landmarks, e.g., portal vein, adjacent ribs] and taking image quality (resolution, artifacts) into account.\"\n\n\n**Option 3 (If looking for a specific abnormality but unsure of its precise location):**\n\n\"Within this 224x224 medical image, is there evidence of a [specific abnormality, e.g., fracture, mass] anywhere within the visualized anatomy?  Pay particular attention to the central region, but examine the entire image.  Describe the location of any identified abnormality relative to anatomical landmarks [e.g.,  specific bones, major vessels].  Consider image quality and resolution in your assessment, and specify the characteristics of the potential abnormality (e.g., size, shape, density).\"?",
+  "reformulation_quality": 1.0,
+  "grad_cam_available": true,
+  "bbox_enabled": false,
+  "grad_cam_mode": "basic",
+  "bbox_regions_count": 5,
+  "bounding_box_analysis": {
+    "total_regions": 5,
+    "average_attention_score": 0.9994166374206543,
+    "max_attention_score": 1.0,
+    "regions_details": [
+      {
+        "rank": 1,
+        "bbox": [
+          199,
+          11,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          210,
+          22
+        ]
+      },
+      {
+        "rank": 2,
+        "bbox": [
+          190,
+          -11,
+          22,
+          22
+        ],
+        "attention_score": 0.9992707967758179,
+        "center": [
+          201,
+          0
+        ]
+      },
+      {
+        "rank": 3,
+        "bbox": [
+          190,
+          -10,
+          22,
+          22
+        ],
+        "attention_score": 0.9992707967758179,
+        "center": [
+          201,
+          1
+        ]
+      },
+      {
+        "rank": 4,
+        "bbox": [
+          190,
+          -9,
+          22,
+          22
+        ],
+        "attention_score": 0.9992707967758179,
+        "center": [
+          201,
+          2
+        ]
+      },
+      {
+        "rank": 5,
+        "bbox": [
+          190,
+          -8,
+          22,
+          22
+        ],
+        "attention_score": 0.9992707967758179,
+        "center": [
+          201,
+          3
+        ]
+      }
+    ]
+  }
+}

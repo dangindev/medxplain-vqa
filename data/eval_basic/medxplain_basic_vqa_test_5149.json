@@ -1,0 +1,15 @@
+{
+  "sample_id": "test_5149",
+  "processing_mode": "basic_vqa",
+  "success": true,
+  "image_path": "data/images/test/test_5149.jpg",
+  "question": "what is present?",
+  "ground_truth": "larynx",
+  "blip_answer": "yes",
+  "unified_answer": "This image shows a resected lung specimen with a large, irregular, whitish mass, likely a tumor, obstructing the bronchus.  Surrounding lung parenchyma appears hemorrhagic and congested.\n",
+  "processing_steps": [
+    "BLIP inference",
+    "Gemini enhancement"
+  ],
+  "error_messages": []
+}

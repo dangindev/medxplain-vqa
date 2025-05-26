@@ -1,0 +1,15 @@
+{
+  "sample_id": "test_1143",
+  "processing_mode": "basic_vqa",
+  "success": true,
+  "image_path": "data/images/test/test_1143.jpg",
+  "question": "what is present?",
+  "ground_truth": "cardiovascular",
+  "blip_answer": "no",
+  "unified_answer": "This image shows a cross-section of a blood vessel, likely a small artery or arteriole, within a background of connective tissue. The vessel contains red blood cells within its lumen.\n",
+  "processing_steps": [
+    "BLIP inference",
+    "Gemini enhancement"
+  ],
+  "error_messages": []
+}

@@ -1,0 +1,15 @@
+{
+  "sample_id": "test_4990",
+  "processing_mode": "basic_vqa",
+  "success": true,
+  "image_path": "data/images/test/test_4990.jpg",
+  "question": "what show birefringence?",
+  "ground_truth": "the congophilic areas",
+  "blip_answer": "no",
+  "unified_answer": "Congo red stain demonstrates apple-green birefringence under polarized light in the image on the right, indicative of amyloid deposition.\n",
+  "processing_steps": [
+    "BLIP inference",
+    "Gemini enhancement"
+  ],
+  "error_messages": []
+}

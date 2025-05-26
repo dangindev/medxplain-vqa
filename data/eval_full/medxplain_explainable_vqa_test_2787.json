@@ -1,0 +1,110 @@
+{
+  "sample_id": "test_2787",
+  "processing_mode": "explainable_vqa",
+  "success": true,
+  "image_path": "data/images/test/test_2787.jpg",
+  "question": "does breast show normal appendix?",
+  "ground_truth": "no",
+  "blip_answer": "no",
+  "unified_answer": "This image of the central chest/breast region does not include the appendix, which is located in the right lower quadrant of the abdomen. Therefore, no determination regarding its appearance or condition can be made from this image.\n",
+  "processing_steps": [
+    "BLIP inference",
+    "Query reformulation",
+    "Enhanced Grad-CAM attention",
+    "Chain-of-Thought reasoning",
+    "Enhanced unified answer generation"
+  ],
+  "error_messages": [],
+  "chain_of_thought_enabled": true,
+  "reformulated_question": "This 224x224 image appears to focus on the central chest/breast region.  Can the appendix be visualized in this image, and if so, does it appear normal?  If not visible, is there anything in the image that suggests its location or condition?",
+  "reformulation_quality": 0.8,
+  "grad_cam_available": true,
+  "bbox_enabled": false,
+  "grad_cam_mode": "basic",
+  "bbox_regions_count": 5,
+  "bounding_box_analysis": {
+    "total_regions": 5,
+    "average_attention_score": 0.9919393420219421,
+    "max_attention_score": 1.0,
+    "regions_details": [
+      {
+        "rank": 1,
+        "bbox": [
+          58,
+          11,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          69,
+          22
+        ]
+      },
+      {
+        "rank": 2,
+        "bbox": [
+          49,
+          -11,
+          22,
+          22
+        ],
+        "attention_score": 0.990205705165863,
+        "center": [
+          60,
+          0
+        ]
+      },
+      {
+        "rank": 3,
+        "bbox": [
+          49,
+          -10,
+          22,
+          22
+        ],
+        "attention_score": 0.990205705165863,
+        "center": [
+          60,
+          1
+        ]
+      },
+      {
+        "rank": 4,
+        "bbox": [
+          49,
+          -9,
+          22,
+          22
+        ],
+        "attention_score": 0.990205705165863,
+        "center": [
+          60,
+          2
+        ]
+      },
+      {
+        "rank": 5,
+        "bbox": [
+          67,
+          2,
+          22,
+          22
+        ],
+        "attention_score": 0.9890795946121216,
+        "center": [
+          78,
+          13
+        ]
+      }
+    ]
+  },
+  "reasoning_analysis": {
+    "reasoning_confidence": 0.8981608579160874,
+    "reasoning_flow": "attention_guided",
+    "reasoning_steps_count": 6,
+    "confidence_method": "confidence_cascade",
+    "validation_score": 0.0,
+    "validation_validity": false
+  }
+}

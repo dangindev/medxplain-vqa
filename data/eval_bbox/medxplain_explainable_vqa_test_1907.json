@@ -1,0 +1,101 @@
+{
+  "sample_id": "test_1907",
+  "processing_mode": "explainable_vqa",
+  "success": true,
+  "image_path": "data/images/test/test_1907.jpg",
+  "question": "what appear clubbed?",
+  "ground_truth": "feet",
+  "blip_answer": "yes",
+  "unified_answer": "The structures in the lower left quadrant are the fetal lower limbs and feet.  The \"clubbed\" appearance of the digits likely results from the normal curvature and positioning of the fetal feet in utero, combined with the soft, underdeveloped nature of the fetal skeletal system at this gestational age.  It's important to note that this image alone is insufficient to diagnose true clubfoot (talipes equinovarus), which involves fixed deformities of the foot and ankle.\n",
+  "processing_steps": [
+    "BLIP inference",
+    "Query reformulation",
+    "Enhanced Grad-CAM attention",
+    "Enhanced unified answer generation"
+  ],
+  "error_messages": [],
+  "chain_of_thought_enabled": false,
+  "reformulated_question": "In this 224x224 image, the structures in the lower left quadrant appear enlarged and bulbous at their distal ends. What anatomical structures are these, and what could be causing this \"clubbed\" appearance?",
+  "reformulation_quality": 0.8,
+  "grad_cam_available": true,
+  "bbox_enabled": false,
+  "grad_cam_mode": "basic",
+  "bbox_regions_count": 5,
+  "bounding_box_analysis": {
+    "total_regions": 5,
+    "average_attention_score": 0.9052147626876831,
+    "max_attention_score": 1.0,
+    "regions_details": [
+      {
+        "rank": 1,
+        "bbox": [
+          124,
+          30,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          135,
+          41
+        ]
+      },
+      {
+        "rank": 2,
+        "bbox": [
+          170,
+          142,
+          22,
+          22
+        ],
+        "attention_score": 0.9287521839141846,
+        "center": [
+          181,
+          153
+        ]
+      },
+      {
+        "rank": 3,
+        "bbox": [
+          171,
+          96,
+          22,
+          22
+        ],
+        "attention_score": 0.8892064094543457,
+        "center": [
+          182,
+          107
+        ]
+      },
+      {
+        "rank": 4,
+        "bbox": [
+          124,
+          59,
+          22,
+          22
+        ],
+        "attention_score": 0.869024395942688,
+        "center": [
+          135,
+          70
+        ]
+      },
+      {
+        "rank": 5,
+        "bbox": [
+          152,
+          86,
+          22,
+          22
+        ],
+        "attention_score": 0.8390908241271973,
+        "center": [
+          163,
+          97
+        ]
+      }
+    ]
+  }
+}

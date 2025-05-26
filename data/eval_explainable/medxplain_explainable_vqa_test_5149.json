@@ -1,0 +1,101 @@
+{
+  "sample_id": "test_5149",
+  "processing_mode": "explainable_vqa",
+  "success": true,
+  "image_path": "data/images/test/test_5149.jpg",
+  "question": "what is present?",
+  "ground_truth": "larynx",
+  "blip_answer": "yes",
+  "unified_answer": "This image appears to show a resected heart, with a focus on the opened right atrium and ventricle.  The myocardium appears hemorrhagic and congested.  Whitish areas, possibly representing thrombus or fibrosis, are visible within the ventricular cavity.  The overall appearance suggests significant pathology, potentially related to a cardiac event such as an infarction.  Further clinical information and potentially microscopic examination would be needed for a definitive diagnosis.\n",
+  "processing_steps": [
+    "BLIP inference",
+    "Query reformulation",
+    "Enhanced Grad-CAM attention",
+    "Enhanced unified answer generation"
+  ],
+  "error_messages": [],
+  "chain_of_thought_enabled": false,
+  "reformulated_question": "Based on this 224x224 medical image with distributed attention, particularly in the middle-right region, and three other secondary regions of interest, what findings are present?  Describe the visible features in these regions, including their appearance and, if possible, anatomical location.?",
+  "reformulation_quality": 1.0,
+  "grad_cam_available": true,
+  "bbox_enabled": false,
+  "grad_cam_mode": "basic",
+  "bbox_regions_count": 5,
+  "bounding_box_analysis": {
+    "total_regions": 5,
+    "average_attention_score": 0.9204957962036133,
+    "max_attention_score": 1.0,
+    "regions_details": [
+      {
+        "rank": 1,
+        "bbox": [
+          49,
+          40,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          60,
+          51
+        ]
+      },
+      {
+        "rank": 2,
+        "bbox": [
+          105,
+          87,
+          22,
+          22
+        ],
+        "attention_score": 0.9184533953666687,
+        "center": [
+          116,
+          98
+        ]
+      },
+      {
+        "rank": 3,
+        "bbox": [
+          96,
+          105,
+          22,
+          22
+        ],
+        "attention_score": 0.9070574641227722,
+        "center": [
+          107,
+          116
+        ]
+      },
+      {
+        "rank": 4,
+        "bbox": [
+          208,
+          77,
+          22,
+          22
+        ],
+        "attention_score": 0.8884840607643127,
+        "center": [
+          219,
+          88
+        ]
+      },
+      {
+        "rank": 5,
+        "bbox": [
+          209,
+          77,
+          22,
+          22
+        ],
+        "attention_score": 0.8884840607643127,
+        "center": [
+          220,
+          88
+        ]
+      }
+    ]
+  }
+}

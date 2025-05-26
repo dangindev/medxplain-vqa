@@ -1,0 +1,110 @@
+{
+  "sample_id": "test_5865",
+  "processing_mode": "explainable_vqa",
+  "success": true,
+  "image_path": "data/images/test/test_5865.jpg",
+  "question": "does this image show lung, congestion, heart failure cells hemosiderin laden macrophages?",
+  "ground_truth": "yes",
+  "blip_answer": "no",
+  "unified_answer": "This image shows lung tissue with pigmented cells present. While pigment is observed, definitively identifying these cells as hemosiderin-laden macrophages requires additional information, such as special stains (e.g., Prussian blue) or higher magnification to assess cellular morphology.  Furthermore, this image does not clearly demonstrate features of pulmonary congestion like interstitial edema or engorged capillaries.\n",
+  "processing_steps": [
+    "BLIP inference",
+    "Query reformulation",
+    "Enhanced Grad-CAM attention",
+    "Chain-of-Thought reasoning",
+    "Enhanced unified answer generation"
+  ],
+  "error_messages": [],
+  "chain_of_thought_enabled": true,
+  "reformulated_question": "This image appears to show a section of lung tissue.  In the lower central region, there are cells with brown pigment.  Can these pigmented cells be identified as hemosiderin-laden macrophages (heart failure cells), and is there evidence of pulmonary congestion, such as interstitial edema or engorged capillaries, visible in this image?",
+  "reformulation_quality": 1.0,
+  "grad_cam_available": true,
+  "bbox_enabled": false,
+  "grad_cam_mode": "basic",
+  "bbox_regions_count": 5,
+  "bounding_box_analysis": {
+    "total_regions": 5,
+    "average_attention_score": 0.9917259335517883,
+    "max_attention_score": 1.0,
+    "regions_details": [
+      {
+        "rank": 1,
+        "bbox": [
+          49,
+          12,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          60,
+          23
+        ]
+      },
+      {
+        "rank": 2,
+        "bbox": [
+          77,
+          11,
+          22,
+          22
+        ],
+        "attention_score": 0.9978330731391907,
+        "center": [
+          88,
+          22
+        ]
+      },
+      {
+        "rank": 3,
+        "bbox": [
+          86,
+          2,
+          22,
+          22
+        ],
+        "attention_score": 0.9900140166282654,
+        "center": [
+          97,
+          13
+        ]
+      },
+      {
+        "rank": 4,
+        "bbox": [
+          58,
+          40,
+          22,
+          22
+        ],
+        "attention_score": 0.9866855144500732,
+        "center": [
+          69,
+          51
+        ]
+      },
+      {
+        "rank": 5,
+        "bbox": [
+          95,
+          -11,
+          22,
+          22
+        ],
+        "attention_score": 0.9840970635414124,
+        "center": [
+          106,
+          0
+        ]
+      }
+    ]
+  },
+  "reasoning_analysis": {
+    "reasoning_confidence": 0.8612061306052049,
+    "reasoning_flow": "pathology_focused",
+    "reasoning_steps_count": 6,
+    "confidence_method": "weighted_geometric_mean",
+    "validation_score": 0.0,
+    "validation_validity": false
+  }
+}

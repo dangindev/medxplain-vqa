@@ -1,0 +1,110 @@
+{
+  "sample_id": "test_1575",
+  "processing_mode": "explainable_vqa",
+  "success": true,
+  "image_path": "data/images/test/test_1575.jpg",
+  "question": "what is present?",
+  "ground_truth": "metastatic carcinoma oat cell",
+  "blip_answer": "yes",
+  "unified_answer": "This image shows a resected segment of bowel with an attached structure, likely an ovary, exhibiting a predominantly tan-white, somewhat lobulated cut surface.  Areas of hemorrhage or congestion are also visible within this attached structure.  The bowel segment itself appears unremarkable.  Without further clinical information, a definitive diagnosis cannot be made based on this image alone.\n",
+  "processing_steps": [
+    "BLIP inference",
+    "Query reformulation",
+    "Enhanced Grad-CAM attention",
+    "Chain-of-Thought reasoning",
+    "Enhanced unified answer generation"
+  ],
+  "error_messages": [],
+  "chain_of_thought_enabled": true,
+  "reformulated_question": "In this 224x224 medical image, with distributed attention and a primary focus in the middle center region, what anatomical structure(s) or finding(s) are present in the central area of the image?",
+  "reformulation_quality": 1.0,
+  "grad_cam_available": true,
+  "bbox_enabled": false,
+  "grad_cam_mode": "basic",
+  "bbox_regions_count": 5,
+  "bounding_box_analysis": {
+    "total_regions": 5,
+    "average_attention_score": 0.9693499803543091,
+    "max_attention_score": 1.0,
+    "regions_details": [
+      {
+        "rank": 1,
+        "bbox": [
+          133,
+          96,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          144,
+          107
+        ]
+      },
+      {
+        "rank": 2,
+        "bbox": [
+          77,
+          105,
+          22,
+          22
+        ],
+        "attention_score": 0.9854516983032227,
+        "center": [
+          88,
+          116
+        ]
+      },
+      {
+        "rank": 3,
+        "bbox": [
+          68,
+          87,
+          22,
+          22
+        ],
+        "attention_score": 0.9611912965774536,
+        "center": [
+          79,
+          98
+        ]
+      },
+      {
+        "rank": 4,
+        "bbox": [
+          95,
+          105,
+          22,
+          22
+        ],
+        "attention_score": 0.9539180994033813,
+        "center": [
+          106,
+          116
+        ]
+      },
+      {
+        "rank": 5,
+        "bbox": [
+          106,
+          96,
+          22,
+          22
+        ],
+        "attention_score": 0.9461888074874878,
+        "center": [
+          117,
+          107
+        ]
+      }
+    ]
+  },
+  "reasoning_analysis": {
+    "reasoning_confidence": 0.8981608579160874,
+    "reasoning_flow": "attention_guided",
+    "reasoning_steps_count": 6,
+    "confidence_method": "confidence_cascade",
+    "validation_score": 0.0,
+    "validation_validity": false
+  }
+}

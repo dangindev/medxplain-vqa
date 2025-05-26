@@ -1,0 +1,15 @@
+{
+  "sample_id": "test_2988",
+  "processing_mode": "basic_vqa",
+  "success": true,
+  "image_path": "data/images/test/test_2988.jpg",
+  "question": "what does this image show?",
+  "ground_truth": "pas hematoxylin",
+  "blip_answer": "no",
+  "unified_answer": "This image shows a section of small intestine.  The villi, finger-like projections of the mucosa, are clearly visible, along with the crypts of Lieberkühn between them.  The lamina propria, containing connective tissue and blood vessels, is also apparent.\n",
+  "processing_steps": [
+    "BLIP inference",
+    "Gemini enhancement"
+  ],
+  "error_messages": []
+}

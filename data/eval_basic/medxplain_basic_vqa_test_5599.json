@@ -1,0 +1,15 @@
+{
+  "sample_id": "test_5599",
+  "processing_mode": "basic_vqa",
+  "success": true,
+  "image_path": "data/images/test/test_5599.jpg",
+  "question": "what does this image show?",
+  "ground_truth": "islet cell carcinoma",
+  "blip_answer": "no",
+  "unified_answer": "This image shows a section of tissue with squamous epithelium, likely representing skin or a similar mucosal surface.  There is underlying connective tissue with blood vessels and an inflammatory infiltrate.  The presence of empty spaces suggests tissue processing artifact or possibly edema. More clinical information and higher magnification would be needed for a more specific diagnosis.\n",
+  "processing_steps": [
+    "BLIP inference",
+    "Gemini enhancement"
+  ],
+  "error_messages": []
+}

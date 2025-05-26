@@ -1,0 +1,101 @@
+{
+  "sample_id": "test_3113",
+  "processing_mode": "explainable_vqa",
+  "success": true,
+  "image_path": "data/images/test/test_3113.jpg",
+  "question": "what is ewing sarcoma composed of?",
+  "ground_truth": "sheets of small round cells with small amounts of clear cytoplasm",
+  "blip_answer": "no",
+  "unified_answer": "This image shows a densely cellular neoplasm composed of small, round, blue cells.  While the morphology is consistent with a small round blue cell tumor, further workup including immunohistochemistry and potentially molecular studies would be required to render a definitive diagnosis, including ruling out Ewing sarcoma.  No necrosis or hemorrhage is identified in this image.  The anatomical location cannot be determined from this image.  Similarly, features such as periosteal reaction, onion-skinning, a moth-eaten appearance, or a soft tissue mass cannot be assessed.\n",
+  "processing_steps": [
+    "BLIP inference",
+    "Query reformulation",
+    "Enhanced Grad-CAM attention",
+    "Enhanced unified answer generation"
+  ],
+  "error_messages": [],
+  "chain_of_thought_enabled": false,
+  "reformulated_question": "This image appears to show a small round blue cell tumor with areas of necrosis and hemorrhage, located [describe the anatomical location if visible, e.g., in the diaphysis of the femur].  Based on the appearance of this lesion, including the [describe specific visual features like periosteal reaction, onion-skinning, moth-eaten appearance, or soft tissue mass if present], could this represent an Ewing sarcoma?",
+  "reformulation_quality": 1.0,
+  "grad_cam_available": true,
+  "bbox_enabled": false,
+  "grad_cam_mode": "basic",
+  "bbox_regions_count": 5,
+  "bounding_box_analysis": {
+    "total_regions": 5,
+    "average_attention_score": 1.0,
+    "max_attention_score": 1.0,
+    "regions_details": [
+      {
+        "rank": 1,
+        "bbox": [
+          -11,
+          12,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          0,
+          23
+        ]
+      },
+      {
+        "rank": 2,
+        "bbox": [
+          -10,
+          12,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          1,
+          23
+        ]
+      },
+      {
+        "rank": 3,
+        "bbox": [
+          -9,
+          12,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          2,
+          23
+        ]
+      },
+      {
+        "rank": 4,
+        "bbox": [
+          -8,
+          12,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          3,
+          23
+        ]
+      },
+      {
+        "rank": 5,
+        "bbox": [
+          -7,
+          12,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          4,
+          23
+        ]
+      }
+    ]
+  }
+}

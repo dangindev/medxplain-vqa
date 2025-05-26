@@ -1,0 +1,15 @@
+{
+  "sample_id": "test_5749",
+  "processing_mode": "basic_vqa",
+  "success": true,
+  "image_path": "data/images/test/test_5749.jpg",
+  "question": "is respiratory present?",
+  "ground_truth": "yes",
+  "blip_answer": "no",
+  "unified_answer": "This image shows a section of tissue, likely placental, and does not contain respiratory tissue.\n",
+  "processing_steps": [
+    "BLIP inference",
+    "Gemini enhancement"
+  ],
+  "error_messages": []
+}

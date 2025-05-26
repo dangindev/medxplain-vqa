@@ -1,0 +1,110 @@
+{
+  "sample_id": "test_4392",
+  "processing_mode": "explainable_vqa",
+  "success": true,
+  "image_path": "data/images/test/test_4392.jpg",
+  "question": "does capillary show lymph node, mycobacterium avium-intracellularae?",
+  "ground_truth": "no",
+  "blip_answer": "no",
+  "unified_answer": "The structure in the lower left quadrant, while vaguely resembling a capillary, cannot be definitively identified as such due to the lack of visible erythrocytes within a clearly defined lumen.  This image does not provide evidence of lymph node involvement or *Mycobacterium avium-intracellulare* infection, as there are no granulomas or acid-fast bacilli observed.\n",
+  "processing_steps": [
+    "BLIP inference",
+    "Query reformulation",
+    "Enhanced Grad-CAM attention",
+    "Chain-of-Thought reasoning",
+    "Enhanced unified answer generation"
+  ],
+  "error_messages": [],
+  "chain_of_thought_enabled": true,
+  "reformulated_question": "This image appears to show a microscopic view, possibly of tissue.  In the lower left quadrant, there is a structure [describe the structure with visual details, e.g.,  \"a cluster of darkly stained cells,\" \"an elongated structure with a lumen,\" etc.].  Can this observed structure be identified as a capillary?  If so, does this image provide evidence of lymph node involvement or the presence of *Mycobacterium avium-intracellulare* based on the visible features [mention specific features, e.g., \"granulomas,\" \"acid-fast bacilli,\" etc.] within or surrounding this potential capillary?",
+  "reformulation_quality": 1.0,
+  "grad_cam_available": true,
+  "bbox_enabled": false,
+  "grad_cam_mode": "basic",
+  "bbox_regions_count": 5,
+  "bounding_box_analysis": {
+    "total_regions": 5,
+    "average_attention_score": 1.0,
+    "max_attention_score": 1.0,
+    "regions_details": [
+      {
+        "rank": 1,
+        "bbox": [
+          77,
+          -11,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          88,
+          0
+        ]
+      },
+      {
+        "rank": 2,
+        "bbox": [
+          77,
+          -10,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          88,
+          1
+        ]
+      },
+      {
+        "rank": 3,
+        "bbox": [
+          77,
+          -9,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          88,
+          2
+        ]
+      },
+      {
+        "rank": 4,
+        "bbox": [
+          77,
+          -8,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          88,
+          3
+        ]
+      },
+      {
+        "rank": 5,
+        "bbox": [
+          77,
+          -7,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          88,
+          4
+        ]
+      }
+    ]
+  },
+  "reasoning_analysis": {
+    "reasoning_confidence": 0.8818293268516388,
+    "reasoning_flow": "pathology_focused",
+    "reasoning_steps_count": 6,
+    "confidence_method": "weighted_geometric_mean",
+    "validation_score": 0.0,
+    "validation_validity": false
+  }
+}

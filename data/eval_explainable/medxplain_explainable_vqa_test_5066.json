@@ -1,0 +1,101 @@
+{
+  "sample_id": "test_5066",
+  "processing_mode": "explainable_vqa",
+  "success": true,
+  "image_path": "data/images/test/test_5066.jpg",
+  "question": "is brain present?",
+  "ground_truth": "yes",
+  "blip_answer": "no",
+  "unified_answer": "This image does not depict brain tissue.  It shows a single layer of cuboidal to columnar epithelium, likely representing a glandular or ductal structure.  The dark nuclei and overall cellular arrangement are not consistent with brain parenchyma, which would contain neurons, glial cells, and a complex layered architecture.  No recognizable brain structures such as gyri, sulci, or ventricles are present.\n",
+  "processing_steps": [
+    "BLIP inference",
+    "Query reformulation",
+    "Enhanced Grad-CAM attention",
+    "Enhanced unified answer generation"
+  ],
+  "error_messages": [],
+  "chain_of_thought_enabled": false,
+  "reformulated_question": "Based on this 224x224 image with distributed attention, primarily focused on the middle-right region and 16 secondary attention regions, and given the anatomical context of the brain:  Does the image clearly depict recognizable brain tissue and structures?  Specifically, assess the middle-right region and the 16 secondary regions of interest for the presence of identifiable anatomical landmarks such as gyri, sulci, ventricles, or other characteristic brain structures. Consider the image quality and resolution when evaluating the visibility and clarity of these structures.  The evaluation should determine if sufficient anatomical detail is present to confidently confirm the presence of brain tissue, even if the entire brain is not fully visualized.?",
+  "reformulation_quality": 1.0,
+  "grad_cam_available": true,
+  "bbox_enabled": false,
+  "grad_cam_mode": "basic",
+  "bbox_regions_count": 5,
+  "bounding_box_analysis": {
+    "total_regions": 5,
+    "average_attention_score": 0.9932795166969299,
+    "max_attention_score": 1.0,
+    "regions_details": [
+      {
+        "rank": 1,
+        "bbox": [
+          49,
+          22,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          60,
+          33
+        ]
+      },
+      {
+        "rank": 2,
+        "bbox": [
+          68,
+          21,
+          22,
+          22
+        ],
+        "attention_score": 0.994307279586792,
+        "center": [
+          79,
+          32
+        ]
+      },
+      {
+        "rank": 3,
+        "bbox": [
+          58,
+          49,
+          22,
+          22
+        ],
+        "attention_score": 0.9937301874160767,
+        "center": [
+          69,
+          60
+        ]
+      },
+      {
+        "rank": 4,
+        "bbox": [
+          50,
+          39,
+          22,
+          22
+        ],
+        "attention_score": 0.993217945098877,
+        "center": [
+          61,
+          50
+        ]
+      },
+      {
+        "rank": 5,
+        "bbox": [
+          86,
+          49,
+          22,
+          22
+        ],
+        "attention_score": 0.985142171382904,
+        "center": [
+          97,
+          60
+        ]
+      }
+    ]
+  }
+}

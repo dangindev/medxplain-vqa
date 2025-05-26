@@ -1,0 +1,15 @@
+{
+  "sample_id": "test_5323",
+  "processing_mode": "basic_vqa",
+  "success": true,
+  "image_path": "data/images/test/test_5323.jpg",
+  "question": "what does the peripheral zone show?",
+  "ground_truth": "mild fatty change of liver cells",
+  "blip_answer": "no",
+  "unified_answer": "The peripheral zone of this image shows closely packed glandular structures with prominent apical mucin and basal nuclei.  Some glands exhibit secretions consistent with mucin.\n",
+  "processing_steps": [
+    "BLIP inference",
+    "Gemini enhancement"
+  ],
+  "error_messages": []
+}

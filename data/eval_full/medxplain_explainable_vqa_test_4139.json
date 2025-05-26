@@ -1,0 +1,110 @@
+{
+  "sample_id": "test_4139",
+  "processing_mode": "explainable_vqa",
+  "success": true,
+  "image_path": "data/images/test/test_4139.jpg",
+  "question": "what is present?",
+  "ground_truth": "liver",
+  "blip_answer": "no",
+  "unified_answer": "This image shows a section of tissue with a dense population of cells with darkly stained nuclei.  The cytoplasm of these cells is less prominent.  While the architecture suggests a glandular or epithelial component, the image resolution and lack of other defining features prevents further characterization or identification of specific anatomical structures. No definitive abnormalities are identified based on this image alone.  Additional information, such as special stains or clinical context, would be needed for a more specific diagnosis.\n",
+  "processing_steps": [
+    "BLIP inference",
+    "Query reformulation",
+    "Enhanced Grad-CAM attention",
+    "Chain-of-Thought reasoning",
+    "Enhanced unified answer generation"
+  ],
+  "error_messages": [],
+  "chain_of_thought_enabled": true,
+  "reformulated_question": "Based on this 224x224 medical image, with its primary focus in the middle center region and distributed attention across 34 additional secondary regions, what findings are present? Describe any visible abnormalities, structures, or textures, noting their location within the image (e.g., central, peripheral, upper, lower).  If anatomical structures are identifiable, please name them.?",
+  "reformulation_quality": 1.0,
+  "grad_cam_available": true,
+  "bbox_enabled": false,
+  "grad_cam_mode": "basic",
+  "bbox_regions_count": 5,
+  "bounding_box_analysis": {
+    "total_regions": 5,
+    "average_attention_score": 1.0,
+    "max_attention_score": 1.0,
+    "regions_details": [
+      {
+        "rank": 1,
+        "bbox": [
+          152,
+          -11,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          163,
+          0
+        ]
+      },
+      {
+        "rank": 2,
+        "bbox": [
+          152,
+          -10,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          163,
+          1
+        ]
+      },
+      {
+        "rank": 3,
+        "bbox": [
+          152,
+          -9,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          163,
+          2
+        ]
+      },
+      {
+        "rank": 4,
+        "bbox": [
+          152,
+          -8,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          163,
+          3
+        ]
+      },
+      {
+        "rank": 5,
+        "bbox": [
+          152,
+          -7,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          163,
+          4
+        ]
+      }
+    ]
+  },
+  "reasoning_analysis": {
+    "reasoning_confidence": 0.8981608579160874,
+    "reasoning_flow": "attention_guided",
+    "reasoning_steps_count": 6,
+    "confidence_method": "confidence_cascade",
+    "validation_score": 0.0,
+    "validation_validity": false
+  }
+}

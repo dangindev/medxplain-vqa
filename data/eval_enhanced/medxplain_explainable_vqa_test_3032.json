@@ -1,0 +1,110 @@
+{
+  "sample_id": "test_3032",
+  "processing_mode": "explainable_vqa",
+  "success": true,
+  "image_path": "data/images/test/test_3032.jpg",
+  "question": "is whipples disease present?",
+  "ground_truth": "yes",
+  "blip_answer": "no",
+  "unified_answer": "This image shows sections of small intestinal mucosa.  While the architecture is generally preserved, there is no evidence of dilated lacteals.  I don't see foamy macrophages, nor any PAS-positive, diastase-resistant granules, though it's important to note that the staining method used isn't specified, and a PAS stain would be required to definitively assess for these granules.  No mesenteric lymph nodes or other relevant anatomical structures are visible in this image.  Based on the features present, this image is not consistent with Whipple's disease.\n",
+  "processing_steps": [
+    "BLIP inference",
+    "Query reformulation",
+    "Enhanced Grad-CAM attention",
+    "Chain-of-Thought reasoning",
+    "Enhanced unified answer generation"
+  ],
+  "error_messages": [],
+  "chain_of_thought_enabled": true,
+  "reformulated_question": "Based on the image showing distributed attention across multiple regions, with primary focus in the upper central region and 15 secondary attention regions, are the observed findings consistent with the histopathological features of Whipple's disease?  Specifically, can we identify within these regions of interest (especially the upper central region) evidence of:\n\n* **Dilated lacteals** in the small intestinal mucosa (if visible)?  If so, describe their appearance (e.g., size, distribution).\n* **Foamy macrophages** within the lamina propria (if visible)?  If so, describe their distribution and density.\n* **PAS-positive, diastase-resistant granules** within the macrophages or other tissues (recognizing that the image may not be a PAS stain)? If suggestive features are present, describe their location and appearance.\n\nAdditionally, if any other relevant anatomical structures are visible (e.g., mesenteric lymph nodes), describe their appearance and whether they show any abnormalities (e.g., enlargement).?",
+  "reformulation_quality": 1.0,
+  "grad_cam_available": true,
+  "bbox_enabled": false,
+  "grad_cam_mode": "basic",
+  "bbox_regions_count": 5,
+  "bounding_box_analysis": {
+    "total_regions": 5,
+    "average_attention_score": 0.9683939695358277,
+    "max_attention_score": 1.0,
+    "regions_details": [
+      {
+        "rank": 1,
+        "bbox": [
+          59,
+          12,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          70,
+          23
+        ]
+      },
+      {
+        "rank": 2,
+        "bbox": [
+          40,
+          2,
+          22,
+          22
+        ],
+        "attention_score": 0.9876188039779663,
+        "center": [
+          51,
+          13
+        ]
+      },
+      {
+        "rank": 3,
+        "bbox": [
+          59,
+          39,
+          22,
+          22
+        ],
+        "attention_score": 0.9818631410598755,
+        "center": [
+          70,
+          50
+        ]
+      },
+      {
+        "rank": 4,
+        "bbox": [
+          78,
+          -11,
+          22,
+          22
+        ],
+        "attention_score": 0.9362439513206482,
+        "center": [
+          89,
+          0
+        ]
+      },
+      {
+        "rank": 5,
+        "bbox": [
+          78,
+          -10,
+          22,
+          22
+        ],
+        "attention_score": 0.9362439513206482,
+        "center": [
+          89,
+          1
+        ]
+      }
+    ]
+  },
+  "reasoning_analysis": {
+    "reasoning_confidence": 0.8818293268516388,
+    "reasoning_flow": "pathology_focused",
+    "reasoning_steps_count": 6,
+    "confidence_method": "weighted_geometric_mean",
+    "validation_score": 0.0,
+    "validation_validity": false
+  }
+}

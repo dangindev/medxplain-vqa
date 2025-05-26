@@ -1,0 +1,101 @@
+{
+  "sample_id": "test_4467",
+  "processing_mode": "explainable_vqa",
+  "success": true,
+  "image_path": "data/images/test/test_4467.jpg",
+  "question": "is benign hyperplasia present?",
+  "ground_truth": "yes",
+  "blip_answer": "yes",
+  "unified_answer": "The image appears to show a section of a hollow organ, possibly the uterus, given the presence of what seems to be endometrial tissue.  The lower central area, which appears to be within the endometrial lining, does show increased cellularity compared to the surrounding myometrium. However, the limited resolution and sectioning artifact make it difficult to definitively assess cellular regularity, uniformity, and the presence or absence of atypia.  The apparent nodular structures within the lumen could represent polyps, but again, definitive characterization is limited by the image quality.  The other areas of higher attention appear to focus on similar areas of the presumed endometrium and do not add substantial information given the image limitations.  While the features are suggestive of hyperplasia, a definitive diagnosis cannot be made based on this image alone. Further evaluation with higher resolution imaging and potentially histology would be required.\n",
+  "processing_steps": [
+    "BLIP inference",
+    "Query reformulation",
+    "Enhanced Grad-CAM attention",
+    "Enhanced unified answer generation"
+  ],
+  "error_messages": [],
+  "chain_of_thought_enabled": false,
+  "reformulated_question": "Based on this 224x224 image, focusing on the lower central region and considering the five other secondary attention regions,  does the visible tissue architecture in this region demonstrate features consistent with benign hyperplasia? Specifically, assess the lower central region for: (1) increased cellularity compared to surrounding tissue, (2) regular arrangement of cells, (3) uniformity of cell size and shape, and (4) absence of significant atypia or pleomorphism.  Consider the image resolution and any artifacts that might mimic hyperplasia.  If anatomical landmarks are visible within or near the region of interest, describe their relationship to the area being evaluated for hyperplasia.  Note any areas of distortion or poor image quality that limit assessment.  Describe the characteristics of the secondary attention regions and their relationship (if any) to the suspected hyperplasia.?",
+  "reformulation_quality": 1.0,
+  "grad_cam_available": true,
+  "bbox_enabled": false,
+  "grad_cam_mode": "basic",
+  "bbox_regions_count": 5,
+  "bounding_box_analysis": {
+    "total_regions": 5,
+    "average_attention_score": 0.9654335975646973,
+    "max_attention_score": 1.0,
+    "regions_details": [
+      {
+        "rank": 1,
+        "bbox": [
+          96,
+          180,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          107,
+          191
+        ]
+      },
+      {
+        "rank": 2,
+        "bbox": [
+          -11,
+          189,
+          22,
+          22
+        ],
+        "attention_score": 0.9567919969558716,
+        "center": [
+          0,
+          200
+        ]
+      },
+      {
+        "rank": 3,
+        "bbox": [
+          -10,
+          189,
+          22,
+          22
+        ],
+        "attention_score": 0.9567919969558716,
+        "center": [
+          1,
+          200
+        ]
+      },
+      {
+        "rank": 4,
+        "bbox": [
+          -9,
+          189,
+          22,
+          22
+        ],
+        "attention_score": 0.9567919969558716,
+        "center": [
+          2,
+          200
+        ]
+      },
+      {
+        "rank": 5,
+        "bbox": [
+          -8,
+          189,
+          22,
+          22
+        ],
+        "attention_score": 0.9567919969558716,
+        "center": [
+          3,
+          200
+        ]
+      }
+    ]
+  }
+}

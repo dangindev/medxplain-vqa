@@ -1,0 +1,15 @@
+{
+  "sample_id": "test_2817",
+  "processing_mode": "basic_vqa",
+  "success": true,
+  "image_path": "data/images/test/test_2817.jpg",
+  "question": "is this image shows of smooth muscle cell with lipid in sarcoplasm and lipid present?",
+  "ground_truth": "no",
+  "blip_answer": "no",
+  "unified_answer": "This image shows a section of tissue, likely gastrointestinal in origin, with a surface lined by epithelium.  There is no discernible smooth muscle in this particular field of view, nor is there evidence of lipid accumulation within cells.\n",
+  "processing_steps": [
+    "BLIP inference",
+    "Gemini enhancement"
+  ],
+  "error_messages": []
+}

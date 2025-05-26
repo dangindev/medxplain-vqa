@@ -1,0 +1,101 @@
+{
+  "sample_id": "test_2370",
+  "processing_mode": "explainable_vqa",
+  "success": true,
+  "image_path": "data/images/test/test_2370.jpg",
+  "question": "is metastatic carcinoma lung present?",
+  "ground_truth": "no",
+  "blip_answer": "yes",
+  "unified_answer": "This image shows a placenta, not lung tissue.  The question and initial analysis are therefore irrelevant. The reddish-brown areas represent villous tissue and blood.  No lung parenchyma, hila, mediastinum, nodules, masses, or pleural effusions can be assessed as they are not present.\n",
+  "processing_steps": [
+    "BLIP inference",
+    "Query reformulation",
+    "Enhanced Grad-CAM attention",
+    "Enhanced unified answer generation"
+  ],
+  "error_messages": [],
+  "chain_of_thought_enabled": false,
+  "reformulated_question": "Based on this 224x224 chest image, with its distributed attention and primary focus in the middle center region, along with five secondary attention regions, can we identify any visual evidence suggestive of metastatic carcinoma within the lung parenchyma?  Specifically, examine the lung fields, including the hila and mediastinum, for the presence of nodules, masses, or irregular opacities.  Consider the image resolution and any artifacts that might mimic pathology.  Evaluate the relationship of any identified abnormalities to the vasculature, airways, and pleura.  Describe the size, shape, margin characteristics, and attenuation of any suspicious findings.  Also, assess for pleural effusions or lymphadenopathy in the mediastinum and hila.?",
+  "reformulation_quality": 1.0,
+  "grad_cam_available": true,
+  "bbox_enabled": false,
+  "grad_cam_mode": "basic",
+  "bbox_regions_count": 5,
+  "bounding_box_analysis": {
+    "total_regions": 5,
+    "average_attention_score": 0.9389997363090515,
+    "max_attention_score": 1.0,
+    "regions_details": [
+      {
+        "rank": 1,
+        "bbox": [
+          133,
+          77,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          144,
+          88
+        ]
+      },
+      {
+        "rank": 2,
+        "bbox": [
+          152,
+          77,
+          22,
+          22
+        ],
+        "attention_score": 0.9425531625747681,
+        "center": [
+          163,
+          88
+        ]
+      },
+      {
+        "rank": 3,
+        "bbox": [
+          124,
+          124,
+          22,
+          22
+        ],
+        "attention_score": 0.9329768419265747,
+        "center": [
+          135,
+          135
+        ]
+      },
+      {
+        "rank": 4,
+        "bbox": [
+          142,
+          59,
+          22,
+          22
+        ],
+        "attention_score": 0.9185649752616882,
+        "center": [
+          153,
+          70
+        ]
+      },
+      {
+        "rank": 5,
+        "bbox": [
+          114,
+          31,
+          22,
+          22
+        ],
+        "attention_score": 0.9009037017822266,
+        "center": [
+          125,
+          42
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,101 @@
+{
+  "sample_id": "test_2401",
+  "processing_mode": "explainable_vqa",
+  "success": true,
+  "image_path": "data/images/test/test_2401.jpg",
+  "question": "what is in picture and thus illustrates the very large size of the ovarian tumor?",
+  "ground_truth": "the excellent uterus",
+  "blip_answer": "yes",
+  "unified_answer": "The image shows a large, smooth-surfaced mass with prominent vascularity, consistent with an ovarian tumor.  Its size, anatomical location adjacent to what appears to be fallopian tube and the presence of surrounding hemorrhagic and edematous tissue further support this assessment.  While a definitive diagnosis requires histopathological examination, the gross appearance strongly suggests an ovarian origin.\n",
+  "processing_steps": [
+    "BLIP inference",
+    "Query reformulation",
+    "Enhanced Grad-CAM attention",
+    "Enhanced unified answer generation"
+  ],
+  "error_messages": [],
+  "chain_of_thought_enabled": false,
+  "reformulated_question": "This image, 224x224 pixels, appears to focus on a mass in the lower left quadrant.  Given the distributed attention across the image and the presence of secondary attention regions, what visible features within this lower left quadrant, and their relationship to the surrounding tissue (if any), suggest this mass is a large ovarian tumor?",
+  "reformulation_quality": 1.0,
+  "grad_cam_available": true,
+  "bbox_enabled": false,
+  "grad_cam_mode": "basic",
+  "bbox_regions_count": 5,
+  "bounding_box_analysis": {
+    "total_regions": 5,
+    "average_attention_score": 0.9526226043701171,
+    "max_attention_score": 1.0,
+    "regions_details": [
+      {
+        "rank": 1,
+        "bbox": [
+          114,
+          68,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          125,
+          79
+        ]
+      },
+      {
+        "rank": 2,
+        "bbox": [
+          105,
+          59,
+          22,
+          22
+        ],
+        "attention_score": 0.9543983340263367,
+        "center": [
+          116,
+          70
+        ]
+      },
+      {
+        "rank": 3,
+        "bbox": [
+          49,
+          133,
+          22,
+          22
+        ],
+        "attention_score": 0.9511038661003113,
+        "center": [
+          60,
+          144
+        ]
+      },
+      {
+        "rank": 4,
+        "bbox": [
+          105,
+          152,
+          22,
+          22
+        ],
+        "attention_score": 0.9398459792137146,
+        "center": [
+          116,
+          163
+        ]
+      },
+      {
+        "rank": 5,
+        "bbox": [
+          58,
+          77,
+          22,
+          22
+        ],
+        "attention_score": 0.9177648425102234,
+        "center": [
+          69,
+          88
+        ]
+      }
+    ]
+  }
+}

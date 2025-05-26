@@ -1,0 +1,15 @@
+{
+  "sample_id": "test_4827",
+  "processing_mode": "basic_vqa",
+  "success": true,
+  "image_path": "data/images/test/test_4827.jpg",
+  "question": "is joints present?",
+  "ground_truth": "yes",
+  "blip_answer": "yes",
+  "unified_answer": "This radiograph demonstrates the normal skeletal anatomy of the spine and associated joints of what appears to be a small animal.  The intervertebral spaces and articular processes are clearly visualized.\n",
+  "processing_steps": [
+    "BLIP inference",
+    "Gemini enhancement"
+  ],
+  "error_messages": []
+}

@@ -1,0 +1,110 @@
+{
+  "sample_id": "test_0244",
+  "processing_mode": "explainable_vqa",
+  "success": true,
+  "image_path": "data/images/test/test_0244.jpg",
+  "question": "what is present?",
+  "ground_truth": "peritoneum",
+  "blip_answer": "yes",
+  "unified_answer": "This image appears to show an opened body cavity, possibly abdominal, of an animal (likely a fish given the scale-like appearance of the overlying tissue).  There are multiple dark, irregularly shaped areas distributed throughout the tissues, particularly prominent along the midline and extending laterally. These areas could represent hemorrhage, necrosis, or pigmentation changes.  The looped structures on the left likely represent bowel.  Without further context or higher magnification, a definitive diagnosis is not possible.\n",
+  "processing_steps": [
+    "BLIP inference",
+    "Query reformulation",
+    "Enhanced Grad-CAM attention",
+    "Chain-of-Thought reasoning",
+    "Enhanced unified answer generation"
+  ],
+  "error_messages": [],
+  "chain_of_thought_enabled": true,
+  "reformulated_question": "In this 224x224 medical image, with the primary focus in the upper left quadrant and six other secondary regions of interest, what findings are present?  Describe the observed features in each region, including their appearance and, if possible, anatomical location.?",
+  "reformulation_quality": 1.0,
+  "grad_cam_available": true,
+  "bbox_enabled": false,
+  "grad_cam_mode": "basic",
+  "bbox_regions_count": 5,
+  "bounding_box_analysis": {
+    "total_regions": 5,
+    "average_attention_score": 0.9836888790130616,
+    "max_attention_score": 1.0,
+    "regions_details": [
+      {
+        "rank": 1,
+        "bbox": [
+          152,
+          49,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          163,
+          60
+        ]
+      },
+      {
+        "rank": 2,
+        "bbox": [
+          105,
+          161,
+          22,
+          22
+        ],
+        "attention_score": 0.9944673776626587,
+        "center": [
+          116,
+          172
+        ]
+      },
+      {
+        "rank": 3,
+        "bbox": [
+          124,
+          199,
+          22,
+          22
+        ],
+        "attention_score": 0.9827680587768555,
+        "center": [
+          135,
+          210
+        ]
+      },
+      {
+        "rank": 4,
+        "bbox": [
+          105,
+          105,
+          22,
+          22
+        ],
+        "attention_score": 0.9737356901168823,
+        "center": [
+          116,
+          116
+        ]
+      },
+      {
+        "rank": 5,
+        "bbox": [
+          152,
+          31,
+          22,
+          22
+        ],
+        "attention_score": 0.9674732685089111,
+        "center": [
+          163,
+          42
+        ]
+      }
+    ]
+  },
+  "reasoning_analysis": {
+    "reasoning_confidence": 0.8981608579160874,
+    "reasoning_flow": "attention_guided",
+    "reasoning_steps_count": 6,
+    "confidence_method": "confidence_cascade",
+    "validation_score": 0.0,
+    "validation_validity": false
+  }
+}

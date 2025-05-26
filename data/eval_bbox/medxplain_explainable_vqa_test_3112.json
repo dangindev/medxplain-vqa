@@ -1,0 +1,101 @@
+{
+  "sample_id": "test_3112",
+  "processing_mode": "explainable_vqa",
+  "success": true,
+  "image_path": "data/images/test/test_3112.jpg",
+  "question": "what does thrombus in the left and right ventricular apices overlie?",
+  "ground_truth": "white fibrous scar",
+  "blip_answer": "yes",
+  "unified_answer": "The image shows thrombi within both ventricles.  They appear somewhat irregular and layered, with the left ventricular thrombus larger than the right.  The structures immediately deep to the visualized thrombi are the endocardial surfaces and underlying myocardium of the respective ventricles.\n",
+  "processing_steps": [
+    "BLIP inference",
+    "Query reformulation",
+    "Enhanced Grad-CAM attention",
+    "Enhanced unified answer generation"
+  ],
+  "error_messages": [],
+  "chain_of_thought_enabled": false,
+  "reformulated_question": "This image appears to show thrombi within the apices of both the left and right ventricles.  Describing the appearance of the thrombi (e.g., layered, smooth, irregular) and their relative sizes, what structures are immediately deep to the visualized thrombi in this image?",
+  "reformulation_quality": 0.8,
+  "grad_cam_available": true,
+  "bbox_enabled": false,
+  "grad_cam_mode": "basic",
+  "bbox_regions_count": 5,
+  "bounding_box_analysis": {
+    "total_regions": 5,
+    "average_attention_score": 1.0,
+    "max_attention_score": 1.0,
+    "regions_details": [
+      {
+        "rank": 1,
+        "bbox": [
+          40,
+          -11,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          51,
+          0
+        ]
+      },
+      {
+        "rank": 2,
+        "bbox": [
+          40,
+          -10,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          51,
+          1
+        ]
+      },
+      {
+        "rank": 3,
+        "bbox": [
+          40,
+          -9,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          51,
+          2
+        ]
+      },
+      {
+        "rank": 4,
+        "bbox": [
+          40,
+          -8,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          51,
+          3
+        ]
+      },
+      {
+        "rank": 5,
+        "bbox": [
+          40,
+          -7,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          51,
+          4
+        ]
+      }
+    ]
+  }
+}

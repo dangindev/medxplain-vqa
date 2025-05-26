@@ -1,0 +1,31 @@
+🎯 MEDXPLAIN-VQA COMPREHENSIVE EVALUATION SUMMARY
+============================================================
+
+📊 EVALUATION OVERVIEW
+  Samples evaluated: 10
+  Modes evaluated: basic, explainable
+  Timestamp: 2025-05-25T12:40:18.906393
+
+🏆 PERFORMANCE SUMMARY
+
+  BASIC:
+    BLEU-4: 0.001
+    ROUGE-L: 0.000
+    Exact Match: 0.000
+    Medical Accuracy: 0.900
+    Processing Time: 2.5s
+    Success Rate: 1.000
+
+  EXPLAINABLE:
+    BLEU-4: 0.001
+    ROUGE-L: 0.000
+    Exact Match: 0.000
+    Medical Accuracy: 0.900
+    Processing Time: 6.7s
+    Success Rate: 1.000
+
+📈 STATISTICAL SIGNIFICANCE
+  basic_vs_explainable: SIGNIFICANT
+
+✅ Evaluation completed successfully!
+📁 Detailed results available in: data/paper_evaluation

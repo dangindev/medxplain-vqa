@@ -1,0 +1,15 @@
+{
+  "sample_id": "test_2276",
+  "processing_mode": "basic_vqa",
+  "success": true,
+  "image_path": "data/images/test/test_2276.jpg",
+  "question": "what is present?",
+  "ground_truth": "female reproductive",
+  "blip_answer": "yes",
+  "unified_answer": "This image appears to show a bisected organ, likely a kidney, with extensive hemorrhagic necrosis.  The cut surfaces reveal areas of dark discoloration and what appears to be loss of normal architecture, suggestive of significant tissue damage.\n",
+  "processing_steps": [
+    "BLIP inference",
+    "Gemini enhancement"
+  ],
+  "error_messages": []
+}

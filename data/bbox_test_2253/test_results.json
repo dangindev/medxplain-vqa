@@ -1,0 +1,24 @@
+{
+  "test_image": "data/images/test/test_2253.jpg",
+  "question": "is female reproductive present?",
+  "analysis_result": {
+    "success": true,
+    "regions_found": 5,
+    "error": null
+  },
+  "summary": {
+    "status": "success",
+    "regions_found": 5,
+    "avg_attention": 0.4414124071598053,
+    "max_attention": 0.4616210162639618,
+    "primary_region": {
+      "bbox": [
+        156,
+        0,
+        16,
+        13
+      ],
+      "score": 0.4616210162639618
+    }
+  }
+}

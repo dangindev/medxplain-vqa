@@ -1,0 +1,15 @@
+{
+  "sample_id": "test_4375",
+  "processing_mode": "basic_vqa",
+  "success": true,
+  "image_path": "data/images/test/test_4375.jpg",
+  "question": "does side show lymph nodes, nodular sclerosing hodgkins disease?",
+  "ground_truth": "no",
+  "blip_answer": "no",
+  "unified_answer": "This image shows numerous plasma cells with their characteristic clock-face nuclei and perinuclear clearing.  It does not appear to show lymph node tissue or features of nodular sclerosing Hodgkin's disease.  The findings are suggestive of a plasma cell dyscrasia.\n",
+  "processing_steps": [
+    "BLIP inference",
+    "Gemini enhancement"
+  ],
+  "error_messages": []
+}

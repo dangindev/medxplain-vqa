@@ -1,0 +1,101 @@
+{
+  "sample_id": "test_4464",
+  "processing_mode": "explainable_vqa",
+  "success": true,
+  "image_path": "data/images/test/test_4464.jpg",
+  "question": "what is present?",
+  "ground_truth": "prostate",
+  "blip_answer": "yes",
+  "unified_answer": "This image appears to show a resected uterus with multiple fibroids.  The cut surface reveals a thickened myometrium and the endometrial cavity.  Within the uterine wall, several well-circumscribed, whorled,  nodular masses are present, consistent with the appearance of leiomyomas (fibroids).  Their cut surfaces vary slightly in color and texture.  The endometrial lining appears hemorrhagic.  The overall appearance suggests a multinodular uterus with fibroids.\n",
+  "processing_steps": [
+    "BLIP inference",
+    "Query reformulation",
+    "Enhanced Grad-CAM attention",
+    "Enhanced unified answer generation"
+  ],
+  "error_messages": [],
+  "chain_of_thought_enabled": false,
+  "reformulated_question": "Based on this 224x224 medical image with distributed attention, particularly in the lower central region and five other secondary regions, what findings are present? Describe the observed features in these regions, including their appearance and anatomical location if discernible.?",
+  "reformulation_quality": 1.0,
+  "grad_cam_available": true,
+  "bbox_enabled": false,
+  "grad_cam_mode": "basic",
+  "bbox_regions_count": 5,
+  "bounding_box_analysis": {
+    "total_regions": 5,
+    "average_attention_score": 0.9654335975646973,
+    "max_attention_score": 1.0,
+    "regions_details": [
+      {
+        "rank": 1,
+        "bbox": [
+          96,
+          180,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          107,
+          191
+        ]
+      },
+      {
+        "rank": 2,
+        "bbox": [
+          -11,
+          189,
+          22,
+          22
+        ],
+        "attention_score": 0.9567919969558716,
+        "center": [
+          0,
+          200
+        ]
+      },
+      {
+        "rank": 3,
+        "bbox": [
+          -10,
+          189,
+          22,
+          22
+        ],
+        "attention_score": 0.9567919969558716,
+        "center": [
+          1,
+          200
+        ]
+      },
+      {
+        "rank": 4,
+        "bbox": [
+          -9,
+          189,
+          22,
+          22
+        ],
+        "attention_score": 0.9567919969558716,
+        "center": [
+          2,
+          200
+        ]
+      },
+      {
+        "rank": 5,
+        "bbox": [
+          -8,
+          189,
+          22,
+          22
+        ],
+        "attention_score": 0.9567919969558716,
+        "center": [
+          3,
+          200
+        ]
+      }
+    ]
+  }
+}

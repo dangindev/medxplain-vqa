@@ -1,0 +1,101 @@
+{
+  "sample_id": "test_6601",
+  "processing_mode": "explainable_vqa",
+  "success": true,
+  "image_path": "data/images/test/test_6601.jpg",
+  "question": "what is present in subepithelial and perimuscular layers?",
+  "ground_truth": "mononuclear inflammatory cell infiltrate",
+  "blip_answer": "no",
+  "unified_answer": "The subepithelial layer, located directly beneath the surface epithelium in the upper right quadrant, appears to be composed of loose connective tissue.  It stains a lighter pink compared to the overlying epithelium and the deeper muscle tissue, and has a less dense, more loosely arranged texture.  The perimuscular layer, surrounding the presumed smooth muscle tissue, also appears to be composed of connective tissue.  It exhibits a similar pink hue and loose texture as the subepithelial connective tissue.  Distinguishing these two connective tissue layers based solely on this image is difficult, as their staining and textural characteristics appear very similar.\n",
+  "processing_steps": [
+    "BLIP inference",
+    "Query reformulation",
+    "Enhanced Grad-CAM attention",
+    "Enhanced unified answer generation"
+  ],
+  "error_messages": [],
+  "chain_of_thought_enabled": false,
+  "reformulated_question": "This image appears to show a section of tissue with distinct layers. In the upper right quadrant, a prominent layer is visible beneath the surface epithelium. Deeper, another distinct layer surrounds what appears to be muscle tissue.  Based on these visible structures, what specific structures/tissues are present in the subepithelial layer (directly beneath the surface epithelium in the upper right quadrant) and the perimuscular layer (surrounding the presumed muscle tissue also in the upper right quadrant)?  Describe their appearance in terms of color, texture, and any other distinguishing features visible in this image.?",
+  "reformulation_quality": 1.0,
+  "grad_cam_available": true,
+  "bbox_enabled": false,
+  "grad_cam_mode": "basic",
+  "bbox_regions_count": 5,
+  "bounding_box_analysis": {
+    "total_regions": 5,
+    "average_attention_score": 0.9927513241767884,
+    "max_attention_score": 1.0,
+    "regions_details": [
+      {
+        "rank": 1,
+        "bbox": [
+          58,
+          12,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          69,
+          23
+        ]
+      },
+      {
+        "rank": 2,
+        "bbox": [
+          59,
+          49,
+          22,
+          22
+        ],
+        "attention_score": 0.9932877421379089,
+        "center": [
+          70,
+          60
+        ]
+      },
+      {
+        "rank": 3,
+        "bbox": [
+          49,
+          -11,
+          22,
+          22
+        ],
+        "attention_score": 0.9901562929153442,
+        "center": [
+          60,
+          0
+        ]
+      },
+      {
+        "rank": 4,
+        "bbox": [
+          49,
+          -10,
+          22,
+          22
+        ],
+        "attention_score": 0.9901562929153442,
+        "center": [
+          60,
+          1
+        ]
+      },
+      {
+        "rank": 5,
+        "bbox": [
+          49,
+          -9,
+          22,
+          22
+        ],
+        "attention_score": 0.9901562929153442,
+        "center": [
+          60,
+          2
+        ]
+      }
+    ]
+  }
+}

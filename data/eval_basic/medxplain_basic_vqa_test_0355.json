@@ -1,0 +1,15 @@
+{
+  "sample_id": "test_0355",
+  "processing_mode": "basic_vqa",
+  "success": true,
+  "image_path": "data/images/test/test_0355.jpg",
+  "question": "does this image show joined anterior chest and abdomen?",
+  "ground_truth": "yes",
+  "blip_answer": "yes",
+  "unified_answer": "This image depicts conjoined twins joined at the anterior chest and abdomen.  The shared internal organs are visible.\n",
+  "processing_steps": [
+    "BLIP inference",
+    "Gemini enhancement"
+  ],
+  "error_messages": []
+}

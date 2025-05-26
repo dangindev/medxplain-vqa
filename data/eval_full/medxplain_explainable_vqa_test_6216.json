@@ -1,0 +1,110 @@
+{
+  "sample_id": "test_6216",
+  "processing_mode": "explainable_vqa",
+  "success": true,
+  "image_path": "data/images/test/test_6216.jpg",
+  "question": "where is this?",
+  "ground_truth": "urinary",
+  "blip_answer": "yes",
+  "unified_answer": "This image depicts skeletal muscle. The dark red, striated appearance is characteristic of muscle tissue.  Its proximity to what appears to be bone cortex further supports this assessment.\n",
+  "processing_steps": [
+    "BLIP inference",
+    "Query reformulation",
+    "Enhanced Grad-CAM attention",
+    "Chain-of-Thought reasoning",
+    "Enhanced unified answer generation"
+  ],
+  "error_messages": [],
+  "chain_of_thought_enabled": true,
+  "reformulated_question": "Based on the observed image features, including [mention specific visual details, e.g., the heterogeneous density pattern, the well-defined margins, the adjacent hypodense area], which anatomical location is depicted?  Considering the [mention apparent tissue type, e.g., apparent soft tissue nature] and its relationship to the surrounding structures [mention specific surrounding structures and their appearance, e.g., the proximity to what appears to be bone cortex], what specific anatomical structure could this represent?",
+  "reformulation_quality": 1.0,
+  "grad_cam_available": true,
+  "bbox_enabled": false,
+  "grad_cam_mode": "basic",
+  "bbox_regions_count": 5,
+  "bounding_box_analysis": {
+    "total_regions": 5,
+    "average_attention_score": 1.0,
+    "max_attention_score": 1.0,
+    "regions_details": [
+      {
+        "rank": 1,
+        "bbox": [
+          -11,
+          96,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          0,
+          107
+        ]
+      },
+      {
+        "rank": 2,
+        "bbox": [
+          -10,
+          96,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          1,
+          107
+        ]
+      },
+      {
+        "rank": 3,
+        "bbox": [
+          -9,
+          96,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          2,
+          107
+        ]
+      },
+      {
+        "rank": 4,
+        "bbox": [
+          -8,
+          96,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          3,
+          107
+        ]
+      },
+      {
+        "rank": 5,
+        "bbox": [
+          -7,
+          96,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          4,
+          107
+        ]
+      }
+    ]
+  },
+  "reasoning_analysis": {
+    "reasoning_confidence": 0.8818293268516388,
+    "reasoning_flow": "pathology_focused",
+    "reasoning_steps_count": 6,
+    "confidence_method": "weighted_geometric_mean",
+    "validation_score": 0.0,
+    "validation_validity": false
+  }
+}

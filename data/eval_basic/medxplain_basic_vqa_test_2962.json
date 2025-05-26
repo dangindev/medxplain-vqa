@@ -1,0 +1,15 @@
+{
+  "sample_id": "test_2962",
+  "processing_mode": "basic_vqa",
+  "success": true,
+  "image_path": "data/images/test/test_2962.jpg",
+  "question": "is gastrointestinal present?",
+  "ground_truth": "yes",
+  "blip_answer": "no",
+  "unified_answer": "Yes, gastrointestinal tissue is present. The image shows colonic mucosa with crypts and surface epithelium.\n",
+  "processing_steps": [
+    "BLIP inference",
+    "Gemini enhancement"
+  ],
+  "error_messages": []
+}

@@ -1,0 +1,101 @@
+{
+  "sample_id": "test_6611",
+  "processing_mode": "explainable_vqa",
+  "success": true,
+  "image_path": "data/images/test/test_6611.jpg",
+  "question": "what are normocellular?",
+  "ground_truth": "glomeruli",
+  "blip_answer": "no",
+  "unified_answer": "The glomerulus shown exhibits some variation in mesangial cell size and increased mesangial matrix.  While many of the cells appear relatively uniform at this magnification, the overall morphology suggests some degree of mesangial hypercellularity, and therefore they would not be strictly considered normocellular.\n",
+  "processing_steps": [
+    "BLIP inference",
+    "Query reformulation",
+    "Enhanced Grad-CAM attention",
+    "Enhanced unified answer generation"
+  ],
+  "error_messages": [],
+  "chain_of_thought_enabled": false,
+  "reformulated_question": "In this image, focusing on the lower central region, the cells appear relatively uniform in size.  Are these cells, presumably observed in [insert anatomical location if identifiable from image, otherwise omit this phrase], considered normocellular based on their apparent size and morphology within this specific field of view?",
+  "reformulation_quality": 1.0,
+  "grad_cam_available": true,
+  "bbox_enabled": false,
+  "grad_cam_mode": "basic",
+  "bbox_regions_count": 5,
+  "bounding_box_analysis": {
+    "total_regions": 5,
+    "average_attention_score": 0.990922462940216,
+    "max_attention_score": 1.0,
+    "regions_details": [
+      {
+        "rank": 1,
+        "bbox": [
+          58,
+          11,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          69,
+          22
+        ]
+      },
+      {
+        "rank": 2,
+        "bbox": [
+          49,
+          -11,
+          22,
+          22
+        ],
+        "attention_score": 0.9915703535079956,
+        "center": [
+          60,
+          0
+        ]
+      },
+      {
+        "rank": 3,
+        "bbox": [
+          49,
+          -10,
+          22,
+          22
+        ],
+        "attention_score": 0.9915703535079956,
+        "center": [
+          60,
+          1
+        ]
+      },
+      {
+        "rank": 4,
+        "bbox": [
+          49,
+          -9,
+          22,
+          22
+        ],
+        "attention_score": 0.9915703535079956,
+        "center": [
+          60,
+          2
+        ]
+      },
+      {
+        "rank": 5,
+        "bbox": [
+          68,
+          77,
+          22,
+          22
+        ],
+        "attention_score": 0.9799012541770935,
+        "center": [
+          79,
+          88
+        ]
+      }
+    ]
+  }
+}

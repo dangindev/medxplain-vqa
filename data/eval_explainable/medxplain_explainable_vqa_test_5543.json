@@ -1,0 +1,101 @@
+{
+  "sample_id": "test_5543",
+  "processing_mode": "explainable_vqa",
+  "success": true,
+  "image_path": "data/images/test/test_5543.jpg",
+  "question": "where is this?",
+  "ground_truth": "pancreas",
+  "blip_answer": "no",
+  "unified_answer": "The central structure is an acinus, likely pancreatic given the surrounding structures. It appears as a relatively clear, irregular space surrounded by a ring of purplish-pink acinar cells. These cells have granular cytoplasm and distinct, albeit small, nuclei. Surrounding the acinus are other acini and connective tissue elements. The acinar cells are arranged in clusters, creating a dense, lobular pattern.  Some small blood vessels are also visible within the connective tissue, appearing as smaller, clear spaces lined by flattened endothelial cells.\n",
+  "processing_steps": [
+    "BLIP inference",
+    "Query reformulation",
+    "Enhanced Grad-CAM attention",
+    "Enhanced unified answer generation"
+  ],
+  "error_messages": [],
+  "chain_of_thought_enabled": false,
+  "reformulated_question": "Based on the observed image (224x224 pixels) with its primary focus in the upper central region and distributed attention across multiple secondary regions, what anatomical structure is predominantly visualized in the upper central area, and what are the surrounding anatomical features/structures that contribute to the distributed attention pattern observed?  Describe their appearance (e.g., shape, density, texture) and spatial relationships within the image.?",
+  "reformulation_quality": 1.0,
+  "grad_cam_available": true,
+  "bbox_enabled": false,
+  "grad_cam_mode": "basic",
+  "bbox_regions_count": 5,
+  "bounding_box_analysis": {
+    "total_regions": 5,
+    "average_attention_score": 0.9777341365814209,
+    "max_attention_score": 1.0,
+    "regions_details": [
+      {
+        "rank": 1,
+        "bbox": [
+          12,
+          171,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          23,
+          182
+        ]
+      },
+      {
+        "rank": 2,
+        "bbox": [
+          133,
+          208,
+          22,
+          22
+        ],
+        "attention_score": 0.9721676707267761,
+        "center": [
+          144,
+          219
+        ]
+      },
+      {
+        "rank": 3,
+        "bbox": [
+          133,
+          209,
+          22,
+          22
+        ],
+        "attention_score": 0.9721676707267761,
+        "center": [
+          144,
+          220
+        ]
+      },
+      {
+        "rank": 4,
+        "bbox": [
+          133,
+          210,
+          22,
+          22
+        ],
+        "attention_score": 0.9721676707267761,
+        "center": [
+          144,
+          221
+        ]
+      },
+      {
+        "rank": 5,
+        "bbox": [
+          133,
+          211,
+          22,
+          22
+        ],
+        "attention_score": 0.9721676707267761,
+        "center": [
+          144,
+          222
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,110 @@
+{
+  "sample_id": "test_4931",
+  "processing_mode": "explainable_vqa",
+  "success": true,
+  "image_path": "data/images/test/test_4931.jpg",
+  "question": "does this great toe show brain, herpes encephalitis?",
+  "ground_truth": "no",
+  "blip_answer": "yes",
+  "unified_answer": "This image shows a coronal section of a brain, not a toe.  It demonstrates diffuse cerebral edema with flattening of the gyri and narrowing of the sulci. While this image alone cannot diagnose a specific condition, cerebral edema can be seen in a variety of conditions including infections like herpes encephalitis.  However, diagnosing herpes encephalitis requires further investigations such as cerebrospinal fluid analysis and neuroimaging.\n",
+  "processing_steps": [
+    "BLIP inference",
+    "Query reformulation",
+    "Enhanced Grad-CAM attention",
+    "Chain-of-Thought reasoning",
+    "Enhanced unified answer generation"
+  ],
+  "error_messages": [],
+  "chain_of_thought_enabled": true,
+  "reformulated_question": "This image shows a great toe.  Can any features of this toe suggest a diagnosis of herpes encephalitis affecting the brain?  (Note:  It is understood that diagnosing herpes encephalitis requires evaluation beyond a toe image.)?",
+  "reformulation_quality": 0.6,
+  "grad_cam_available": true,
+  "bbox_enabled": false,
+  "grad_cam_mode": "basic",
+  "bbox_regions_count": 5,
+  "bounding_box_analysis": {
+    "total_regions": 5,
+    "average_attention_score": 0.9871845126152039,
+    "max_attention_score": 1.0,
+    "regions_details": [
+      {
+        "rank": 1,
+        "bbox": [
+          12,
+          152,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          23,
+          163
+        ]
+      },
+      {
+        "rank": 2,
+        "bbox": [
+          12,
+          170,
+          22,
+          22
+        ],
+        "attention_score": 0.985759973526001,
+        "center": [
+          23,
+          181
+        ]
+      },
+      {
+        "rank": 3,
+        "bbox": [
+          -11,
+          189,
+          22,
+          22
+        ],
+        "attention_score": 0.9833875298500061,
+        "center": [
+          0,
+          200
+        ]
+      },
+      {
+        "rank": 4,
+        "bbox": [
+          -10,
+          189,
+          22,
+          22
+        ],
+        "attention_score": 0.9833875298500061,
+        "center": [
+          1,
+          200
+        ]
+      },
+      {
+        "rank": 5,
+        "bbox": [
+          -9,
+          189,
+          22,
+          22
+        ],
+        "attention_score": 0.9833875298500061,
+        "center": [
+          2,
+          200
+        ]
+      }
+    ]
+  },
+  "reasoning_analysis": {
+    "reasoning_confidence": 0.8463145039886735,
+    "reasoning_flow": "comparative_analysis",
+    "reasoning_steps_count": 6,
+    "confidence_method": "weighted_harmonic_mean",
+    "validation_score": 0.0,
+    "validation_validity": false
+  }
+}

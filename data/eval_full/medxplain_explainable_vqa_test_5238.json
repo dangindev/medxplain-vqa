@@ -1,0 +1,110 @@
+{
+  "sample_id": "test_5238",
+  "processing_mode": "explainable_vqa",
+  "success": true,
+  "image_path": "data/images/test/test_5238.jpg",
+  "question": "what does this image show?",
+  "ground_truth": "intramucosal nevus",
+  "blip_answer": "no",
+  "unified_answer": "This image shows a dermal lesion with a dense cellular infiltrate.  The infiltrate appears to be primarily composed of lymphocytes, suggesting an inflammatory or lymphoproliferative process.  Differential diagnoses should include inflammatory dermatoses (e.g., lichenoid dermatitis, lupus erythematosus), and cutaneous lymphomas. Further workup, including immunohistochemistry, would be necessary for a definitive diagnosis.\n",
+  "processing_steps": [
+    "BLIP inference",
+    "Query reformulation",
+    "Enhanced Grad-CAM attention",
+    "Chain-of-Thought reasoning",
+    "Enhanced unified answer generation"
+  ],
+  "error_messages": [],
+  "chain_of_thought_enabled": true,
+  "reformulated_question": "This 224x224 medical image demonstrates distributed attention, with the primary focus on a region in the middle left. Ten secondary attention regions are also detected.  Based on the observed distribution of attention, what is the likely underlying finding or region of interest in this image, and what differential diagnoses should be considered given this pattern?",
+  "reformulation_quality": 0.8,
+  "grad_cam_available": true,
+  "bbox_enabled": false,
+  "grad_cam_mode": "basic",
+  "bbox_regions_count": 5,
+  "bounding_box_analysis": {
+    "total_regions": 5,
+    "average_attention_score": 1.0,
+    "max_attention_score": 1.0,
+    "regions_details": [
+      {
+        "rank": 1,
+        "bbox": [
+          199,
+          -11,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          210,
+          0
+        ]
+      },
+      {
+        "rank": 2,
+        "bbox": [
+          199,
+          -10,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          210,
+          1
+        ]
+      },
+      {
+        "rank": 3,
+        "bbox": [
+          199,
+          -9,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          210,
+          2
+        ]
+      },
+      {
+        "rank": 4,
+        "bbox": [
+          199,
+          -8,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          210,
+          3
+        ]
+      },
+      {
+        "rank": 5,
+        "bbox": [
+          199,
+          -7,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          210,
+          4
+        ]
+      }
+    ]
+  },
+  "reasoning_analysis": {
+    "reasoning_confidence": 0.885555953221412,
+    "reasoning_flow": "comparative_analysis",
+    "reasoning_steps_count": 6,
+    "confidence_method": "weighted_harmonic_mean",
+    "validation_score": 0.0,
+    "validation_validity": false
+  }
+}

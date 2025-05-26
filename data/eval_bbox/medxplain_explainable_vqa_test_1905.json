@@ -1,0 +1,101 @@
+{
+  "sample_id": "test_1905",
+  "processing_mode": "explainable_vqa",
+  "success": true,
+  "image_path": "data/images/test/test_1905.jpg",
+  "question": "is six digits present?",
+  "ground_truth": "six",
+  "blip_answer": "yes",
+  "unified_answer": "No six-digit numerical identifier is visible. The image shows a fetus with an attached umbilical cord.  The areas highlighted likely correspond to anatomical features such as the umbilical cord itself and the fetal lower limbs, none of which resemble numerical markings.\n",
+  "processing_steps": [
+    "BLIP inference",
+    "Query reformulation",
+    "Enhanced Grad-CAM attention",
+    "Enhanced unified answer generation"
+  ],
+  "error_messages": [],
+  "chain_of_thought_enabled": false,
+  "reformulated_question": "Within this 224x224 medical image, focusing on the lower left region (primary focus) and the two secondary attention regions, are there any visible structures or markings consistent with a six-digit numerical identifier?  Consider the image resolution and any potential artifacts that might mimic numerical characters.  If anatomical structures are obscuring the area of interest, describe the obstructing anatomy using relevant anatomical landmarks.  The evaluation criteria for a positive identification requires six distinct, contiguous digits that are clearly distinguishable from surrounding image noise or anatomical features.?",
+  "reformulation_quality": 1.0,
+  "grad_cam_available": true,
+  "bbox_enabled": false,
+  "grad_cam_mode": "basic",
+  "bbox_regions_count": 5,
+  "bounding_box_analysis": {
+    "total_regions": 5,
+    "average_attention_score": 0.9052147626876831,
+    "max_attention_score": 1.0,
+    "regions_details": [
+      {
+        "rank": 1,
+        "bbox": [
+          124,
+          30,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          135,
+          41
+        ]
+      },
+      {
+        "rank": 2,
+        "bbox": [
+          170,
+          142,
+          22,
+          22
+        ],
+        "attention_score": 0.9287521839141846,
+        "center": [
+          181,
+          153
+        ]
+      },
+      {
+        "rank": 3,
+        "bbox": [
+          171,
+          96,
+          22,
+          22
+        ],
+        "attention_score": 0.8892064094543457,
+        "center": [
+          182,
+          107
+        ]
+      },
+      {
+        "rank": 4,
+        "bbox": [
+          124,
+          59,
+          22,
+          22
+        ],
+        "attention_score": 0.869024395942688,
+        "center": [
+          135,
+          70
+        ]
+      },
+      {
+        "rank": 5,
+        "bbox": [
+          152,
+          86,
+          22,
+          22
+        ],
+        "attention_score": 0.8390908241271973,
+        "center": [
+          163,
+          97
+        ]
+      }
+    ]
+  }
+}

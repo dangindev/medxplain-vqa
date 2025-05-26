@@ -1,0 +1,101 @@
+{
+  "sample_id": "test_1866",
+  "processing_mode": "explainable_vqa",
+  "success": true,
+  "image_path": "data/images/test/test_1866.jpg",
+  "question": "are good example tastefully shown with face out of picture and genitalia present?",
+  "ground_truth": "no",
+  "blip_answer": "yes",
+  "unified_answer": "This image shows the lower legs and feet of a person.  The toes exhibit discoloration, possibly due to cyanosis or other vascular compromise.  The image does include the external genitalia, which is appropriate in a medical context when relevant to the case or examination.  The presentation is clinically acceptable, though further information regarding the purpose of the image would help determine its overall suitability.\n",
+  "processing_steps": [
+    "BLIP inference",
+    "Query reformulation",
+    "Enhanced Grad-CAM attention",
+    "Enhanced unified answer generation"
+  ],
+  "error_messages": [],
+  "chain_of_thought_enabled": false,
+  "reformulated_question": "Given this 224x224 medical image with focused attention in the upper left quadrant and three other secondary regions of interest, and assuming the primary subject is human anatomy, does the image effectively demonstrate [specific anatomical feature visible in the upper left quadrant, e.g., \"the musculature of the left shoulder\"] while appropriately excluding the face and including [specific genital anatomy visible, e.g., \"the external genitalia\"]?  Is this presentation tasteful within a medical context?",
+  "reformulation_quality": 1.0,
+  "grad_cam_available": true,
+  "bbox_enabled": false,
+  "grad_cam_mode": "basic",
+  "bbox_regions_count": 5,
+  "bounding_box_analysis": {
+    "total_regions": 5,
+    "average_attention_score": 0.9545816779136658,
+    "max_attention_score": 1.0,
+    "regions_details": [
+      {
+        "rank": 1,
+        "bbox": [
+          40,
+          105,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          51,
+          116
+        ]
+      },
+      {
+        "rank": 2,
+        "bbox": [
+          161,
+          133,
+          22,
+          22
+        ],
+        "attention_score": 0.9630854725837708,
+        "center": [
+          172,
+          144
+        ]
+      },
+      {
+        "rank": 3,
+        "bbox": [
+          133,
+          134,
+          22,
+          22
+        ],
+        "attention_score": 0.9384756088256836,
+        "center": [
+          144,
+          145
+        ]
+      },
+      {
+        "rank": 4,
+        "bbox": [
+          -11,
+          68,
+          22,
+          22
+        ],
+        "attention_score": 0.9356736540794373,
+        "center": [
+          0,
+          79
+        ]
+      },
+      {
+        "rank": 5,
+        "bbox": [
+          -10,
+          68,
+          22,
+          22
+        ],
+        "attention_score": 0.9356736540794373,
+        "center": [
+          1,
+          79
+        ]
+      }
+    ]
+  }
+}

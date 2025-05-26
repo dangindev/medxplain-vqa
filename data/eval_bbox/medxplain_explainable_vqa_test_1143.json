@@ -1,0 +1,101 @@
+{
+  "sample_id": "test_1143",
+  "processing_mode": "explainable_vqa",
+  "success": true,
+  "image_path": "data/images/test/test_1143.jpg",
+  "question": "what is present?",
+  "ground_truth": "cardiovascular",
+  "blip_answer": "no",
+  "unified_answer": "The image shows a cross-section of a vessel, likely a small artery or arteriole, with a prominent, brightly eosinophilic, homogenous appearing layer consistent with a thickened basement membrane.  Surrounding the vessel is a pale, relatively acellular area which could represent an artifact or possibly edema.  The remaining tissue appears to be composed of spindle-shaped cells, possibly fibroblasts or smooth muscle cells, with a delicate, loose collagenous matrix.  Without further clinical information or special stains, a definitive diagnosis is not possible. However, the appearance is suggestive of vascular changes, possibly related to hyaline arteriolosclerosis or other vascular pathology.  Further investigation with additional stains (e.g., PAS, trichrome) would be helpful to characterize the composition of the thickened vessel wall and surrounding tissue.\n",
+  "processing_steps": [
+    "BLIP inference",
+    "Query reformulation",
+    "Enhanced Grad-CAM attention",
+    "Enhanced unified answer generation"
+  ],
+  "error_messages": [],
+  "chain_of_thought_enabled": false,
+  "reformulated_question": "This 224x224 medical image exhibits distributed attention, with a primary focus in the lower left quadrant.  Seven additional secondary attention regions are also present.  Describing the findings in the lower left quadrant, and characterizing the nature of the other attention regions (e.g., size, shape, density, relationship to the primary finding), what is the differential diagnosis based on the visible image features?",
+  "reformulation_quality": 0.8,
+  "grad_cam_available": true,
+  "bbox_enabled": false,
+  "grad_cam_mode": "basic",
+  "bbox_regions_count": 5,
+  "bounding_box_analysis": {
+    "total_regions": 5,
+    "average_attention_score": 0.9880347490310669,
+    "max_attention_score": 1.0,
+    "regions_details": [
+      {
+        "rank": 1,
+        "bbox": [
+          58,
+          12,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          69,
+          23
+        ]
+      },
+      {
+        "rank": 2,
+        "bbox": [
+          2,
+          39,
+          22,
+          22
+        ],
+        "attention_score": 0.9901506304740906,
+        "center": [
+          13,
+          50
+        ]
+      },
+      {
+        "rank": 3,
+        "bbox": [
+          58,
+          -11,
+          22,
+          22
+        ],
+        "attention_score": 0.9833410382270813,
+        "center": [
+          69,
+          0
+        ]
+      },
+      {
+        "rank": 4,
+        "bbox": [
+          58,
+          -10,
+          22,
+          22
+        ],
+        "attention_score": 0.9833410382270813,
+        "center": [
+          69,
+          1
+        ]
+      },
+      {
+        "rank": 5,
+        "bbox": [
+          58,
+          -9,
+          22,
+          22
+        ],
+        "attention_score": 0.9833410382270813,
+        "center": [
+          69,
+          2
+        ]
+      }
+    ]
+  }
+}

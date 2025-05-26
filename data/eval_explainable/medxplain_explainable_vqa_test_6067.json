@@ -1,0 +1,101 @@
+{
+  "sample_id": "test_6067",
+  "processing_mode": "explainable_vqa",
+  "success": true,
+  "image_path": "data/images/test/test_6067.jpg",
+  "question": "does this image show oil immersion organism very well shown?",
+  "ground_truth": "yes",
+  "blip_answer": "yes",
+  "unified_answer": "The image, presumably taken at high magnification (likely 1000x oil immersion), shows a cluster of cells with indistinct morphology.  While the resolution is sufficient to identify these structures as cellular, finer details such as cell walls, internal structures, or evidence of specific staining techniques (like Gram stain) are not clearly discernible. The surrounding cells offer little additional context beyond indicating a cellular environment.  Further analysis with different staining methods or higher resolution imaging may be required for definitive identification and characterization.\n",
+  "processing_steps": [
+    "BLIP inference",
+    "Query reformulation",
+    "Enhanced Grad-CAM attention",
+    "Enhanced unified answer generation"
+  ],
+  "error_messages": [],
+  "chain_of_thought_enabled": false,
+  "reformulated_question": "This 224x224 image appears to focus on a structure in the upper central region, with several other areas also highlighted.  Assuming this image was taken using an oil immersion microscope objective, does the resolution and clarity adequately visualize the suspected microorganism/cellular structure in the upper central region?  Are any morphological details, such as cell wall/membrane, internal structures, or any evidence of staining (e.g., Gram stain), discernible in this region?  Do the other highlighted regions offer any relevant contextual information about the primary subject?",
+  "reformulation_quality": 1.0,
+  "grad_cam_available": true,
+  "bbox_enabled": false,
+  "grad_cam_mode": "basic",
+  "bbox_regions_count": 5,
+  "bounding_box_analysis": {
+    "total_regions": 5,
+    "average_attention_score": 0.9417494297027588,
+    "max_attention_score": 1.0,
+    "regions_details": [
+      {
+        "rank": 1,
+        "bbox": [
+          124,
+          115,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          135,
+          126
+        ]
+      },
+      {
+        "rank": 2,
+        "bbox": [
+          105,
+          77,
+          22,
+          22
+        ],
+        "attention_score": 0.9646676778793335,
+        "center": [
+          116,
+          88
+        ]
+      },
+      {
+        "rank": 3,
+        "bbox": [
+          77,
+          105,
+          22,
+          22
+        ],
+        "attention_score": 0.9453877806663513,
+        "center": [
+          88,
+          116
+        ]
+      },
+      {
+        "rank": 4,
+        "bbox": [
+          96,
+          95,
+          22,
+          22
+        ],
+        "attention_score": 0.935998260974884,
+        "center": [
+          107,
+          106
+        ]
+      },
+      {
+        "rank": 5,
+        "bbox": [
+          161,
+          180,
+          22,
+          22
+        ],
+        "attention_score": 0.8626934289932251,
+        "center": [
+          172,
+          191
+        ]
+      }
+    ]
+  }
+}

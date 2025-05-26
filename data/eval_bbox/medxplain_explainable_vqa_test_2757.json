@@ -1,0 +1,101 @@
+{
+  "sample_id": "test_2757",
+  "processing_mode": "explainable_vqa",
+  "success": true,
+  "image_path": "data/images/test/test_2757.jpg",
+  "question": "does the renal glomerulus show markedly thickend glomerular basement membrane in a diabetic?",
+  "ground_truth": "yes",
+  "blip_answer": "no",
+  "unified_answer": "The glomerulus in the image does not exhibit a markedly thickened glomerular basement membrane.  The basement membranes of the glomerular capillaries appear delicate and within normal thickness limits when compared to other capillary structures in the surrounding interstitium.  There is no appreciable increase in density or width to suggest thickening.\n",
+  "processing_steps": [
+    "BLIP inference",
+    "Query reformulation",
+    "Enhanced Grad-CAM attention",
+    "Enhanced unified answer generation"
+  ],
+  "error_messages": [],
+  "chain_of_thought_enabled": false,
+  "reformulated_question": "In this image, focusing on the structure in the lower left quadrant, which appears to be a glomerulus, can a markedly thickened glomerular basement membrane be observed?  Describe any visual evidence supporting this observation, such as increased density or width compared to other capillary structures within the same field.?",
+  "reformulation_quality": 0.8,
+  "grad_cam_available": true,
+  "bbox_enabled": false,
+  "grad_cam_mode": "basic",
+  "bbox_regions_count": 5,
+  "bounding_box_analysis": {
+    "total_regions": 5,
+    "average_attention_score": 0.959347665309906,
+    "max_attention_score": 1.0,
+    "regions_details": [
+      {
+        "rank": 1,
+        "bbox": [
+          198,
+          96,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          209,
+          107
+        ]
+      },
+      {
+        "rank": 2,
+        "bbox": [
+          161,
+          86,
+          22,
+          22
+        ],
+        "attention_score": 0.953950822353363,
+        "center": [
+          172,
+          97
+        ]
+      },
+      {
+        "rank": 3,
+        "bbox": [
+          161,
+          68,
+          22,
+          22
+        ],
+        "attention_score": 0.9526415467262268,
+        "center": [
+          172,
+          79
+        ]
+      },
+      {
+        "rank": 4,
+        "bbox": [
+          124,
+          21,
+          22,
+          22
+        ],
+        "attention_score": 0.946929395198822,
+        "center": [
+          135,
+          32
+        ]
+      },
+      {
+        "rank": 5,
+        "bbox": [
+          134,
+          189,
+          22,
+          22
+        ],
+        "attention_score": 0.9432165622711182,
+        "center": [
+          145,
+          200
+        ]
+      }
+    ]
+  }
+}

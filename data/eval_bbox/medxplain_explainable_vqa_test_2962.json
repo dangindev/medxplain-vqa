@@ -1,0 +1,101 @@
+{
+  "sample_id": "test_2962",
+  "processing_mode": "explainable_vqa",
+  "success": true,
+  "image_path": "data/images/test/test_2962.jpg",
+  "question": "is gastrointestinal present?",
+  "ground_truth": "yes",
+  "blip_answer": "no",
+  "unified_answer": "This image shows a section of the gastrointestinal tract, likely the duodenum, given the villous architecture.  The mucosa shows villi and crypts. Submucosal glands are also evident.  No other segments of the gastrointestinal tract (esophagus, stomach, jejunum/ileum, or colon) are identified in this image.  Likewise, no anatomical landmarks such as the diaphragm, liver, spleen, or spine are visible.  The limited field of view prevents assessment of the overall gastrointestinal anatomy and the relationship of the duodenum to adjacent structures like the pancreas.\n",
+  "processing_steps": [
+    "BLIP inference",
+    "Query reformulation",
+    "Enhanced Grad-CAM attention",
+    "Enhanced unified answer generation"
+  ],
+  "error_messages": [],
+  "chain_of_thought_enabled": false,
+  "reformulated_question": "Given this 224x224 image with distributed attention, primarily in the upper left quadrant, and eight secondary attention regions, assess the visibility and characteristics of the following gastrointestinal structures within the displayed field of view:\n\n* **Esophagus:**  Evaluate its presence and, if visible, its course and any discernible wall features.\n* **Stomach:** Assess for the presence of the fundus, body, and antrum. If visible, describe their contour, size, and any intraluminal contents.\n* **Duodenum:**  Evaluate its visibility, including the duodenal bulb and descending portion.  Note its position relative to the head of the pancreas if visible.\n* **Small Bowel (Jejunum/Ileum):** If present, describe the distribution, caliber, and wall characteristics of any visible small bowel loops.  Note any air-fluid levels or other intraluminal contents.\n* **Large Bowel (Colon):** Assess for the presence of any segments of the colon, including the cecum, ascending, transverse, descending, and sigmoid colon. If visible, describe their haustral pattern, caliber, and contents.\n\nConsider the image resolution and any artifacts that may limit visualization.  Describe the location of identified structures relative to other anatomical landmarks such as the diaphragm, liver, spleen, and spine, if visible.  Specifically mention if any expected gastrointestinal structures are not clearly visualized within the displayed field of view due to image limitations or the region imaged.?",
+  "reformulation_quality": 1.0,
+  "grad_cam_available": true,
+  "bbox_enabled": false,
+  "grad_cam_mode": "basic",
+  "bbox_regions_count": 5,
+  "bounding_box_analysis": {
+    "total_regions": 5,
+    "average_attention_score": 0.8879291653633118,
+    "max_attention_score": 1.0,
+    "regions_details": [
+      {
+        "rank": 1,
+        "bbox": [
+          21,
+          58,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          32,
+          69
+        ]
+      },
+      {
+        "rank": 2,
+        "bbox": [
+          180,
+          143,
+          22,
+          22
+        ],
+        "attention_score": 0.8721822500228882,
+        "center": [
+          191,
+          154
+        ]
+      },
+      {
+        "rank": 3,
+        "bbox": [
+          161,
+          161,
+          22,
+          22
+        ],
+        "attention_score": 0.8673962950706482,
+        "center": [
+          172,
+          172
+        ]
+      },
+      {
+        "rank": 4,
+        "bbox": [
+          -11,
+          68,
+          22,
+          22
+        ],
+        "attention_score": 0.8500336408615112,
+        "center": [
+          0,
+          79
+        ]
+      },
+      {
+        "rank": 5,
+        "bbox": [
+          -10,
+          68,
+          22,
+          22
+        ],
+        "attention_score": 0.8500336408615112,
+        "center": [
+          1,
+          79
+        ]
+      }
+    ]
+  }
+}

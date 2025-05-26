@@ -1,0 +1,101 @@
+{
+  "sample_id": "test_0653",
+  "processing_mode": "explainable_vqa",
+  "success": true,
+  "image_path": "data/images/test/test_0653.jpg",
+  "question": "is conjoined twins present?",
+  "ground_truth": "no",
+  "blip_answer": "no",
+  "unified_answer": "This image does not provide evidence of conjoined twins. The image appears to depict a microscopic view of a tissue sample, possibly bone, with a complex trabecular structure.  No recognizable anatomical structures such as spines, rib cages, skulls, limbs, or internal organs are identifiable at this magnification and resolution.  Therefore, it is not possible to assess for duplicated or shared anatomy suggestive of conjoined twins.\n",
+  "processing_steps": [
+    "BLIP inference",
+    "Query reformulation",
+    "Enhanced Grad-CAM attention",
+    "Enhanced unified answer generation"
+  ],
+  "error_messages": [],
+  "chain_of_thought_enabled": false,
+  "reformulated_question": "Based on the provided 224x224 image, focusing particularly on the lower right region and considering the distributed attention across multiple regions including 33 secondary attention areas, can evidence of conjoined twins be identified by evaluating the presence of duplicated or shared anatomical structures, such as spines, rib cages, skulls, limbs, or internal organs?  Consider image quality and resolution limitations when assessing for subtle anatomical variations and connections.  Describe the location of any potential shared structures relative to other anatomical landmarks present.  Specifically, if any potential duplication is observed, describe the nature of the connection between the two individuals (e.g., location and extent of shared tissue).?",
+  "reformulation_quality": 1.0,
+  "grad_cam_available": true,
+  "bbox_enabled": false,
+  "grad_cam_mode": "basic",
+  "bbox_regions_count": 5,
+  "bounding_box_analysis": {
+    "total_regions": 5,
+    "average_attention_score": 0.9845119118690491,
+    "max_attention_score": 1.0,
+    "regions_details": [
+      {
+        "rank": 1,
+        "bbox": [
+          40,
+          96,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          51,
+          107
+        ]
+      },
+      {
+        "rank": 2,
+        "bbox": [
+          68,
+          96,
+          22,
+          22
+        ],
+        "attention_score": 0.9880094528198242,
+        "center": [
+          79,
+          107
+        ]
+      },
+      {
+        "rank": 3,
+        "bbox": [
+          58,
+          68,
+          22,
+          22
+        ],
+        "attention_score": 0.9856876730918884,
+        "center": [
+          69,
+          79
+        ]
+      },
+      {
+        "rank": 4,
+        "bbox": [
+          49,
+          133,
+          22,
+          22
+        ],
+        "attention_score": 0.9757426381111145,
+        "center": [
+          60,
+          144
+        ]
+      },
+      {
+        "rank": 5,
+        "bbox": [
+          59,
+          40,
+          22,
+          22
+        ],
+        "attention_score": 0.9731197953224182,
+        "center": [
+          70,
+          51
+        ]
+      }
+    ]
+  }
+}

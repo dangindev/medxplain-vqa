@@ -1,0 +1,101 @@
+{
+  "sample_id": "test_5749",
+  "processing_mode": "explainable_vqa",
+  "success": true,
+  "image_path": "data/images/test/test_5749.jpg",
+  "question": "is respiratory present?",
+  "ground_truth": "yes",
+  "blip_answer": "no",
+  "unified_answer": "This image appears to be a histologic section, likely stained with hematoxylin and eosin.  It shows tissue, possibly placental villi, but it does not depict any anatomical structures relevant to assessing respiratory effort.  Ribs, diaphragm, lungs, and airways are not present in this type of image. Therefore, no conclusions about respiratory effort can be drawn from this image.\n",
+  "processing_steps": [
+    "BLIP inference",
+    "Query reformulation",
+    "Enhanced Grad-CAM attention",
+    "Enhanced unified answer generation"
+  ],
+  "error_messages": [],
+  "chain_of_thought_enabled": false,
+  "reformulated_question": "Based on this 224x224 image with distributed attention, primarily in the upper right quadrant, and three secondary attention regions, assess the visual evidence for respiratory effort. Specifically, examine the following:\n\n1. **Rib cage:** Evaluate the clarity and visibility of the rib cage, particularly in the upper right quadrant.  Assess for symmetrical expansion and contraction of the ribs, considering the image quality and any potential artifacts.  Describe any observed rib movement or lack thereof.\n\n2. **Diaphragm:** If visible, assess the position and contour of the diaphragm. Describe any observed diaphragmatic movement or change in position between different regions of interest, noting its relationship to adjacent structures such as the liver and lungs.\n\n3. **Lungs:** Evaluate the lung fields for evidence of aeration and volume changes.  Describe the radiographic density and texture of the lung parenchyma in the areas of focus, considering the image quality and any potential artifacts.\n\n4. **Airway:** If visible, assess the patency of the airway, noting any obstructions or abnormalities.\n\n5. **Motion Blur:**  Given the distributed attention, consider the possibility of motion blur related to respiration.  Describe any observed blurring, particularly in the regions of interest, and assess its potential impact on the evaluation of respiratory effort.\n\nBased on these observations, provide a conclusion regarding the presence or absence of visible respiratory effort within this image.?",
+  "reformulation_quality": 1.0,
+  "grad_cam_available": true,
+  "bbox_enabled": false,
+  "grad_cam_mode": "basic",
+  "bbox_regions_count": 5,
+  "bounding_box_analysis": {
+    "total_regions": 5,
+    "average_attention_score": 0.9714641213417053,
+    "max_attention_score": 1.0,
+    "regions_details": [
+      {
+        "rank": 1,
+        "bbox": [
+          68,
+          77,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          79,
+          88
+        ]
+      },
+      {
+        "rank": 2,
+        "bbox": [
+          77,
+          49,
+          22,
+          22
+        ],
+        "attention_score": 0.970882773399353,
+        "center": [
+          88,
+          60
+        ]
+      },
+      {
+        "rank": 3,
+        "bbox": [
+          49,
+          49,
+          22,
+          22
+        ],
+        "attention_score": 0.966495156288147,
+        "center": [
+          60,
+          60
+        ]
+      },
+      {
+        "rank": 4,
+        "bbox": [
+          30,
+          77,
+          22,
+          22
+        ],
+        "attention_score": 0.9637463092803955,
+        "center": [
+          41,
+          88
+        ]
+      },
+      {
+        "rank": 5,
+        "bbox": [
+          68,
+          40,
+          22,
+          22
+        ],
+        "attention_score": 0.9561963677406311,
+        "center": [
+          79,
+          51
+        ]
+      }
+    ]
+  }
+}

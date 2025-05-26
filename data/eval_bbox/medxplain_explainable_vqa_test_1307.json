@@ -1,0 +1,101 @@
+{
+  "sample_id": "test_1307",
+  "processing_mode": "explainable_vqa",
+  "success": true,
+  "image_path": "data/images/test/test_1307.jpg",
+  "question": "is endocrine present?",
+  "ground_truth": "yes",
+  "blip_answer": "yes",
+  "unified_answer": "This image displays a gross specimen of a heart, likely bisected to reveal internal structures.  No endocrine structures are visible. The image is focused on the heart and does not include any other anatomical regions where endocrine glands would typically be found.\n",
+  "processing_steps": [
+    "BLIP inference",
+    "Query reformulation",
+    "Enhanced Grad-CAM attention",
+    "Enhanced unified answer generation"
+  ],
+  "error_messages": [],
+  "chain_of_thought_enabled": false,
+  "reformulated_question": "Based on this 224x224 image with distributed attention, primarily in the upper left quadrant, are any endocrine structures or tissues visually identifiable?  Specifically, examine the upper left region of interest and the seven secondary attention regions for evidence of the following:\n\n* **Pituitary gland:** Assess for the presence of the pituitary gland at the base of the brain, considering its expected size and shape relative to surrounding structures like the sella turcica.\n* **Thyroid gland:** Evaluate the lower anterior neck region for the presence of the thyroid gland, noting its characteristic butterfly shape and proximity to the trachea.\n* **Parathyroid glands:**  Look for small, oval structures typically located posterior to the thyroid gland, acknowledging that their visualization may be challenging due to their size and the image resolution.\n* **Adrenal glands:** Inspect the superior poles of the kidneys for the presence of the adrenal glands, considering their size and shape relative to the kidneys.\n* **Pancreas:** Examine the retroperitoneal space for the presence of the pancreas, noting its relationship to the duodenum and spleen.  Specifically, look for the islets of Langerhans, though their visualization may be limited by image resolution.\n* **Pineal gland:** Evaluate the midline of the brain for the presence of the pineal gland, acknowledging that its small size may make identification difficult.\n* **Gonads (testes/ovaries):**  If the imaged area includes the pelvis or scrotum, assess for the presence of testes or ovaries, noting their expected size, shape, and location.\n\nConsider the image quality and resolution when evaluating for these structures.  If any potential endocrine structures are identified, describe their location, size, shape, and any observed abnormalities.  If the image quality or field of view precludes adequate assessment of these structures, explicitly state this limitation.?",
+  "reformulation_quality": 1.0,
+  "grad_cam_available": true,
+  "bbox_enabled": false,
+  "grad_cam_mode": "basic",
+  "bbox_regions_count": 5,
+  "bounding_box_analysis": {
+    "total_regions": 5,
+    "average_attention_score": 1.0,
+    "max_attention_score": 1.0,
+    "regions_details": [
+      {
+        "rank": 1,
+        "bbox": [
+          58,
+          -11,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          69,
+          0
+        ]
+      },
+      {
+        "rank": 2,
+        "bbox": [
+          58,
+          -10,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          69,
+          1
+        ]
+      },
+      {
+        "rank": 3,
+        "bbox": [
+          58,
+          -9,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          69,
+          2
+        ]
+      },
+      {
+        "rank": 4,
+        "bbox": [
+          58,
+          -8,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          69,
+          3
+        ]
+      },
+      {
+        "rank": 5,
+        "bbox": [
+          58,
+          -7,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          69,
+          4
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,110 @@
+{
+  "sample_id": "test_6601",
+  "processing_mode": "explainable_vqa",
+  "success": true,
+  "image_path": "data/images/test/test_6601.jpg",
+  "question": "what is present in subepithelial and perimuscular layers?",
+  "ground_truth": "mononuclear inflammatory cell infiltrate",
+  "blip_answer": "no",
+  "unified_answer": "The image on the right shows a section of tissue with glandular structures and supporting stroma.  In the subepithelial area, there are numerous glands lined by a single layer of cuboidal to columnar epithelium.  The perimuscular region appears to contain looser connective tissue with interspersed blood vessels.  However, without additional information regarding the specific tissue type, stain used, and higher magnification, a more precise characterization of the cellularity, density, and specific structures within these layers is not possible.\n",
+  "processing_steps": [
+    "BLIP inference",
+    "Query reformulation",
+    "Enhanced Grad-CAM attention",
+    "Chain-of-Thought reasoning",
+    "Enhanced unified answer generation"
+  ],
+  "error_messages": [],
+  "chain_of_thought_enabled": true,
+  "reformulated_question": "This image appears to show a section of tissue with distinct layers.  Focusing on the upper right quadrant where the most detail is visible, what structures can be identified within the apparent subepithelial and perimuscular layers in this region?  Describe their appearance (e.g., cellularity, density, presence of specific structures like glands or vessels).?",
+  "reformulation_quality": 1.0,
+  "grad_cam_available": true,
+  "bbox_enabled": false,
+  "grad_cam_mode": "basic",
+  "bbox_regions_count": 5,
+  "bounding_box_analysis": {
+    "total_regions": 5,
+    "average_attention_score": 0.9927513241767884,
+    "max_attention_score": 1.0,
+    "regions_details": [
+      {
+        "rank": 1,
+        "bbox": [
+          58,
+          12,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          69,
+          23
+        ]
+      },
+      {
+        "rank": 2,
+        "bbox": [
+          59,
+          49,
+          22,
+          22
+        ],
+        "attention_score": 0.9932877421379089,
+        "center": [
+          70,
+          60
+        ]
+      },
+      {
+        "rank": 3,
+        "bbox": [
+          49,
+          -11,
+          22,
+          22
+        ],
+        "attention_score": 0.9901562929153442,
+        "center": [
+          60,
+          0
+        ]
+      },
+      {
+        "rank": 4,
+        "bbox": [
+          49,
+          -10,
+          22,
+          22
+        ],
+        "attention_score": 0.9901562929153442,
+        "center": [
+          60,
+          1
+        ]
+      },
+      {
+        "rank": 5,
+        "bbox": [
+          49,
+          -9,
+          22,
+          22
+        ],
+        "attention_score": 0.9901562929153442,
+        "center": [
+          60,
+          2
+        ]
+      }
+    ]
+  },
+  "reasoning_analysis": {
+    "reasoning_confidence": 0.8818293268516388,
+    "reasoning_flow": "pathology_focused",
+    "reasoning_steps_count": 6,
+    "confidence_method": "weighted_geometric_mean",
+    "validation_score": 0.0,
+    "validation_validity": false
+  }
+}

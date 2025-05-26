@@ -1,0 +1,110 @@
+{
+  "sample_id": "test_4729",
+  "processing_mode": "explainable_vqa",
+  "success": true,
+  "image_path": "data/images/test/test_4729.jpg",
+  "question": "what does this image show?",
+  "ground_truth": "tracheotomy site",
+  "blip_answer": "no",
+  "unified_answer": "This image shows a tissue section with a dense inflammatory infiltrate composed predominantly of small, round cells, likely lymphocytes and plasma cells.  Scattered throughout the field are larger, eosinophilic structures, possibly blood vessels or other tissue elements.  Without additional clinical information or special stains, a more specific diagnosis is not possible.  The overall texture appears somewhat disorganized, and there is no obvious architectural pattern or specific lesion readily identifiable.\n",
+  "processing_steps": [
+    "BLIP inference",
+    "Query reformulation",
+    "Enhanced Grad-CAM attention",
+    "Chain-of-Thought reasoning",
+    "Enhanced unified answer generation"
+  ],
+  "error_messages": [],
+  "chain_of_thought_enabled": true,
+  "reformulated_question": "This 224x224 medical image demonstrates distributed attention across multiple regions, with the primary focus in the upper left quadrant.  Given the presence of 34 secondary attention regions, what findings are present in the upper left quadrant, and how do they relate to the other highlighted areas within the image? Describe the visual characteristics of these regions (e.g., shape, size, density, texture).?",
+  "reformulation_quality": 0.8,
+  "grad_cam_available": true,
+  "bbox_enabled": false,
+  "grad_cam_mode": "basic",
+  "bbox_regions_count": 5,
+  "bounding_box_analysis": {
+    "total_regions": 5,
+    "average_attention_score": 0.9797948479652405,
+    "max_attention_score": 1.0,
+    "regions_details": [
+      {
+        "rank": 1,
+        "bbox": [
+          31,
+          40,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          42,
+          51
+        ]
+      },
+      {
+        "rank": 2,
+        "bbox": [
+          189,
+          68,
+          22,
+          22
+        ],
+        "attention_score": 0.9842448234558105,
+        "center": [
+          200,
+          79
+        ]
+      },
+      {
+        "rank": 3,
+        "bbox": [
+          40,
+          68,
+          22,
+          22
+        ],
+        "attention_score": 0.9762192368507385,
+        "center": [
+          51,
+          79
+        ]
+      },
+      {
+        "rank": 4,
+        "bbox": [
+          189,
+          86,
+          22,
+          22
+        ],
+        "attention_score": 0.9703973531723022,
+        "center": [
+          200,
+          97
+        ]
+      },
+      {
+        "rank": 5,
+        "bbox": [
+          68,
+          133,
+          22,
+          22
+        ],
+        "attention_score": 0.9681128263473511,
+        "center": [
+          79,
+          144
+        ]
+      }
+    ]
+  },
+  "reasoning_analysis": {
+    "reasoning_confidence": 0.8981608579160874,
+    "reasoning_flow": "attention_guided",
+    "reasoning_steps_count": 6,
+    "confidence_method": "confidence_cascade",
+    "validation_score": 0.0,
+    "validation_validity": false
+  }
+}

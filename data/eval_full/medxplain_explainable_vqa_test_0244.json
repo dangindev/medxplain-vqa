@@ -1,0 +1,110 @@
+{
+  "sample_id": "test_0244",
+  "processing_mode": "explainable_vqa",
+  "success": true,
+  "image_path": "data/images/test/test_0244.jpg",
+  "question": "what is present?",
+  "ground_truth": "peritoneum",
+  "blip_answer": "yes",
+  "unified_answer": "This image appears to show an opened body cavity, possibly abdominal, revealing several organs.  Darkly discolored areas, particularly along the midline and affecting what seems to be mesentery and possibly bowel, suggest hemorrhage or necrosis.  There are also pale, multifocal lesions scattered across the surface of what looks like the liver.  Without further context such as the species, imaging modality, and clinical history, a more specific diagnosis is not possible.\n",
+  "processing_steps": [
+    "BLIP inference",
+    "Query reformulation",
+    "Enhanced Grad-CAM attention",
+    "Chain-of-Thought reasoning",
+    "Enhanced unified answer generation"
+  ],
+  "error_messages": [],
+  "chain_of_thought_enabled": true,
+  "reformulated_question": "This 224x224 medical image exhibits distributed attention, with primary focus in the upper left quadrant. Six additional secondary attention regions are also present.  Describing the visible features within the primary focus area, and if possible, the secondary areas, what findings are present in this image?  If anatomical location can be determined from the visible features, please include that in the description.?",
+  "reformulation_quality": 1.0,
+  "grad_cam_available": true,
+  "bbox_enabled": false,
+  "grad_cam_mode": "basic",
+  "bbox_regions_count": 5,
+  "bounding_box_analysis": {
+    "total_regions": 5,
+    "average_attention_score": 0.9836888790130616,
+    "max_attention_score": 1.0,
+    "regions_details": [
+      {
+        "rank": 1,
+        "bbox": [
+          152,
+          49,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          163,
+          60
+        ]
+      },
+      {
+        "rank": 2,
+        "bbox": [
+          105,
+          161,
+          22,
+          22
+        ],
+        "attention_score": 0.9944673776626587,
+        "center": [
+          116,
+          172
+        ]
+      },
+      {
+        "rank": 3,
+        "bbox": [
+          124,
+          199,
+          22,
+          22
+        ],
+        "attention_score": 0.9827680587768555,
+        "center": [
+          135,
+          210
+        ]
+      },
+      {
+        "rank": 4,
+        "bbox": [
+          105,
+          105,
+          22,
+          22
+        ],
+        "attention_score": 0.9737356901168823,
+        "center": [
+          116,
+          116
+        ]
+      },
+      {
+        "rank": 5,
+        "bbox": [
+          152,
+          31,
+          22,
+          22
+        ],
+        "attention_score": 0.9674732685089111,
+        "center": [
+          163,
+          42
+        ]
+      }
+    ]
+  },
+  "reasoning_analysis": {
+    "reasoning_confidence": 0.8981608579160874,
+    "reasoning_flow": "attention_guided",
+    "reasoning_steps_count": 6,
+    "confidence_method": "confidence_cascade",
+    "validation_score": 0.0,
+    "validation_validity": false
+  }
+}

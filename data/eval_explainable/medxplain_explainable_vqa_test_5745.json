@@ -1,0 +1,101 @@
+{
+  "sample_id": "test_5745",
+  "processing_mode": "explainable_vqa",
+  "success": true,
+  "image_path": "data/images/test/test_5745.jpg",
+  "question": "does this image show lung, infarct, acute and organized?",
+  "ground_truth": "yes",
+  "blip_answer": "no",
+  "unified_answer": "This image shows a section of lung parenchyma with a dense area of pink, acellular material consistent with fibrin.  While this appearance can be seen in organized pulmonary infarction, features of acute infarction such as ischemic necrosis or hemorrhage are not apparent. Therefore, the image is suggestive of organized pulmonary infarction, but not acute infarction.\n",
+  "processing_steps": [
+    "BLIP inference",
+    "Query reformulation",
+    "Enhanced Grad-CAM attention",
+    "Enhanced unified answer generation"
+  ],
+  "error_messages": [],
+  "chain_of_thought_enabled": false,
+  "reformulated_question": "This 224x224 pixel chest image shows a prominent area of interest in the upper right lung.  Considering the appearance of this region, and any other visible features, does this image demonstrate findings consistent with both acute and organized pulmonary infarction?",
+  "reformulation_quality": 1.0,
+  "grad_cam_available": true,
+  "bbox_enabled": false,
+  "grad_cam_mode": "basic",
+  "bbox_regions_count": 5,
+  "bounding_box_analysis": {
+    "total_regions": 5,
+    "average_attention_score": 0.9714641213417053,
+    "max_attention_score": 1.0,
+    "regions_details": [
+      {
+        "rank": 1,
+        "bbox": [
+          68,
+          77,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          79,
+          88
+        ]
+      },
+      {
+        "rank": 2,
+        "bbox": [
+          77,
+          49,
+          22,
+          22
+        ],
+        "attention_score": 0.970882773399353,
+        "center": [
+          88,
+          60
+        ]
+      },
+      {
+        "rank": 3,
+        "bbox": [
+          49,
+          49,
+          22,
+          22
+        ],
+        "attention_score": 0.966495156288147,
+        "center": [
+          60,
+          60
+        ]
+      },
+      {
+        "rank": 4,
+        "bbox": [
+          30,
+          77,
+          22,
+          22
+        ],
+        "attention_score": 0.9637463092803955,
+        "center": [
+          41,
+          88
+        ]
+      },
+      {
+        "rank": 5,
+        "bbox": [
+          68,
+          40,
+          22,
+          22
+        ],
+        "attention_score": 0.9561963677406311,
+        "center": [
+          79,
+          51
+        ]
+      }
+    ]
+  }
+}

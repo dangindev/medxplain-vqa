@@ -1,0 +1,110 @@
+{
+  "sample_id": "test_0827",
+  "processing_mode": "explainable_vqa",
+  "success": true,
+  "image_path": "data/images/test/test_0827.jpg",
+  "question": "does this image show heart, right coronary artery, atherosclerosis and acute thrombus?",
+  "ground_truth": "yes",
+  "blip_answer": "yes",
+  "unified_answer": "While a structure resembling heart tissue is present, this image does not offer sufficient detail to identify the right coronary artery or assess it for atherosclerosis or thrombus.  Further imaging would be necessary.\n",
+  "processing_steps": [
+    "BLIP inference",
+    "Query reformulation",
+    "Enhanced Grad-CAM attention",
+    "Chain-of-Thought reasoning",
+    "Enhanced unified answer generation"
+  ],
+  "error_messages": [],
+  "chain_of_thought_enabled": true,
+  "reformulated_question": "This 224x224 image appears to show a portion of the chest.  In the upper central region, is a structure visible that could be interpreted as heart tissue. If so, does this image demonstrate the right coronary artery, and if the RCA is visible, are there any signs of atherosclerosis (e.g., luminal narrowing, calcification) or an acute thrombus (e.g., intraluminal filling defect) present?",
+  "reformulation_quality": 1.0,
+  "grad_cam_available": true,
+  "bbox_enabled": false,
+  "grad_cam_mode": "basic",
+  "bbox_regions_count": 5,
+  "bounding_box_analysis": {
+    "total_regions": 5,
+    "average_attention_score": 0.9857623100280761,
+    "max_attention_score": 1.0,
+    "regions_details": [
+      {
+        "rank": 1,
+        "bbox": [
+          124,
+          12,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          135,
+          23
+        ]
+      },
+      {
+        "rank": 2,
+        "bbox": [
+          124,
+          -11,
+          22,
+          22
+        ],
+        "attention_score": 0.9822028875350952,
+        "center": [
+          135,
+          0
+        ]
+      },
+      {
+        "rank": 3,
+        "bbox": [
+          124,
+          -10,
+          22,
+          22
+        ],
+        "attention_score": 0.9822028875350952,
+        "center": [
+          135,
+          1
+        ]
+      },
+      {
+        "rank": 4,
+        "bbox": [
+          124,
+          -9,
+          22,
+          22
+        ],
+        "attention_score": 0.9822028875350952,
+        "center": [
+          135,
+          2
+        ]
+      },
+      {
+        "rank": 5,
+        "bbox": [
+          124,
+          -8,
+          22,
+          22
+        ],
+        "attention_score": 0.9822028875350952,
+        "center": [
+          135,
+          3
+        ]
+      }
+    ]
+  },
+  "reasoning_analysis": {
+    "reasoning_confidence": 0.8612061306052049,
+    "reasoning_flow": "pathology_focused",
+    "reasoning_steps_count": 6,
+    "confidence_method": "weighted_geometric_mean",
+    "validation_score": 0.0,
+    "validation_validity": false
+  }
+}

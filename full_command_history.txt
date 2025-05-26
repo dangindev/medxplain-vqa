@@ -1,0 +1,1000 @@
+ 1044              
+ 1045              for i in range(1, len(step_confidences)):
+ 1046                  # Each step contributes but with diminishing returns
+ 1047                  contribution = step_confidences[i] * (0.9 ** i)  # Diminishing factor
+ 1048                  cascade_confidence = (cascade_confidence + contribution) / 2
+ 1049              
+ 1050              return min(cascade_confidence, 0.95)
+ 1051          
+ 1052          # Fallback: Weighted average (safer than multiplicative)
+ 1053          weights = self._get_step_weights(steps, reasoning_flow)
+ 1054          if len(step_confidences) == len(weights):
+ 1055              weighted_sum = sum(c * w for c, w in zip(step_confidences, weights))
+ 1056              total_weight = sum(weights)
+ 1057              return weighted_sum / total_weight if total_weight > 0 else 0.5
+ 1058          else:
+ 1059              return np.mean(step_confidences)
+ 1060      
+ 1061      def _get_step_weights(self, steps: List[Dict], reasoning_flow: str) -> List[float]:
+ 1062          """Get weights for different reasoning steps based on flow type"""
+ 1063          step_types = [step.get('type', 'unknown') for step in steps]
+ 1064          
+ 1065          # Default weights
+ 1066          default_weights = {
+ 1067              'visual_observation': 1.2,     # High weight for direct observations
+ 1068              'attention_analysis': 1.1,     # High weight for attention analysis
+ 1069              'feature_extraction': 1.0,     # Standard weight
+ 1070              'clinical_correlation': 1.3,   # Higher weight for clinical insights
+ 1071              'pathological_assessment': 1.2, # High weight for pathology
+ 1072              'differential_diagnosis': 0.9,  # Lower weight for differential
+ 1073              'diagnostic_reasoning': 1.4,    # Highest weight for final reasoning
+ 1074              'conclusion': 1.3              # High weight for conclusions
+ 1075          }
+ 1076          
+ 1077          # Flow-specific weight adjustments
+ 1078          if reasoning_flow == 'pathology_focused':
+ 1079              default_weights['pathological_assessment'] = 1.5
+ 1080              default_weights['clinical_correlation'] = 1.4
+ 1081          elif reasoning_flow == 'attention_guided':
+ 1082              default_weights['attention_analysis'] = 1.4
+ 1083              default_weights['visual_observation'] = 1.3
+ 1084          elif reasoning_flow == 'comparative_analysis':
+ 1085              default_weights['differential_diagnosis'] = 1.2
+ 1086              default_weights['diagnostic_reasoning'] = 1.5
+ 1087          
+ 1088          # Create weight list
+ 1089          weights = [default_weights.get(step_type, 1.0) for step_type in step_types]
+ 1090          
+ 1091          return weights
+ 1092      
+ 1093      def _validate_reasoning_chain(self, reasoning_chain: Dict) -> Dict:
+ 1094          """Validate generated reasoning chain"""
+ 1095          logger.debug("Validating reasoning chain")
+ 1096          
+ 1097          chain_data = reasoning_chain.get('reasoning_chain', {})
+ 1098          
+ 1099          # Use templates validation
+ 1100          template_validation = self.templates.validate_reasoning_chain(chain_data)
+ 1101          
+ 1102          # Add medical knowledge validation
+ 1103          steps = chain_data.get('steps', [])
+ 1104          medical_validation = self.knowledge_base.validate_clinical_reasoning(steps)
+ 1105          
+ 1106          # IMPROVED: Confidence-aware validation
+ 1107          overall_confidence = chain_data.get('overall_confidence', 0.0)
+ 1108          confidence_validity = overall_confidence >= 0.5  # Minimum acceptable confidence
+ 1109          
+ 1110          # Combine validations
+ 1111          combined_validation = {
+ 1112              'template_validation': template_validation,
+ 1113              'medical_validation': medical_validation,
+ 1114              'confidence_validation': {
+ 1115                  'confidence_level': overall_confidence,
+ 1116                  'meets_threshold': confidence_validity,
+ 1117                  'confidence_category': self._categorize_confidence(overall_confidence)
+ 1118              },
+ 1119              'overall_validity': (template_validation['is_valid'] and 
+ 1120                                 medical_validation['overall_validity'] and 
+ 1121                                 confidence_validity),
+ 1122              'combined_score': (template_validation.get('completeness_score', 0) + 
+ 1123                               template_validation.get('consistency_score', 0) +
+ 1124                               medical_validation.get('medical_accuracy_score', 0) +
+ 1125                               medical_validation.get('logical_consistency_score', 0) +
+ 1126                               overall_confidence) / 5  # Include confidence in overall score
+ 1127          }
+ 1128          
+ 1129          return combined_validation
+ 1130      
+ 1131      def _categorize_confidence(self, confidence: float) -> str:
+ 1132          """Categorize confidence level"""
+ 1133          if confidence >= 0.8:
+ 1134              return 'high'
+ 1135          elif confidence >= 0.65:
+ 1136              return 'moderate-high'
+ 1137          elif confidence >= 0.5:
+ 1138              return 'moderate'
+ 1139          elif confidence >= 0.35:
+ 1140              return 'low-moderate'
+ 1141          else:
+ 1142              return 'low'
+ 1143      
+ 1144      def _get_timestamp(self) -> str:
+ 1145          """Get current timestamp"""
+ 1146          from datetime import datetime
+ 1147          return datetime.now().isoformat()
+ 1148      
+ 1149      def save_reasoning_chain(self, reasoning_chain: Dict, output_path: str):
+ 1150          """
+ 1151          Save reasoning chain to file
+ 1152          
+ 1153          Args:
+ 1154              reasoning_chain: Complete reasoning chain
+ 1155              output_path: Output file path
+ 1156          """
+ 1157          try:
+ 1158              with open(output_path, 'w', encoding='utf-8') as f:
+ 1159                  json.dump(reasoning_chain, f, indent=2, ensure_ascii=False)
+ 1160              
+ 1161              logger.info(f"Reasoning chain saved to {output_path}")
+ 1162              
+ 1163          except Exception as e:
+ 1164              logger.error(f"Error saving reasoning chain: {e}")
+ 1165  EOL
+ 1166  # Backup và update reasoning templates
+ 1167  cp src/explainability/rationale/reasoning_templates.py src/explainability/rationale/reasoning_templates.py.backup
+ 1168  cat > src/explainability/rationale/reasoning_templates.py << 'EOL'
+ 1169  import logging
+ 1170  from typing import Dict, List, Optional, Any
+ 1171  import numpy as np
+ 1172  logger = logging.getLogger(__name__)
+ 1173  class ReasoningTemplates:
+ 1174      """
+ 1175      Templates for structured medical reasoning chains
+ 1176      Provides standardized formats for different types of reasoning steps
+ 1177      """
+ 1178      
+ 1179      def __init__(self):
+ 1180          """Initialize reasoning templates"""
+ 1181          self.step_templates = self._init_step_templates()
+ 1182          self.reasoning_flows = self._init_reasoning_flows()
+ 1183          self.evidence_templates = self._init_evidence_templates()
+ 1184          
+ 1185          logger.info("Reasoning Templates initialized")
+ 1186      
+ 1187      def _init_step_templates(self) -> Dict:
+ 1188          """Initialize templates for individual reasoning steps"""
+ 1189          return {
+ 1190              'visual_observation': {
+ 1191                  'template': "In this {image_type} image of {anatomical_region}, I observe {visual_features}. {additional_details}",
+ 1192                  'required_fields': ['image_type', 'anatomical_region', 'visual_features'],
+ 1193                  'optional_fields': ['additional_details'],
+ 1194                  'confidence_factors': ['feature_clarity', 'image_quality', 'anatomical_certainty']
+ 1195              },
+ 1196              
+ 1197              'attention_analysis': {
+ 1198                  'template': "The model's attention is {attention_pattern} with {focus_description}. {attention_significance}",
+ 1199                  'required_fields': ['attention_pattern', 'focus_description'],
+ 1200                  'optional_fields': ['attention_significance'],
+ 1201                  'confidence_factors': ['attention_strength', 'spatial_relevance', 'pattern_consistency']
+ 1202              },
+ 1203              
+ 1204              'feature_extraction': {
+ 1205                  'template': "Key visual features include {feature_list}. These features exhibit {characteristics} and are located {spatial_distribution}.",
+ 1206                  'required_fields': ['feature_list', 'characteristics'],
+ 1207                  'optional_fields': ['spatial_distribution'],
+ 1208                  'confidence_factors': ['feature_specificity', 'visibility', 'diagnostic_relevance']
+ 1209              },
+ 1210              
+ 1211              'clinical_correlation': {
+ 1212                  'template': "The observed {visual_findings} are consistent with {clinical_interpretation}. {supporting_evidence}",
+ 1213                  'required_fields': ['visual_findings', 'clinical_interpretation'],
+ 1214                  'optional_fields': ['supporting_evidence'],
+ 1215                  'confidence_factors': ['correlation_strength', 'medical_evidence', 'pattern_match']
+ 1216              },
+ 1217              
+ 1218              'pathological_assessment': {
+ 1219                  'template': "The pathological features suggest {pathology_type} characterized by {pathological_changes}. {severity_assessment}",
+ 1220                  'required_fields': ['pathology_type', 'pathological_changes'],
+ 1221                  'optional_fields': ['severity_assessment'],
+ 1222                  'confidence_factors': ['pathology_specificity', 'feature_consistency', 'diagnostic_confidence']
+ 1223              },
+ 1224              
+ 1225              'differential_diagnosis': {
+ 1226                  'template': "Differential considerations include {alternative_diagnoses}. However, {distinguishing_features} favor {preferred_diagnosis}.",
+ 1227                  'required_fields': ['alternative_diagnoses', 'distinguishing_features', 'preferred_diagnosis'],
+ 1228                  'optional_fields': [],
+ 1229                  'confidence_factors': ['diagnostic_specificity', 'exclusion_strength', 'differential_clarity']
+ 1230              },
+ 1231              
+ 1232              'diagnostic_reasoning': {
+ 1233                  'template': "Based on {evidence_summary}, the findings support {diagnosis} with {confidence_level} confidence. {reasoning_rationale}",
+ 1234                  'required_fields': ['evidence_summary', 'diagnosis', 'confidence_level'],
+ 1235                  'optional_fields': ['reasoning_rationale'],
+ 1236                  'confidence_factors': ['evidence_strength', 'logical_consistency', 'medical_validity']
+ 1237              },
+ 1238              
+ 1239              'conclusion': {
+ 1240                  'template': "In conclusion, this {anatomical_region} image demonstrates {key_findings} consistent with {final_diagnosis}. {clinical_implications}",
+ 1241                  'required_fields': ['anatomical_region', 'key_findings', 'final_diagnosis'],
+ 1242                  'optional_fields': ['clinical_implications'],
+ 1243                  'confidence_factors': ['conclusion_strength', 'evidence_synthesis', 'diagnostic_certainty']
+ 1244              }
+ 1245          }
+ 1246      
+ 1247      def _init_reasoning_flows(self) -> Dict:
+ 1248          """Initialize different reasoning flow patterns"""
+ 1249          return {
+ 1250              'standard_diagnostic': {
+ 1251                  'description': 'Standard diagnostic reasoning flow',
+ 1252                  'steps': [
+ 1253                      'visual_observation',
+ 1254                      'attention_analysis', 
+ 1255                      'feature_extraction',
+ 1256                      'clinical_correlation',
+ 1257                      'diagnostic_reasoning',
+ 1258                      'conclusion'
+ 1259                  ],
+ 1260                  'confidence_propagation': 'weighted_harmonic_mean'  # IMPROVED
+ 1261              },
+ 1262              
+ 1263              'pathology_focused': {
+ 1264                  'description': 'Pathology-focused reasoning for tissue analysis',
+ 1265                  'steps': [
+ 1266                      'visual_observation',
+ 1267                      'feature_extraction',
+ 1268                      'pathological_assessment',
+ 1269                      'clinical_correlation',
+ 1270                      'differential_diagnosis',
+ 1271                      'conclusion'
+ 1272                  ],
+ 1273                  'confidence_propagation': 'weighted_geometric_mean'  # IMPROVED
+ 1274              },
+ 1275              
+ 1276              'attention_guided': {
+ 1277                  'description': 'Attention-guided reasoning emphasizing model focus',
+ 1278                  'steps': [
+ 1279                      'visual_observation',
+ 1280                      'attention_analysis',
+ 1281                      'feature_extraction',
+ 1282                      'clinical_correlation',
+ 1283                      'diagnostic_reasoning',
+ 1284                      'conclusion'
+ 1285                  ],
+ 1286                  'confidence_propagation': 'confidence_cascade'  # IMPROVED
+ 1287              },
+ 1288              
+ 1289              'comparative_analysis': {
+ 1290                  'description': 'Comparative analysis with differential diagnosis',
+ 1291                  'steps': [
+ 1292                      'visual_observation',
+ 1293                      'feature_extraction', 
+ 1294                      'clinical_correlation',
+ 1295                      'differential_diagnosis',
+ 1296                      'diagnostic_reasoning',
+ 1297                      'conclusion'
+ 1298                  ],
+ 1299                  'confidence_propagation': 'weighted_harmonic_mean'  # IMPROVED
+ 1300              }
+ 1301          }
+ 1302      
+ 1303      def _init_evidence_templates(self) -> Dict:
+ 1304          """Initialize templates for evidence citation"""
+ 1305          return {
+ 1306              'visual_evidence': {
+ 1307                  'template': "Visual evidence: {evidence_description} (confidence: {confidence})",
+ 1308                  'citation_format': "[Visual: {location}]"
+ 1309              },
+ 1310              
+ 1311              'attention_evidence': {
+ 1312                  'template': "Attention evidence: {attention_description} (strength: {strength})",
+ 1313                  'citation_format': "[Attention: {region}]"
+ 1314              },
+ 1315              
+ 1316              'spatial_evidence': {
+ 1317                  'template': "Spatial evidence: {spatial_description} (relevance: {relevance})",
+ 1318                  'citation_format': "[Spatial: {coordinates}]"
+ 1319              },
+ 1320              
+ 1321              'clinical_evidence': {
+ 1322                  'template': "Clinical evidence: {clinical_description} (validity: {validity})",
+ 1323                  'citation_format': "[Clinical: {source}]"
+ 1324              },
+ 1325              
+ 1326              'pattern_evidence': {
+ 1327                  'template': "Pattern evidence: {pattern_description} (match: {match_score})",
+ 1328                  'citation_format': "[Pattern: {pattern_type}]"
+ 1329              }
+ 1330          }
+ 1331      
+ 1332      def get_step_template(self, step_type: str) -> Dict:
+ 1333          """Get template for specific reasoning step type"""
+ 1334          return self.step_templates.get(step_type, {
+ 1335              'template': "Analysis step: {content}",
+ 1336              'required_fields': ['content'],
+ 1337              'optional_fields': [],
+ 1338              'confidence_factors': ['general_confidence']
+ 1339          })
+ 1340      
+ 1341      def get_reasoning_flow(self, flow_type: str) -> Dict:
+ 1342          """Get reasoning flow template"""
+ 1343          return self.reasoning_flows.get(flow_type, self.reasoning_flows['standard_diagnostic'])
+ 1344      
+ 1345      def format_reasoning_step(self, step_type: str, step_data: Dict) -> Dict:
+ 1346          """Format a reasoning step using appropriate template"""
+ 1347          template_info = self.get_step_template(step_type)
+ 1348          template = template_info['template']
+ 1349          required_fields = template_info['required_fields']
+ 1350          optional_fields = template_info['optional_fields']
+ 1351          
+ 1352          # Check required fields
+ 1353          missing_fields = [field for field in required_fields if field not in step_data]
+ 1354          if missing_fields:
+ 1355              logger.warning(f"Missing required fields for {step_type}: {missing_fields}")
+ 1356              # Provide default values for missing fields
+ 1357              for field in missing_fields:
+ 1358                  step_data[field] = f"[{field}]"
+ 1359          
+ 1360          # Provide default values for optional fields
+ 1361          for field in optional_fields:
+ 1362              if field not in step_data:
+ 1363                  step_data[field] = ""
+ 1364          
+ 1365          # Format template
+ 1366          try:
+ 1367              formatted_content = template.format(**step_data)
+ 1368          except KeyError as e:
+ 1369              logger.error(f"Template formatting error for {step_type}: {e}")
+ 1370              formatted_content = f"Error formatting {step_type} step"
+ 1371          
+ 1372          # Create formatted step
+ 1373          formatted_step = {
+ 1374              'type': step_type,
+ 1375              'content': formatted_content,
+ 1376              'template_used': template,
+ 1377              'input_data': step_data,
+ 1378              'confidence_factors': template_info['confidence_factors']
+ 1379          }
+ 1380          
+ 1381          return formatted_step
+ 1382      
+ 1383      def create_reasoning_chain(self, flow_type: str, steps_data: List[Dict]) -> Dict:
+ 1384          """Create complete reasoning chain using specified flow"""
+ 1385          flow_info = self.get_reasoning_flow(flow_type)
+ 1386          expected_steps = flow_info['steps']
+ 1387          
+ 1388          reasoning_chain = {
+ 1389              'flow_type': flow_type,
+ 1390              'flow_description': flow_info['description'],
+ 1391              'steps': [],
+ 1392              'confidence_propagation': flow_info['confidence_propagation'],
+ 1393              'overall_confidence': 0.0
+ 1394          }
+ 1395          
+ 1396          # Process each step
+ 1397          for i, step_type in enumerate(expected_steps):
+ 1398              if i < len(steps_data):
+ 1399                  step_data = steps_data[i]
+ 1400                  formatted_step = self.format_reasoning_step(step_type, step_data)
+ 1401                  
+ 1402                  # Add step number and flow position
+ 1403                  formatted_step['step_number'] = i + 1
+ 1404                  formatted_step['flow_position'] = f"{i + 1}/{len(expected_steps)}"
+ 1405                  
+ 1406                  reasoning_chain['steps'].append(formatted_step)
+ 1407              else:
+ 1408                  logger.warning(f"No data provided for step {step_type} in {flow_type} flow")
+ 1409          
+ 1410          # Note: Overall confidence will be calculated by ChainOfThoughtGenerator
+ 1411          # using the improved confidence calculation methods
+ 1412          
+ 1413          return reasoning_chain
+ 1414      
+ 1415      def add_evidence_citations(self, reasoning_step: Dict, 
+ 1416                                evidence_links: List[Dict]) -> Dict:
+ 1417          """Add evidence citations to reasoning step"""
+ 1418          step_with_evidence = reasoning_step.copy()
+ 1419          citations = []
+ 1420          
+ 1421          for evidence in evidence_links:
+ 1422              evidence_type = evidence.get('type', 'unknown')
+ 1423              template_info = self.evidence_templates.get(f"{evidence_type}_evidence", 
+ 1424                                                         self.evidence_templates['visual_evidence'])
+ 1425              
+ 1426              # Format evidence description
+ 1427              evidence_description = evidence.get('description', 'Evidence available')
+ 1428              confidence = evidence.get('confidence', evidence.get('relevance', 'moderate'))
+ 1429              
+ 1430              # Create citation
+ 1431              citation = template_info['citation_format'].format(
+ 1432                  location=evidence.get('location', 'unspecified'),
+ 1433                  region=evidence.get('region', 'unspecified'),
+ 1434                  coordinates=evidence.get('coordinates', 'unspecified'),
+ 1435                  source=evidence.get('source', 'analysis'),
+ 1436                  pattern_type=evidence.get('pattern_type', 'unspecified')
+ 1437              )
+ 1438              
+ 1439              citations.append({
+ 1440                  'citation': citation,
+ 1441                  'evidence_type': evidence_type,
+ 1442                  'description': evidence_description,
+ 1443                  'confidence': confidence
+ 1444              })
+ 1445          
+ 1446          # Add citations to step
+ 1447          step_with_evidence['evidence_citations'] = citations
+ 1448          
+ 1449          # Append citations to content
+ 1450          if citations:
+ 1451              citation_text = " " + " ".join([c['citation'] for c in citations])
+ 1452              step_with_evidence['content'] += citation_text
+ 1453          
+ 1454          return step_with_evidence
+ 1455      
+ 1456      def validate_reasoning_chain(self, reasoning_chain: Dict) -> Dict:
+ 1457          """Validate reasoning chain for completeness and consistency"""
+ 1458          validation = {
+ 1459              'is_valid': True,
+ 1460              'completeness_score': 0.0,
+ 1461              'consistency_score': 0.0,
+ 1462              'issues': [],
+ 1463              'suggestions': []
+ 1464          }
+ 1465          
+ 1466          steps = reasoning_chain.get('steps', [])
+ 1467          flow_type = reasoning_chain.get('flow_type', 'unknown')
+ 1468          
+ 1469          # Check completeness
+ 1470          expected_flow = self.get_reasoning_flow(flow_type)
+ 1471          expected_steps = expected_flow['steps']
+ 1472          
+ 1473          if len(steps) < len(expected_steps):
+ 1474              validation['issues'].append(f"Incomplete reasoning chain: {len(steps)}/{len(expected_steps)} steps")
+ 1475              validation['is_valid'] = False
+ 1476          
+ 1477          validation['completeness_score'] = len(steps) / len(expected_steps) if expected_steps else 0
+ 1478          
+ 1479          # IMPROVED: Check consistency with better confidence awareness
+ 1480          consistency_issues = 0
+ 1481          confidence_drops = 0
+ 1482          
+ 1483          for i in range(1, len(steps)):
+ 1484              current_step = steps[i]
+ 1485              previous_step = steps[i-1]
+ 1486              
+ 1487              # Check confidence consistency
+ 1488              current_conf = current_step.get('confidence', 0.5)
+ 1489              previous_conf = previous_step.get('confidence', 0.5)
+ 1490              
+ 1491              # Allow reasonable confidence variations
+ 1492              confidence_drop = previous_conf - current_conf
+ 1493              
+ 1494              if confidence_drop > 0.2:  # Significant confidence drop
+ 1495                  confidence_drops += 1
+ 1496                  if confidence_drop > 0.3:  # Major confidence drop
+ 1497                      consistency_issues += 1
+ 1498                      validation['issues'].append(f"Step {i+1}: Major confidence drop ({confidence_drop:.2f})")
+ 1499              elif current_conf > previous_conf + 0.3:  # Unreasonable confidence increase
+ 1500                  consistency_issues += 1
+ 1501                  validation['issues'].append(f"Step {i+1}: Confidence increase without justification")
+ 1502          
+ 1503          # Calculate consistency score
+ 1504          if len(steps) > 1:
+ 1505              max_issues = len(steps) - 1
+ 1506              validation['consistency_score'] = max(0, 1.0 - (consistency_issues / max_issues))
+ 1507          else:
+ 1508              validation['consistency_score'] = 1.0
+ 1509          
+ 1510          # Overall validity
+ 1511          if validation['consistency_score'] < 0.6:
+ 1512              validation['is_valid'] = False
+ 1513          
+ 1514          # Generate improved suggestions
+ 1515          if validation['completeness_score'] < 1.0:
+ 1516              validation['suggestions'].append("Consider adding missing reasoning steps")
+ 1517          
+ 1518          if validation['consistency_score'] < 0.8:
+ 1519              validation['suggestions'].append("Review confidence assignments for logical consistency")
+ 1520          
+ 1521          if confidence_drops > 0:
+ 1522              validation['suggestions'].append("Investigate confidence drops and strengthen evidence support")
+ 1523          
+ 1524          return validation
+ 1525  EOL
+ 1526  python scripts/test_chain_of_thought.py
+ 1527  clear
+ 1528  python scripts/medxplain_vqa.py --mode explainable --num-samples 1
+ 1529  python scripts/medxplain_vqa.py --mode enhanced --num-samples 1
+ 1530  git push origin main
+ 1531  git add .
+ 1532  git commit -m "complete"
+ 1533  git push origin main
+ 1534  clerar
+ 1535  clear
+ 1536  # 1. Cấu trúc thư mục tổng quan
+ 1537  echo "=== PROJECT DIRECTORY STRUCTURE ==="
+ 1538  find . -type d -name "__pycache__" -prune -o -type d -name ".git" -prune -o -type d -print | head -30
+ 1539  echo -e "\n=== KEY DIRECTORIES DETAILED ==="
+ 1540  ls -la src/
+ 1541  ls -la scripts/
+ 1542  ls -la configs/
+ 1543  ls -la checkpoints/ 2>/dev/null || echo "No checkpoints directory"
+ 1544  ls -la data/ 2>/dev/null || echo "No data directory"
+ 1545  # 2. Tất cả Python files trong project
+ 1546  echo "=== ALL PYTHON FILES ==="
+ 1547  find . -name "*.py" -not -path "./.git/*" -not -path "./__pycache__/*" | sort
+ 1548  echo -e "\n=== MAIN SCRIPT FILES ==="
+ 1549  ls -la scripts/*.py 2>/dev/null || echo "No script files"
+ 1550  echo -e "\n=== SRC MODULE STRUCTURE ==="
+ 1551  find src/ -name "*.py" | sort
+ 1552  # 3. Discover main classes và functions
+ 1553  echo "=== MAIN CLASSES IN PROJECT ==="
+ 1554  grep -r "^class " src/ --include="*.py" | head -20
+ 1555  echo -e "\n=== MAIN FUNCTIONS IN SCRIPTS ==="
+ 1556  grep -r "^def " scripts/ --include="*.py" | head -15
+ 1557  echo -e "\n=== BLIP MODEL CLASSES ==="
+ 1558  grep -r "class.*BLIP" src/ --include="*.py"
+ 1559  echo -e "\n=== CHAIN OF THOUGHT CLASSES ==="
+ 1560  grep -r "class.*Chain" src/ --include="*.py"
+ 1561  echo -e "\n=== GRAD-CAM CLASSES ==="
+ 1562  grep -r "class.*Grad" src/ --include="*.py"
+ 1563  # 4. Configuration files và current state
+ 1564  echo "=== CONFIGURATION FILES ==="
+ 1565  cat configs/config.yaml 2>/dev/null || echo "No config.yaml found"
+ 1566  echo -e "\n=== API KEYS CONFIG ==="
+ 1567  ls -la configs/api_keys.yaml 2>/dev/null && echo "API keys file exists" || echo "No API keys file"
+ 1568  echo -e "\n=== CURRENT WORKING DIRECTORY ==="
+ 1569  pwd
+ 1570  echo -e "\n=== ENVIRONMENT INFO ==="
+ 1571  conda info --envs | grep -E "(medxplain|base|\*)"
+ 1572  python --version
+ 1573  pip list | grep -E "(torch|transformers|google-generativeai|PIL|matplotlib)" | head -10
+ 1574  # 5. Model checkpoints và training status
+ 1575  echo "=== MODEL CHECKPOINTS ==="
+ 1576  find . -name "*checkpoint*" -o -name "*model*" -o -name "*.pth" -o -name "*.pt" | head -10
+ 1577  echo -e "\n=== RECENT RESULTS & OUTPUTS ==="
+ 1578  ls -la data/medxplain_enhanced_results/ 2>/dev/null | head -5 || echo "No recent results"
+ 1579  ls -la data/batch_test_* 2>/dev/null | head -5 || echo "No batch test results"
+ 1580  echo -e "\n=== LOG FILES ==="
+ 1581  find . -name "*.log" | head -5
+ 1582  # 6. Key implementation files content preview
+ 1583  echo "=== MAIN PIPELINE SCRIPT ==="
+ 1584  head -50 scripts/medxplain_vqa.py 2>/dev/null || echo "Main script not found"
+ 1585  echo -e "\n=== GRAD-CAM IMPLEMENTATION ==="
+ 1586  head -30 src/explainability/grad_cam.py 2>/dev/null || echo "Grad-CAM not found"
+ 1587  echo -e "\n=== CHAIN OF THOUGHT ==="
+ 1588  head -30 src/explainability/rationale/chain_of_thought.py 2>/dev/null || echo "Chain of thought not found"
+ 1589  echo -e "\n=== RECENT BATCH TEST RESULTS (if any) ==="
+ 1590  find data/ -name "*batch_test_report*" -exec ls -la {} \; 2>/dev/null | head -3
+ 1591  # 7. Import dependencies để hiểu relationships
+ 1592  echo "=== KEY IMPORTS IN MAIN SCRIPTS ==="
+ 1593  grep -E "^from src\.|^import src\." scripts/*.py 2>/dev/null | head -10
+ 1594  echo -e "\n=== EXPLAINABILITY IMPORTS ==="
+ 1595  grep -r "from.*explainability" src/ --include="*.py" | head -10
+ 1596  echo -e "\n=== MODEL IMPORTS ==="
+ 1597  grep -r "from.*models" src/ --include="*.py" | head -10
+ 1598  clear
+ 1599  # Run all discovery commands at once
+ 1600  { echo "=== PROJECT DIRECTORY STRUCTURE ==="; find . -type d -name "__pycache__" -prune -o -type d -name ".git" -prune -o -type d -print | head -30 echo -e "\n=== ALL PYTHON FILES ==="; find . -name "*.py" -not -path "./.git/*" -not -path "./__pycache__/*" | sort echo -e "\n=== MAIN CLASSES IN PROJECT ==="; grep -r "^class " src/ --include="*.py" | head -20 echo -e "\n=== MODEL CHECKPOINTS ==="; find . -name "*checkpoint*" -o -name "*model*" -o -name "*.pth" -o -name "*.pt" | head -10 echo -e "\n=== RECENT RESULTS ==="; ls -la data/batch_test_* 2>/dev/null | head -5 || echo "No batch test results" } > project_discovery.log 2>&1
+ 1601  # Then show the log
+ 1602  cat project_discovery.log
+ 1603  clear
+ 1604  # Create test script for bounding box functionality
+ 1605  cat > scripts/test_bounding_box_system.py << 'EOL'
+ 1606  #!/usr/bin/env python
+ 1607  import os
+ 1608  import sys
+ 1609  import torch
+ 1610  import matplotlib.pyplot as plt
+ 1611  from PIL import Image
+ 1612  import numpy as np
+ 1613  import json
+ 1614  # Add src to path
+ 1615  sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+ 1616  from src.utils.config import Config
+ 1617  from src.utils.logger import setup_logger
+ 1618  from src.models.blip2.model import BLIP2VQA
+ 1619  from src.explainability.grad_cam_enhanced import EnhancedGradCAM
+ 1620  from src.explainability.bounding_box_extractor import BoundingBoxExtractor
+ 1621  def test_bounding_box_extraction():
+ 1622      """Test bounding box extraction functionality"""
+ 1623      print("🧪 TESTING BOUNDING BOX EXTRACTION SYSTEM")
+ 1624      print("="*50)
+ 1625      
+ 1626      # Load config
+ 1627      config = Config('configs/config.yaml')
+ 1628      
+ 1629      # Setup logger
+ 1630      logger = setup_logger('bounding_box_test', config['logging']['save_dir'])
+ 1631      
+ 1632      # Load BLIP model
+ 1633      print("📥 Loading BLIP model...")
+ 1634      device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+ 1635      blip_model = BLIP2VQA(config, train_mode=False)
+ 1636      
+ 1637      # Load trained weights
+ 1638      model_path = "checkpoints/blip/checkpoints/best_hf_model"
+ 1639      blip_model.model = type(blip_model.model).from_pretrained(model_path)
+ 1640      blip_model.model.to(device)
+ 1641      blip_model.model.eval()
+ 1642      
+ 1643      # Add processor for GradCAM compatibility
+ 1644      if not hasattr(blip_model.model, 'processor'):
+ 1645          blip_model.model.processor = blip_model.processor
+ 1646      
+ 1647      print("✅ BLIP model loaded successfully")
+ 1648      
+ 1649      # Initialize Enhanced Grad-CAM
+ 1650      print("🔬 Initializing Enhanced Grad-CAM...")
+ 1651      enhanced_gradcam = EnhancedGradCAM(
+ 1652          blip_model.model, 
+ 1653          layer_name="vision_model.encoder.layers.11",
+ 1654          config=config
+ 1655      )
+ 1656      print("✅ Enhanced Grad-CAM initialized")
+ 1657      
+ 1658      # Load test image
+ 1659      test_image_path = "data/images/test/test_5238.jpg"  # Use known working image
+ 1660      if not os.path.exists(test_image_path):
+ 1661          # Try alternative paths
+ 1662          alternative_paths = [
+ 1663              "data/images/test/test_0001.jpg",
+ 1664              "data/images/test/test_0002.jpg",
+ 1665              "data/images/test/test_1000.jpg"
+ 1666          ]
+ 1667          
+ 1668          for alt_path in alternative_paths:
+ 1669              if os.path.exists(alt_path):
+ 1670                  test_image_path = alt_path
+ 1671                  break
+ 1672          else:
+ 1673              print("❌ No test images found. Please check data directory.")
+ 1674              return False
+ 1675      
+ 1676      print(f"📸 Loading test image: {test_image_path}")
+ 1677      image = Image.open(test_image_path).convert('RGB')
+ 1678      print(f"✅ Image loaded: {image.size}")
+ 1679      
+ 1680      # Test question
+ 1681      question = "What does this image show?"
+ 1682      
+ 1683      # Generate complete analysis
+ 1684      print("🔍 Generating complete Grad-CAM analysis...")
+ 1685      analysis_result = enhanced_gradcam.generate_complete_analysis(
+ 1686          image, question, original_size=image.size
+ 1687      )
+ 1688      
+ 1689      # Print results
+ 1690      print("\n📊 ANALYSIS RESULTS:")
+ 1691      print("-" * 30)
+ 1692      
+ 1693      print(f"Heatmap generated: {'✅' if analysis_result.get('heatmap') is not None else '❌'}")
+ 1694      print(f"Bounding boxes extracted: {'✅' if analysis_result.get('extraction_success') else '❌'}")
+ 1695      print(f"Total regions: {analysis_result.get('total_regions', 0)}")
+ 1696      
+ 1697      if analysis_result.get('region_descriptions'):
+ 1698          print("\n📍 REGION DESCRIPTIONS:")
+ 1699          for desc in analysis_result['region_descriptions']:
+ 1700              print(f"  • {desc}")
+ 1701      
+ 1702      # Print region statistics
+ 1703      region_stats = analysis_result.get('region_statistics', {})
+ 1704      if region_stats and region_stats.get('total_regions', 0) > 0:
+ 1705          print(f"\n📈 REGION STATISTICS:")
+ 1706          print(f"  Total regions: {region_stats['total_regions']}")
+ 1707          
+ 1708          if 'type_distribution' in region_stats:
+ 1709              print(f"  Type distribution: {region_stats['type_distribution']}")
+ 1710          
+ 1711          if 'confidence_stats' in region_stats:
+ 1712              conf_stats = region_stats['confidence_stats']
+ 1713              print(f"  Confidence range: {conf_stats['min']:.3f} - {conf_stats['max']:.3f}")
+ 1714              print(f"  Average confidence: {conf_stats['mean']:.3f}")
+ 1715      
+ 1716      # Generate attention summary
+ 1717      print(f"\n📝 ATTENTION SUMMARY:")
+ 1718      attention_summary = enhanced_gradcam.get_attention_summary(analysis_result)
+ 1719      print(attention_summary)
+ 1720      
+ 1721      # Create visualization
+ 1722      print("\n🎨 Creating visualizations...")
+ 1723      
+ 1724      # Create output directory
+ 1725      output_dir = "data/bounding_box_test_results"
+ 1726      os.makedirs(output_dir, exist_ok=True)
+ 1727      
+ 1728      # Create figure with multiple views
+ 1729      fig, axes = plt.subplots(2, 2, figsize=(15, 12))
+ 1730      
+ 1731      # Original image
+ 1732      axes[0, 0].imshow(image)
+ 1733      axes[0, 0].set_title("Original Image")
+ 1734      axes[0, 0].axis('off')
+ 1735      
+ 1736      # Heatmap only
+ 1737      if analysis_result.get('heatmap') is not None:
+ 1738          axes[0, 1].imshow(analysis_result['heatmap'], cmap='jet')
+ 1739          axes[0, 1].set_title("Grad-CAM Heatmap")
+ 1740          axes[0, 1].axis('off')
+ 1741      else:
+ 1742          axes[0, 1].text(0.5, 0.5, "Heatmap\nNot Available", ha='center', va='center')
+ 1743          axes[0, 1].set_title("Grad-CAM Heatmap")
+ 1744          axes[0, 1].axis('off')
+ 1745      
+ 1746      # Heatmap + Bounding boxes
+ 1747      complete_viz = enhanced_gradcam.visualize_complete_analysis(
+ 1748          image, analysis_result, show_heatmap=True, show_boxes=True
+ 1749      )
+ 1750      axes[1, 0].imshow(complete_viz)
+ 1751      axes[1, 0].set_title("Complete Analysis\n(Heatmap + Bounding Boxes)")
+ 1752      axes[1, 0].axis('off')
+ 1753      
+ 1754      # Bounding boxes only
+ 1755      boxes_only_viz = enhanced_gradcam.visualize_complete_analysis(
+ 1756          image, analysis_result, show_heatmap=False, show_boxes=True
+ 1757      )
+ 1758      axes[1, 1].imshow(boxes_only_viz)
+ 1759      axes[1, 1].set_title("Bounding Boxes Only")
+ 1760      axes[1, 1].axis('off')
+ 1761      
+ 1762      plt.tight_layout()
+ 1763      
+ 1764      # Save visualization
+ 1765      viz_path = os.path.join(output_dir, "bounding_box_test_visualization.png")
+ 1766      plt.savefig(viz_path, dpi=300, bbox_inches='tight')
+ 1767      plt.close()
+ 1768      
+ 1769      print(f"✅ Visualization saved: {viz_path}")
+ 1770      
+ 1771      # Save analysis results
+ 1772      # Convert numpy arrays to lists for JSON serialization
+ 1773      serializable_result = {
+ 1774          'total_regions': analysis_result.get('total_regions', 0),
+ 1775          'extraction_success': analysis_result.get('extraction_success', False),
+ 1776          'region_descriptions': analysis_result.get('region_descriptions', []),
+ 1777          'region_statistics': analysis_result.get('region_statistics', {}),
+ 1778          'original_size': analysis_result.get('original_size'),
+ 1779          'heatmap_shape': list(analysis_result['heatmap'].shape) if analysis_result.get('heatmap') is not None else None,
+ 1780          'attention_summary': attention_summary
+ 1781      }
+ 1782      
+ 1783      # Add bounding box data (without numpy arrays)
+ 1784      if analysis_result.get('bounding_boxes'):
+ 1785          serializable_result['bounding_boxes'] = []
+ 1786          for bbox in analysis_result['bounding_boxes']:
+ 1787              bbox_data = {
+ 1788                  'id': bbox.get('id', 0),
+ 1789                  'bbox': bbox.get('bbox', []),
+ 1790                  'center': bbox.get('center', []),
+ 1791                  'area': bbox.get('area', 0),
+ 1792                  'confidence': bbox.get('confidence', 0),
+ 1793                  'region_type': bbox.get('region_type', 'unknown'),
+ 1794                  'importance': bbox.get('importance', 0)
+ 1795              }
+ 1796              serializable_result['bounding_boxes'].append(bbox_data)
+ 1797      
+ 1798      # Save JSON results
+ 1799      results_path = os.path.join(output_dir, "bounding_box_test_results.json")
+ 1800      with open(results_path, 'w', encoding='utf-8') as f:
+ 1801          json.dump(serializable_result, f, indent=2, ensure_ascii=False)
+ 1802      
+ 1803      print(f"✅ Results saved: {results_path}")
+ 1804      
+ 1805      # Clean up
+ 1806      enhanced_gradcam.remove_hooks()
+ 1807      
+ 1808      # Final assessment
+ 1809      print(f"\n🎯 TEST ASSESSMENT:")
+ 1810      print("-" * 30)
+ 1811      
+ 1812      success_criteria = {
+ 1813          'Heatmap Generation': analysis_result.get('heatmap') is not None,
+ 1814          'Bounding Box Extraction': analysis_result.get('extraction_success', False),
+ 1815          'Region Detection': analysis_result.get('total_regions', 0) > 0,
+ 1816          'Visualization Creation': os.path.exists(viz_path),
+ 1817          'Results Export': os.path.exists(results_path)
+ 1818      }
+ 1819      
+ 1820      passed_tests = sum(success_criteria.values())
+ 1821      total_tests = len(success_criteria)
+ 1822      
+ 1823      for test_name, passed in success_criteria.items():
+ 1824          status = "✅ PASS" if passed else "❌ FAIL"
+ 1825          print(f"{status} {test_name}")
+ 1826      
+ 1827      success_rate = (passed_tests / total_tests) * 100
+ 1828      print(f"\n📊 SUCCESS RATE: {passed_tests}/{total_tests} ({success_rate:.1f}%)")
+ 1829      
+ 1830      if success_rate >= 80:
+ 1831          print("🚀 BOUNDING BOX SYSTEM READY FOR INTEGRATION!")
+ 1832          return True
+ 1833      else:
+ 1834          print("⚠️ BOUNDING BOX SYSTEM NEEDS FIXES")
+ 1835          return False
+ 1836  if __name__ == "__main__":
+ 1837      success = test_bounding_box_extraction()
+ 1838      
+ 1839      if success:
+ 1840          print("\n🎉 Bounding box system test completed successfully!")
+ 1841          print("🚀 Ready to integrate with main pipeline!")
+ 1842      else:
+ 1843          print("\n❌ Bounding box system test failed!")
+ 1844          print("🔧 Please review and fix issues before integration")
+ 1845  EOL
+ 1846  # Make executable and run test
+ 1847  chmod +x scripts/test_bounding_box_system.py
+ 1848  echo "🧪 RUNNING BOUNDING BOX SYSTEM TEST..."
+ 1849  python scripts/test_bounding_box_system.py
+ 1850  byobu
+ 1851  clear
+ 1852  byobu
+ 1853  conda activate medxplain-vqa
+ 1854  clear
+ 1855  # Core pipeline file
+ 1856  cat scripts/medxplain_vqa.py
+ 1857  # Chain of thought current version  
+ 1858  cat src/explainability/rationale/chain_of_thought.py
+ 1859  # Evidence linker current version
+ 1860  cat src/explainability/rationale/evidence_linker.py
+ 1861  # Main config
+ 1862  cat configs/config.yaml
+ 1863  clear
+ 1864  cat scripts/medxplain_vqa.py
+ 1865  clear
+ 1866  cat src/explainability/rationale/chain_of_thought.py
+ 1867  clear
+ 1868  cat src/explainability/rationale/evidence_linker.py
+ 1869  clear
+ 1870  cat configs/config.yaml
+ 1871  clear
+ 1872  # Current project structure
+ 1873  find . -name "*.py" -path "./scripts/*" | head -10
+ 1874  find . -name "*.py" -path "./src/explainability/*" | head -10
+ 1875  # Recent files để check changes
+ 1876  ls -la scripts/ | head -10  
+ 1877  ls -la src/explainability/ | head -10
+ 1878  clear
+ 1879  cat scripts/medxplain_vqa.py
+ 1880  clear
+ 1881  cat src/explainability/rationale/chain_of_thought.py
+ 1882  clear
+ 1883  cat src/explainability/rationale/evidence_linker.py
+ 1884  byobu
+ 1885  cat src/utils/config.py
+ 1886  cat src/utils/logger.py
+ 1887  cat src/utils/data_loader.py
+ 1888  byobu
+ 1889  conda activate medxplain-vqa
+ 1890  python scripts/medxplain_vqa.py --mode enhanced --enable-bbox --num-samples 1
+ 1891  git add .
+ 1892  git commit -m "test_complete_integration"
+ 1893  git push origin main
+ 1894  clear
+ 1895  grep -n "relative_size" src/explainability/rationale/evidence_linker.py
+ 1896  python scripts/medxplain_vqa.py --mode enhanced --enable-bbox --num-samples 1 2>&1 | grep -A 10 -B 5 "relative_size"
+ 1897  sed -n '150,220p' src/explainability/rationale/evidence_linker.py
+ 1898  clear
+ 1899  python scripts/medxplain_vqa.py --mode enhanced --enable-bbox --num-samples 1
+ 1900  clear
+ 1901  python scripts/medxplain_vqa.py --mode enhanced --enable-bbox --num-samples 1
+ 1902  clear
+ 1903  # Tìm file nào đang tạo visualization
+ 1904  grep -r "Enhanced Attention Heatmap" scripts/
+ 1905  grep -r "Bounding Boxes" src/explainability/
+ 1906  grep -r "plt.subplots.*3" src/explainability/
+ 1907  cat src/explainability/enhanced_grad_cam_fixed.py
+ 1908  clear
+ 1909  python scripts/medxplain_vqa.py --mode enhanced --enable-bbox --num-samples 1
+ 1910  CLEAR
+ 1911  clear
+ 1912  python scripts/medxplain_vqa.py --mode enhanced --enable-bbox --num-samples 1
+ 1913  conda activate medxplain-vqa
+ 1914  python scripts/medxplain_vqa.py --mode enhanced --enable-bbox --num-samples 1
+ 1915  cp src/explainability/bounding_box_extractor.py src/explainability/bounding_box_extractor.py.backup
+ 1916  cp scripts/medxplain_vqa.py scripts/medxplain_vqa.py.backup
+ 1917  clear
+ 1918  python scripts/medxplain_vqa.py --mode enhanced --enable-bbox --num-samples 1
+ 1919  clear
+ 1920  python scripts/medxplain_vqa.py --mode enhanced --enable-bbox --num-samples 1
+ 1921  clear
+ 1922  python scripts/medxplain_vqa.py --mode enhanced --enable-bbox --num-samples 1
+ 1923  clear
+ 1924  python scripts/medxplain_vqa.py --mode enhanced --enable-bbox --num-samples 1
+ 1925  conda activate medxplain-vqa
+ 1926  # Tạo script phân tích structure
+ 1927  cat > analyze_structure.sh << 'EOF'
+ 1928  #!/bin/bash
+ 1929  echo "🏗️ MEDXPLAIN-VQA PROJECT STRUCTURE ANALYSIS"
+ 1930  echo "=============================================="
+ 1931  echo
+ 1932  echo "📁 MAIN DIRECTORIES:"
+ 1933  find . -type d -name ".*" -prune -o -type d -print | head -20 | sort
+ 1934  echo
+ 1935  echo "🐍 PYTHON SOURCE FILES:"
+ 1936  find . -name "*.py" | grep -E "(src/|scripts/)" | sort
+ 1937  echo
+ 1938  echo "⚙️ CONFIGURATION FILES:"
+ 1939  find . -name "*.yaml" -o -name "*.yml" -o -name "config*" | sort
+ 1940  echo
+ 1941  echo "📊 DATA DIRECTORIES (content summary):"
+ 1942  for dir in data checkpoints logs; do
+ 1943    if [ -d "$dir" ]; then
+ 1944      echo "  $dir/:"
+ 1945      find "$dir" -type d | head -10 | sed 's/^/    /'
+ 1946      echo "    📸 Images: $(find "$dir" -name "*.jpg" -o -name "*.png" 2>/dev/null | wc -l) files"
+ 1947      echo "    🤖 Models: $(find "$dir" -name "*.pth" -o -name "*.pt" 2>/dev/null | wc -l) files"
+ 1948      echo "    📋 JSON: $(find "$dir" -name "*.json" 2>/dev/null | wc -l) files"
+ 1949      echo
+ 1950    fi
+ 1951  done
+ 1952  echo "📜 DOCUMENTATION & SCRIPTS:"
+ 1953  find . -name "*.md" -o -name "*.txt" -o -name "*.sh" | grep -v __pycache__ | sort
+ 1954  echo
+ 1955  echo "📊 PROJECT STATISTICS:"
+ 1956  echo "  🐍 Python files: $(find . -name "*.py" | wc -l)"
+ 1957  echo "  📁 Directories: $(find . -type d | wc -l)"
+ 1958  echo "  💾 Total files: $(find . -type f | wc -l)"
+ 1959  echo "  📦 Project size: $(du -sh . | cut -f1)"
+ 1960  EOF
+ 1961  chmod +x analyze_structure.sh && ./analyze_structure.sh
+ 1962  grep -n "def __init__" src/explainability/reasoning/query_reformulator.py
+ 1963  clear
+ 1964  grep -A 5 "def __init__" src/explainability/reasoning/visual_context_extractor.py
+ 1965  grep -A 15 "def __init__" src/explainability/reasoning/visual_context_extractor.py
+ 1966  clear
+ 1967  python scripts/paper_evaluation_suite.py --mode enhanced --max-samples 1
+ 1968  byobu
+ 1969  conda activate medxplain-vqa
+ 1970  python scripts/paper_evaluation_suite.py --num-samples 1
+ 1971  clear
+ 1972  python scripts/paper_evaluation_suite.py --num-samples 5
+ 1973  clear
+ 1974  python scripts/paper_evaluation_suite.py --num-samples 1
+ 1975  python scripts/paper_evaluation_suite.py --num-samples 1 --debug --save-individual
+ 1976  conda activate medxplain-vqa
+ 1977  clear
+ 1978  python scripts/paper_evaluation_suite.py --quick-test
+ 1979  clear
+ 1980  # Xem overall structure
+ 1981  tree -L 3 -I '__pycache__|*.pyc|*.log'
+ 1982  # Xem scripts directory detail
+ 1983  tree scripts/ -I '__pycache__|*.pyc'
+ 1984  # Xem src structure detail  
+ 1985  tree src/ -L 4 -I '__pycache__|*.pyc'
+ 1986  # Xem data results structure
+ 1987  tree data/ -L 3 -I '*.jpg|*.png|*.jpeg'
+ 1988  # Xem configs
+ 1989  tree configs/
+ 1990  apt  install tree
+ 1991  clear
+ 1992  # Xem overall structure
+ 1993  tree -L 3 -I '__pycache__|*.pyc|*.log'
+ 1994  # Xem scripts directory detail
+ 1995  tree scripts/ -I '__pycache__|*.pyc'
+ 1996  # Xem src structure detail  
+ 1997  tree src/ -L 4 -I '__pycache__|*.pyc'
+ 1998  # Xem data results structure
+ 1999  tree data/ -L 3 -I '*.jpg|*.png|*.jpeg'
+ 2000  # Xem configs
+ 2001  tree configs/
+ 2002  clear
+ 2003  # 1. Xem cấu trúc configs
+ 2004  tree configs/ -L 2
+ 2005  # 2. Xem cấu trúc main scripts  
+ 2006  tree scripts/ | grep -E "(medxplain_vqa|test_|evaluation|batch)"
+ 2007  # 3. Xem cấu trúc models và evaluation
+ 2008  tree src/models/ -L 3
+ 2009  # 4. Xem cấu trúc explainability
+ 2010  tree src/explainability/ -L 2
+ 2011  # 5. Xem cấu trúc data results (để hiểu format output)
+ 2012  tree data/ -L 2 | head -20
+ 2013  # 6. Xem checkpoints structure
+ 2014  tree checkpoints/ -L 3
+ 2015  clear
+ 2016  ls data/images/test/ | head -10
+ 2017  ls data/questions/ | head -5
+ 2018  clear
+ 2019  python scripts/paper_evaluation_suite.py --n-samples 20 --output-dir data/test_evaluation
+ 2020  clear
+ 2021  python scripts/paper_evaluation_suite.py --n-samples 20 --output-dir data/test_evaluation
+ 2022  clear
+ 2023  python scripts/paper_evaluation_suite.py --n-samples 20 --output-dir data/test_evaluation
+ 2024  rm -rf data/test_evaluation
+ 2025  clear
+ 2026  python scripts/paper_evaluation_suite.py --n-samples 20 --output-dir data/test_evaluation
+ 2027  clear
+ 2028  python scripts/paper_evaluation_suite.py --n-samples 20 --output-dir data/test_evaluation
+ 2029  clear
+ 2030  python scripts/paper_evaluation_suite.py --n-samples 20 --output-dir data/test_evaluation
+ 2031  cleqar
+ 2032  clear
+ 2033  python scripts/medxplain_vqa.py --mode enhanced --num-samples 1 --enable-cot
+ 2034  python scripts/medxplain_vqa.py --mode enhanced --config configs/config.yaml --model-path checkpoints/blip/checkpoints/best_hf_model --output-dir data/medxplain_enhanced_results
+ 2035  python scripts/medxplain_vqa.py --mode enhanced --enable-bbox --enable-cot --config configs/config.yaml --model-path checkpoints/blip/checkpoints/best_hf_model --output-dir data/medxplain_full_results
+ 2036  python scripts/medxplain_vqa.py --mode enhanced     --enable-bbox     --enable-cot     --config configs/config.yaml     --model-path checkpoints/blip/checkpoints/best_hf_model     --num-samples 50     --output-dir data/medxplain_50_samples
+ 2037  clear
+ 2038  python scripts/medxplain_vqa.py --mode enhanced --enable-bbox --enable-cot --config configs/config.yaml --model-path checkpoints/blip/checkpoints/best_hf_model --output-dir data/medxplain_full_results
+ 2039  python scripts/fix_gradcam_and_test.py     --config configs/config.yaml     --model-path checkpoints/blip/checkpoints/best_hf_model     --image data/images/test/test_5238.jpg     --question "what does this image show?"clear
+ 2040  clear
+ 2041  history | grep "medxplain"
+ 2042  history | grep "medxplain_enhanced_results"
+ 2043  history >> full_command_history.txt

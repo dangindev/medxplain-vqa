@@ -1,0 +1,101 @@
+{
+  "sample_id": "test_0260",
+  "processing_mode": "explainable_vqa",
+  "success": true,
+  "image_path": "data/images/test/test_0260.jpg",
+  "question": "is abdomen present?",
+  "ground_truth": "yes",
+  "blip_answer": "no",
+  "unified_answer": "This image appears to show a few inflammatory cells, possibly neutrophils, on a background that suggests a cytologic preparation.  It is not an image of the abdomen and does not show any abdominal structures such as the rectus abdominis, external obliques, liver, stomach, or intestines.  The costal margin and iliac crests are also not visible. The field of view is significantly too small and at too high a magnification to visualize any gross anatomical structures.\n",
+  "processing_steps": [
+    "BLIP inference",
+    "Query reformulation",
+    "Enhanced Grad-CAM attention",
+    "Enhanced unified answer generation"
+  ],
+  "error_messages": [],
+  "chain_of_thought_enabled": false,
+  "reformulated_question": "Based on this 224x224 image, and considering its distributed attention and focus on the middle center region, can we visualize the abdominal region including structures such as the rectus abdominis muscles, external obliques, and potentially portions of the liver, stomach, and intestines depending on the imaging modality?  Assess the visibility of these structures based on image quality and contrast. If the inferior costal margin and iliac crests are visible, use them as landmarks to define the superior and inferior boundaries of the abdomen, respectively.  Note any limitations imposed by the field of view.?",
+  "reformulation_quality": 1.0,
+  "grad_cam_available": true,
+  "bbox_enabled": false,
+  "grad_cam_mode": "basic",
+  "bbox_regions_count": 5,
+  "bounding_box_analysis": {
+    "total_regions": 5,
+    "average_attention_score": 0.9790655016899109,
+    "max_attention_score": 1.0,
+    "regions_details": [
+      {
+        "rank": 1,
+        "bbox": [
+          49,
+          87,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          60,
+          98
+        ]
+      },
+      {
+        "rank": 2,
+        "bbox": [
+          59,
+          77,
+          22,
+          22
+        ],
+        "attention_score": 0.992385983467102,
+        "center": [
+          70,
+          88
+        ]
+      },
+      {
+        "rank": 3,
+        "bbox": [
+          68,
+          96,
+          22,
+          22
+        ],
+        "attention_score": 0.9848963022232056,
+        "center": [
+          79,
+          107
+        ]
+      },
+      {
+        "rank": 4,
+        "bbox": [
+          58,
+          49,
+          22,
+          22
+        ],
+        "attention_score": 0.962958812713623,
+        "center": [
+          69,
+          60
+        ]
+      },
+      {
+        "rank": 5,
+        "bbox": [
+          40,
+          40,
+          22,
+          22
+        ],
+        "attention_score": 0.9550864100456238,
+        "center": [
+          51,
+          51
+        ]
+      }
+    ]
+  }
+}

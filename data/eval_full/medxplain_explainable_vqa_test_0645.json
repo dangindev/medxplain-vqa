@@ -1,0 +1,110 @@
+{
+  "sample_id": "test_0645",
+  "processing_mode": "explainable_vqa",
+  "success": true,
+  "image_path": "data/images/test/test_0645.jpg",
+  "question": "what is present?",
+  "ground_truth": "vasculature",
+  "blip_answer": "yes",
+  "unified_answer": "This image appears to show a section of lung tissue with emphysematous changes. The lower central area, and other scattered regions throughout the image, demonstrate enlarged airspaces, consistent with alveolar destruction.  While the provided heatmap highlights several areas, the low resolution and lack of clinical context make it difficult to definitively characterize the five secondary regions beyond noting they also appear to contain areas of emphysematous change similar to the central region. Further information, including staining technique and magnification, would be necessary for a more precise diagnosis.\n",
+  "processing_steps": [
+    "BLIP inference",
+    "Query reformulation",
+    "Enhanced Grad-CAM attention",
+    "Chain-of-Thought reasoning",
+    "Enhanced unified answer generation"
+  ],
+  "error_messages": [],
+  "chain_of_thought_enabled": true,
+  "reformulated_question": "This 224x224 medical image exhibits distributed attention, with a primary focus in the lower central region and five secondary attention regions.  Describing the findings in the lower central region, what anatomical structures or pathologies are visible, and what are the characteristics of the five secondary regions (e.g., location, size, shape, density)?",
+  "reformulation_quality": 1.0,
+  "grad_cam_available": true,
+  "bbox_enabled": false,
+  "grad_cam_mode": "basic",
+  "bbox_regions_count": 5,
+  "bounding_box_analysis": {
+    "total_regions": 5,
+    "average_attention_score": 0.9855298519134521,
+    "max_attention_score": 1.0,
+    "regions_details": [
+      {
+        "rank": 1,
+        "bbox": [
+          115,
+          2,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          126,
+          13
+        ]
+      },
+      {
+        "rank": 2,
+        "bbox": [
+          123,
+          -11,
+          22,
+          22
+        ],
+        "attention_score": 0.9819123148918152,
+        "center": [
+          134,
+          0
+        ]
+      },
+      {
+        "rank": 3,
+        "bbox": [
+          123,
+          -10,
+          22,
+          22
+        ],
+        "attention_score": 0.9819123148918152,
+        "center": [
+          134,
+          1
+        ]
+      },
+      {
+        "rank": 4,
+        "bbox": [
+          123,
+          -9,
+          22,
+          22
+        ],
+        "attention_score": 0.9819123148918152,
+        "center": [
+          134,
+          2
+        ]
+      },
+      {
+        "rank": 5,
+        "bbox": [
+          123,
+          -8,
+          22,
+          22
+        ],
+        "attention_score": 0.9819123148918152,
+        "center": [
+          134,
+          3
+        ]
+      }
+    ]
+  },
+  "reasoning_analysis": {
+    "reasoning_confidence": 0.8981608579160874,
+    "reasoning_flow": "attention_guided",
+    "reasoning_steps_count": 6,
+    "confidence_method": "confidence_cascade",
+    "validation_score": 0.0,
+    "validation_validity": false
+  }
+}

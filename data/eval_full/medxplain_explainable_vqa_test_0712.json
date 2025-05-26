@@ -1,0 +1,110 @@
+{
+  "sample_id": "test_0712",
+  "processing_mode": "explainable_vqa",
+  "success": true,
+  "image_path": "data/images/test/test_0712.jpg",
+  "question": "is cardiovascular present?",
+  "ground_truth": "yes",
+  "blip_answer": "yes",
+  "unified_answer": "This image shows a cross-section of a heart. While the myocardium is visible, the limited field of view prevents assessment of the great vessels, mediastinal structures, or the overall size and shape of the heart.  Therefore, it is not possible to comprehensively evaluate the cardiovascular structures or comment on any abnormalities.\n",
+  "processing_steps": [
+    "BLIP inference",
+    "Query reformulation",
+    "Enhanced Grad-CAM attention",
+    "Chain-of-Thought reasoning",
+    "Enhanced unified answer generation"
+  ],
+  "error_messages": [],
+  "chain_of_thought_enabled": true,
+  "reformulated_question": "Based on this 224x224 image with distributed attention and focus in the middle center region, can we visualize cardiovascular structures such as the heart, great vessels (aorta, pulmonary artery, superior and inferior vena cava), and potentially major branches within the field of view?  Specifically, assess the image quality for adequate visualization of these structures.  If the heart is visible, comment on its size, shape, and position relative to mediastinal structures (if visible).  If great vessels are visible, comment on their caliber and course.  Note any abnormalities in appearance, size, or position of these structures.  If the image quality or field of view is insufficient to assess these features, please state that explicitly.?",
+  "reformulation_quality": 1.0,
+  "grad_cam_available": true,
+  "bbox_enabled": false,
+  "grad_cam_mode": "basic",
+  "bbox_regions_count": 5,
+  "bounding_box_analysis": {
+    "total_regions": 5,
+    "average_attention_score": 0.9582784295082092,
+    "max_attention_score": 1.0,
+    "regions_details": [
+      {
+        "rank": 1,
+        "bbox": [
+          189,
+          124,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          200,
+          135
+        ]
+      },
+      {
+        "rank": 2,
+        "bbox": [
+          170,
+          189,
+          22,
+          22
+        ],
+        "attention_score": 0.9849121570587158,
+        "center": [
+          181,
+          200
+        ]
+      },
+      {
+        "rank": 3,
+        "bbox": [
+          58,
+          161,
+          22,
+          22
+        ],
+        "attention_score": 0.9603821039199829,
+        "center": [
+          69,
+          172
+        ]
+      },
+      {
+        "rank": 4,
+        "bbox": [
+          78,
+          124,
+          22,
+          22
+        ],
+        "attention_score": 0.9351600408554077,
+        "center": [
+          89,
+          135
+        ]
+      },
+      {
+        "rank": 5,
+        "bbox": [
+          115,
+          86,
+          22,
+          22
+        ],
+        "attention_score": 0.9109378457069397,
+        "center": [
+          126,
+          97
+        ]
+      }
+    ]
+  },
+  "reasoning_analysis": {
+    "reasoning_confidence": 0.8981608579160874,
+    "reasoning_flow": "attention_guided",
+    "reasoning_steps_count": 6,
+    "confidence_method": "confidence_cascade",
+    "validation_score": 0.0,
+    "validation_validity": false
+  }
+}

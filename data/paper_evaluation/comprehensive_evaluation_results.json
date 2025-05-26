@@ -1,0 +1,468 @@
+{
+  "evaluation_config": {
+    "num_samples": 10,
+    "modes_evaluated": [
+      "basic",
+      "explainable"
+    ],
+    "timestamp": "2025-05-25T12:40:18.906393"
+  },
+  "mode_results": {
+    "basic": {
+      "bleu_1": 0.008902077151335315,
+      "bleu_1_avg": 0.006226053639846743,
+      "bleu_2": 0.005217612243835231,
+      "bleu_2_avg": 0.003350465646091158,
+      "bleu_3": 0.0020478341432662137,
+      "bleu_3_avg": 0.0016417967751607599,
+      "bleu_4": 0.0012932619226199908,
+      "bleu_4_avg": 0.001181438107748738,
+      "exact_match_accuracy": 0.0,
+      "substring_accuracy": 0.2,
+      "medical_keyword_accuracy": 0.9,
+      "avg_prediction_length": 33.7,
+      "avg_ground_truth_length": 2.3,
+      "length_ratio": 14.65217391304348,
+      "processing_stats": {
+        "total_samples": 10,
+        "successful_samples": 10,
+        "success_rate": 1.0,
+        "average_processing_time": 2.4617480516433714,
+        "std_processing_time": 0.8749519893936881
+      },
+      "detailed_results": [
+        {
+          "sample_id": "test_4597",
+          "question": "what does this image show?",
+          "ground_truth": "rib with obvious focal lesion squamous cell carcinoma primary in penis",
+          "prediction": "This image shows a segment of resected rib with an attached mass. The mass appears to involve both the bone and adjacent soft tissue.  There are areas of hemorrhage and necrosis (pale yellowish areas) within the mass.  The gross appearance is concerning for a malignant process.  Further workup, including microscopic examination, would be necessary for a definitive diagnosis.\n",
+          "processing_time": 4.535555124282837,
+          "success": true
+        },
+        {
+          "sample_id": "test_6067",
+          "question": "does this image show oil immersion organism very well shown?",
+          "ground_truth": "yes",
+          "prediction": "This image shows a mitotic figure, likely in a tissue section.  While the resolution isn't high enough to definitively identify an organism or assess whether oil immersion was used, the characteristic appearance of condensed chromatin forming chromosomes suggests a cell undergoing division.\n",
+          "processing_time": 2.38611102104187,
+          "success": true
+        },
+        {
+          "sample_id": "test_5865",
+          "question": "does this image show lung, congestion, heart failure cells hemosiderin laden macrophages?",
+          "ground_truth": "yes",
+          "prediction": "This image shows lung tissue with congestion and hemosiderin-laden macrophages, consistent with pulmonary edema.  \n",
+          "processing_time": 2.5944530963897705,
+          "success": true
+        },
+        {
+          "sample_id": "test_3456",
+          "question": "what are well shown?",
+          "ground_truth": "not too spectacular discs",
+          "prediction": "This image displays cross-sections of vertebral bodies and intervertebral discs.  The bony trabeculae of the cancellous bone within the vertebral bodies and the gelatinous material of the nucleus pulposus within the intervertebral discs are clearly visible.\n",
+          "processing_time": 2.009223222732544,
+          "success": true
+        },
+        {
+          "sample_id": "test_2006",
+          "question": "what are present?",
+          "ground_truth": "extremities",
+          "prediction": "This image shows the lower legs and feet of a deceased individual.  A temperature probe is inserted into the lower left leg.  Lividity is evident, particularly on the posterior aspects of the legs and heels.\n",
+          "processing_time": 2.271327257156372,
+          "success": true
+        },
+        {
+          "sample_id": "test_4931",
+          "question": "does this great toe show brain, herpes encephalitis?",
+          "ground_truth": "no",
+          "prediction": "This image shows a coronal section of a brain exhibiting edema and discoloration, particularly in the periventricular white matter.  While these findings are consistent with encephalitis, a definitive diagnosis of herpes encephalitis cannot be made based on this image alone.  Further investigations, including PCR testing of cerebrospinal fluid, are required.  This is not an image of a toe.\n",
+          "processing_time": 3.5551934242248535,
+          "success": true
+        },
+        {
+          "sample_id": "test_2253",
+          "question": "is female reproductive present?",
+          "ground_truth": "yes",
+          "prediction": "This image shows a section of a uterus with a fibroid.  The presence of a uterus confirms female reproductive organs are present.\n",
+          "processing_time": 1.4890806674957275,
+          "success": true
+        },
+        {
+          "sample_id": "test_0839",
+          "question": "is cardiovascular present?",
+          "ground_truth": "yes",
+          "prediction": "This image displays a cross-section of a heart.  Cardiovascular structures, specifically the chambers, valves, and major vessels, are clearly present.\n",
+          "processing_time": 1.8400485515594482,
+          "success": true
+        },
+        {
+          "sample_id": "test_0260",
+          "question": "is abdomen present?",
+          "ground_truth": "yes",
+          "prediction": "No, an abdomen is not visible. This image appears to show a few inflammatory cells, possibly neutrophils, on a light microscopic background.  It's impossible to determine the anatomical location from this image alone.\n",
+          "processing_time": 2.16196608543396,
+          "success": true
+        },
+        {
+          "sample_id": "test_0712",
+          "question": "is cardiovascular present?",
+          "ground_truth": "yes",
+          "prediction": "This image displays a cross-section of a heart.  Cardiovascular structures, specifically the myocardium, chambers, and valves, are clearly present.\n",
+          "processing_time": 1.774522066116333,
+          "success": true
+        }
+      ]
+    },
+    "explainable": {
+      "bleu_1": 0.002836879432624113,
+      "bleu_1_avg": 0.0037735849056603774,
+      "bleu_2": 0.002020356629471768,
+      "bleu_2_avg": 0.002693862292201826,
+      "bleu_3": 0.0008415020291189295,
+      "bleu_3_avg": 0.0011247608780553069,
+      "bleu_4": 0.0005450865079384748,
+      "bleu_4_avg": 0.0007303863538896591,
+      "exact_match_accuracy": 0.0,
+      "substring_accuracy": 0.1,
+      "medical_keyword_accuracy": 0.9,
+      "avg_prediction_length": 70.5,
+      "avg_ground_truth_length": 2.3,
+      "length_ratio": 30.65217391304348,
+      "processing_stats": {
+        "total_samples": 10,
+        "successful_samples": 10,
+        "success_rate": 1.0,
+        "average_processing_time": 6.726927733421325,
+        "std_processing_time": 2.2714187594116546
+      },
+      "detailed_results": [
+        {
+          "sample_id": "test_4597",
+          "question": "what does this image show?",
+          "ground_truth": "rib with obvious focal lesion squamous cell carcinoma primary in penis",
+          "prediction": "The image shows a segment of rib with a large, pale, irregular mass expanding and seemingly disrupting the cortical bone.  Surrounding soft tissue appears hemorrhagic. The relationship between the mass and the surrounding hemorrhagic tissue suggests local invasion and destruction of normal structures.  Further investigation would be needed to characterize the mass histologically.\n",
+          "processing_time": 5.17175555229187,
+          "success": true,
+          "reformulation_quality": 0.8,
+          "bbox_regions_count": 5
+        },
+        {
+          "sample_id": "test_6067",
+          "question": "does this image show oil immersion organism very well shown?",
+          "ground_truth": "yes",
+          "prediction": "This image, likely taken under oil immersion microscopy, shows a structure consistent with a microorganism. It appears slightly elongated and roughly 5-10\u00b5m in diameter (estimating based on typical field of view under oil immersion). The organism stains a deeper pink compared to the surrounding background, suggesting it is relatively eosinophilic.  While the surrounding material stains pink, suggesting the presence of some proteinaceous material, no definitive structures are identifiable within it at this magnification.  Further details regarding the organism's internal structure are not clearly discernible at this resolution, making definitive identification challenging based on this image alone.\n",
+          "processing_time": 7.049098968505859,
+          "success": true,
+          "reformulation_quality": 1.0,
+          "bbox_regions_count": 5
+        },
+        {
+          "sample_id": "test_5865",
+          "question": "does this image show lung, congestion, heart failure cells hemosiderin laden macrophages?",
+          "ground_truth": "yes",
+          "prediction": "This lung tissue section shows alveolar macrophages containing brown pigment, consistent with hemosiderin.  While these are often termed \"heart failure cells,\" their presence alone isn't diagnostic of heart failure.  The image also demonstrates capillary congestion, supporting a diagnosis of pulmonary congestion.  However, interstitial edema is not definitively visualized in this particular section.\n",
+          "processing_time": 5.0943286418914795,
+          "success": true,
+          "reformulation_quality": 1.0,
+          "bbox_regions_count": 5
+        },
+        {
+          "sample_id": "test_3456",
+          "question": "what are well shown?",
+          "ground_truth": "not too spectacular discs",
+          "prediction": "This image appears to show cross-sections of ribs.  The paler central areas are consistent with the trabecular bone of the medullary cavity. The surrounding darker tissue represents the cortical bone and possibly some adjacent soft tissue.\n",
+          "processing_time": 4.051158428192139,
+          "success": true,
+          "reformulation_quality": 1.0,
+          "bbox_regions_count": 5
+        },
+        {
+          "sample_id": "test_2006",
+          "question": "what are present?",
+          "ground_truth": "extremities",
+          "prediction": "This image shows the lower legs and feet of a deceased individual.  A small, possibly linear object, perhaps a thermometer or similar medical instrument, is present on the anterior aspect of the lower left leg.  The skin appears pale and there are areas of discoloration, particularly on the lower legs.  The feet and ankles show some wrinkling of the skin, likely due to postmortem changes.  The body is lying on a perforated metal surface, possibly a morgue table.\n",
+          "processing_time": 4.88382625579834,
+          "success": true,
+          "reformulation_quality": 1.0,
+          "bbox_regions_count": 5
+        },
+        {
+          "sample_id": "test_4931",
+          "question": "does this great toe show brain, herpes encephalitis?",
+          "ground_truth": "no",
+          "prediction": "This image shows a coronal section of a brain, not a toe.  While a toe image cannot be used to diagnose herpes encephalitis, this brain image *could* potentially show features suggestive of it, such as edema and hemorrhage, though further tests would be necessary for confirmation.  Based on the gross appearance alone, a definitive diagnosis of herpes encephalitis cannot be made from this image.\n",
+          "processing_time": 4.7296671867370605,
+          "success": true,
+          "reformulation_quality": 0.6,
+          "bbox_regions_count": 5
+        },
+        {
+          "sample_id": "test_2253",
+          "question": "is female reproductive present?",
+          "ground_truth": "yes",
+          "prediction": "This image shows a cross-section of a uterus.  It appears enlarged, and a  whitish, irregular mass is present within the uterine wall, likely a fibroid or other type of tumor.  The fallopian tubes and ovaries are not visible in this image.  The field of view is limited to the uterus itself and some surrounding tissue.  The bladder and pelvic bones are not visualized, precluding comment on the uterus's position relative to these structures.\n",
+          "processing_time": 6.471150636672974,
+          "success": true,
+          "reformulation_quality": 1.0,
+          "bbox_regions_count": 5
+        },
+        {
+          "sample_id": "test_0839",
+          "question": "is cardiovascular present?",
+          "ground_truth": "yes",
+          "prediction": "This image shows a cross-section of a heart. The myocardium, including the left and right ventricles and the interventricular septum, is visible.  The left ventricle appears thicker than the right, which is expected.  The atria and portions of the great vessels, likely including the aorta and pulmonary artery, are also present.  Assessment of the mediastinum, hilar regions, and peripheral vasculature is not possible as this image isolates the heart.  The overall assessment is limited to the heart itself; no other thoracic or vascular structures are present for evaluation.  No obvious abnormalities are immediately apparent within the heart itself, though a full evaluation would require additional sections and clinical correlation.\n",
+          "processing_time": 9.842678308486938,
+          "success": true,
+          "reformulation_quality": 1.0,
+          "bbox_regions_count": 5
+        },
+        {
+          "sample_id": "test_0260",
+          "question": "is abdomen present?",
+          "ground_truth": "yes",
+          "prediction": "This image appears to show a few inflammatory cells, possibly neutrophils, against a nondescript background.  It lacks sufficient anatomical context to identify any abdominal structures, cavity, or wall.  Assessment of organ size, shape, position, or any abdominal pathology is not possible with this image.\n",
+          "processing_time": 10.628078699111938,
+          "success": true,
+          "reformulation_quality": 1.0,
+          "bbox_regions_count": 5
+        },
+        {
+          "sample_id": "test_0712",
+          "question": "is cardiovascular present?",
+          "ground_truth": "yes",
+          "prediction": "The image displays a cross-section of a heart.  The ventricles and atria are clearly visible, with what appears to be a portion of the interventricular septum present centrally.  The cut plane makes definitive identification of specific great vessels challenging, although some vascular structures are visible entering and exiting the heart chambers.  No other mediastinal structures are present within this image. The image quality is adequate for identifying the heart and its internal chambers, but higher resolution would be needed for detailed assessment of the vasculature. Overall, the image clearly shows a cardiac specimen, allowing for assessment of its gross morphology.\n",
+          "processing_time": 9.347534656524658,
+          "success": true,
+          "reformulation_quality": 1.0,
+          "bbox_regions_count": 5
+        }
+      ]
+    }
+  },
+  "comparative_analysis": {
+    "metric_comparisons": {},
+    "improvement_analysis": {
+      "explainable": {
+        "bleu_1": -68.13238770685581,
+        "bleu_1_avg": -39.39042089985485,
+        "bleu_2": -61.27813767957016,
+        "bleu_2_avg": -19.597376103687626,
+        "bleu_3": -58.907705885948005,
+        "bleu_3_avg": -31.492076542471363,
+        "bleu_4": -57.85180879413846,
+        "bleu_4_avg": -38.17819578535266,
+        "substring_accuracy": -50.0,
+        "medical_keyword_accuracy": 0.0,
+        "avg_prediction_length": 109.19881305637979,
+        "avg_ground_truth_length": 0.0,
+        "length_ratio": 109.19881305637982
+      }
+    },
+    "ranking_analysis": {
+      "bleu_4": [
+        "basic",
+        "explainable"
+      ],
+      "rouge_l_f": [],
+      "exact_match_accuracy": [
+        "basic",
+        "explainable"
+      ]
+    }
+  },
+  "statistical_analysis": {
+    "descriptive_statistics": {
+      "basic": {
+        "bleu_1": {
+          "value": 0.008902077151335315,
+          "type": "single_value"
+        },
+        "bleu_1_avg": {
+          "value": 0.006226053639846743,
+          "type": "single_value"
+        },
+        "bleu_2": {
+          "value": 0.005217612243835231,
+          "type": "single_value"
+        },
+        "bleu_2_avg": {
+          "value": 0.003350465646091158,
+          "type": "single_value"
+        },
+        "bleu_3": {
+          "value": 0.0020478341432662137,
+          "type": "single_value"
+        },
+        "bleu_3_avg": {
+          "value": 0.0016417967751607599,
+          "type": "single_value"
+        },
+        "bleu_4": {
+          "value": 0.0012932619226199908,
+          "type": "single_value"
+        },
+        "bleu_4_avg": {
+          "value": 0.001181438107748738,
+          "type": "single_value"
+        },
+        "exact_match_accuracy": {
+          "value": 0.0,
+          "type": "single_value"
+        },
+        "substring_accuracy": {
+          "value": 0.2,
+          "type": "single_value"
+        },
+        "medical_keyword_accuracy": {
+          "value": 0.9,
+          "type": "single_value"
+        },
+        "avg_prediction_length": {
+          "value": 33.7,
+          "type": "single_value"
+        },
+        "avg_ground_truth_length": {
+          "value": 2.3,
+          "type": "single_value"
+        },
+        "length_ratio": {
+          "value": 14.65217391304348,
+          "type": "single_value"
+        },
+        "processing_time": {
+          "mean": 2.4617480516433714,
+          "std": 0.8749519893936881
+        }
+      },
+      "explainable": {
+        "bleu_1": {
+          "value": 0.002836879432624113,
+          "type": "single_value"
+        },
+        "bleu_1_avg": {
+          "value": 0.0037735849056603774,
+          "type": "single_value"
+        },
+        "bleu_2": {
+          "value": 0.002020356629471768,
+          "type": "single_value"
+        },
+        "bleu_2_avg": {
+          "value": 0.002693862292201826,
+          "type": "single_value"
+        },
+        "bleu_3": {
+          "value": 0.0008415020291189295,
+          "type": "single_value"
+        },
+        "bleu_3_avg": {
+          "value": 0.0011247608780553069,
+          "type": "single_value"
+        },
+        "bleu_4": {
+          "value": 0.0005450865079384748,
+          "type": "single_value"
+        },
+        "bleu_4_avg": {
+          "value": 0.0007303863538896591,
+          "type": "single_value"
+        },
+        "exact_match_accuracy": {
+          "value": 0.0,
+          "type": "single_value"
+        },
+        "substring_accuracy": {
+          "value": 0.1,
+          "type": "single_value"
+        },
+        "medical_keyword_accuracy": {
+          "value": 0.9,
+          "type": "single_value"
+        },
+        "avg_prediction_length": {
+          "value": 70.5,
+          "type": "single_value"
+        },
+        "avg_ground_truth_length": {
+          "value": 2.3,
+          "type": "single_value"
+        },
+        "length_ratio": {
+          "value": 30.65217391304348,
+          "type": "single_value"
+        },
+        "processing_time": {
+          "mean": 6.726927733421325,
+          "std": 2.2714187594116546
+        }
+      }
+    },
+    "confidence_intervals": {
+      "basic": {
+        "processing_time": {
+          "mean": 2.4617480516433714,
+          "lower_bound": 1.801988414989913,
+          "upper_bound": 3.1215076882968296,
+          "margin_error": 0.6597596366534584,
+          "confidence_level": 0.95
+        }
+      },
+      "explainable": {
+        "processing_time": {
+          "mean": 6.726927733421325,
+          "lower_bound": 5.014158994606577,
+          "upper_bound": 8.439696472236074,
+          "margin_error": 1.712768738814749,
+          "confidence_level": 0.95
+        }
+      }
+    },
+    "significance_tests": {
+      "basic_vs_explainable": {
+        "ttest": {
+          "t_statistic": -5.256766110789187,
+          "p_value": 5.343872520007992e-05,
+          "significant": "True"
+        },
+        "mannwhitney": {
+          "u_statistic": 1.0,
+          "p_value": 0.00024612812790522973,
+          "significant": "True"
+        },
+        "sample_sizes": {
+          "basic": 10,
+          "explainable": 10
+        }
+      }
+    },
+    "effect_sizes": {
+      "basic_vs_explainable": {
+        "cohens_d": -2.350897273108363,
+        "interpretation": "large",
+        "means": {
+          "basic": 2.4617480516433714,
+          "explainable": 6.726927733421325
+        },
+        "std_devs": {
+          "basic": 0.9222803765931802,
+          "explainable": 2.39428559992495
+        }
+      }
+    }
+  },
+  "samples_metadata": {
+    "total_samples": 10,
+    "sample_ids": [
+      "test_4597",
+      "test_6067",
+      "test_5865",
+      "test_3456",
+      "test_2006",
+      "test_4931",
+      "test_2253",
+      "test_0839",
+      "test_0260",
+      "test_0712"
+    ]
+  }
+}

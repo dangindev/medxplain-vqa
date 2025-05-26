@@ -1,0 +1,110 @@
+{
+  "sample_id": "test_5599",
+  "processing_mode": "explainable_vqa",
+  "success": true,
+  "image_path": "data/images/test/test_5599.jpg",
+  "question": "what does this image show?",
+  "ground_truth": "islet cell carcinoma",
+  "blip_answer": "no",
+  "unified_answer": "This image appears to show a section of tissue with a stratified squamous epithelium, possibly skin or mucosa, adjacent to a deeper connective tissue component.  There are clear spaces within the tissue, likely representing artifact or processing-related changes.  Without further clinical information, magnification, special stains, or clearer definition of the highlighted areas, a specific diagnosis or detailed characterization of the tissue components is not possible.\n",
+  "processing_steps": [
+    "BLIP inference",
+    "Query reformulation",
+    "Enhanced Grad-CAM attention",
+    "Chain-of-Thought reasoning",
+    "Enhanced unified answer generation"
+  ],
+  "error_messages": [],
+  "chain_of_thought_enabled": true,
+  "reformulated_question": "This 224x224 medical image demonstrates distributed attention across multiple regions, with the primary focus in the lower left quadrant.  Thirteen additional secondary attention regions are also detected.  Describing the visual characteristics of these regions, what findings are present in the lower left quadrant, and what are the characteristics of the thirteen other highlighted regions?  If possible, suggest a differential diagnosis based on these observed features.?",
+  "reformulation_quality": 0.8,
+  "grad_cam_available": true,
+  "bbox_enabled": false,
+  "grad_cam_mode": "basic",
+  "bbox_regions_count": 5,
+  "bounding_box_analysis": {
+    "total_regions": 5,
+    "average_attention_score": 0.9924633860588074,
+    "max_attention_score": 1.0,
+    "regions_details": [
+      {
+        "rank": 1,
+        "bbox": [
+          77,
+          12,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          88,
+          23
+        ]
+      },
+      {
+        "rank": 2,
+        "bbox": [
+          59,
+          49,
+          22,
+          22
+        ],
+        "attention_score": 0.9961168766021729,
+        "center": [
+          70,
+          60
+        ]
+      },
+      {
+        "rank": 3,
+        "bbox": [
+          68,
+          30,
+          22,
+          22
+        ],
+        "attention_score": 0.9943912625312805,
+        "center": [
+          79,
+          41
+        ]
+      },
+      {
+        "rank": 4,
+        "bbox": [
+          49,
+          68,
+          22,
+          22
+        ],
+        "attention_score": 0.9874417185783386,
+        "center": [
+          60,
+          79
+        ]
+      },
+      {
+        "rank": 5,
+        "bbox": [
+          77,
+          -11,
+          22,
+          22
+        ],
+        "attention_score": 0.9843670725822449,
+        "center": [
+          88,
+          0
+        ]
+      }
+    ]
+  },
+  "reasoning_analysis": {
+    "reasoning_confidence": 0.885555953221412,
+    "reasoning_flow": "comparative_analysis",
+    "reasoning_steps_count": 6,
+    "confidence_method": "weighted_harmonic_mean",
+    "validation_score": 0.0,
+    "validation_validity": false
+  }
+}

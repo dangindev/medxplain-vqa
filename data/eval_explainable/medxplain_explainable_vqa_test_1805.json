@@ -1,0 +1,101 @@
+{
+  "sample_id": "test_1805",
+  "processing_mode": "explainable_vqa",
+  "success": true,
+  "image_path": "data/images/test/test_1805.jpg",
+  "question": "is normal immature infant present?",
+  "ground_truth": "yes",
+  "blip_answer": "no",
+  "unified_answer": "This image displays glandular tissue, likely from the kidney, not an infant.  The question regarding infant anatomy is therefore not applicable. The tissue shows numerous tubules lined by cuboidal to columnar epithelium.  Further clinical information and potentially additional stains would be needed for a more specific diagnosis.  Based on this image alone, I cannot determine if the tissue is normal or abnormal.\n",
+  "processing_steps": [
+    "BLIP inference",
+    "Query reformulation",
+    "Enhanced Grad-CAM attention",
+    "Enhanced unified answer generation"
+  ],
+  "error_messages": [],
+  "chain_of_thought_enabled": false,
+  "reformulated_question": "Based on this 224x224 image, assess the appearance of the infant, focusing on the lower central region (primary focus) and the 59 identified secondary attention regions.  Specifically, evaluate the following for features consistent with a normal, immature infant:\n\n1. **Head and Neck:**  Assess the skull shape and suture lines.  Is the anterior fontanelle visible and of appropriate size?  Evaluate the neck for length and presence of any masses.\n\n2. **Chest and Abdomen:**  Examine the rib cage for symmetry and normal configuration.  Evaluate the heart size and position within the chest.  Assess the abdomen for distension and the umbilical cord (if present) for normal appearance.\n\n3. **Extremities:**  Evaluate the limbs for symmetry in length and thickness.  Assess the hands and feet for normal digit formation.\n\n4. **Spine:**  If visible, assess the spinal curvature for normal alignment.\n\n5. **Overall Appearance:**  Considering the image quality and resolution, does the infant appear well-nourished and appropriately developed for its gestational age?  Are there any obvious deformities or anomalies present in any of the examined regions?\n\n6. **Specific to the lower central region:** Describe the structures present in this area. Are they consistent with normal infant anatomy?\n\n7. **Specific to the secondary attention regions:** Briefly describe the findings in these regions.  Do any of these findings raise concerns for abnormalities?\n\nProvide a detailed description of your findings and explicitly state whether the visible features are consistent with a normal, immature infant based on the provided image.?",
+  "reformulation_quality": 1.0,
+  "grad_cam_available": true,
+  "bbox_enabled": false,
+  "grad_cam_mode": "basic",
+  "bbox_regions_count": 5,
+  "bounding_box_analysis": {
+    "total_regions": 5,
+    "average_attention_score": 0.9442075252532959,
+    "max_attention_score": 1.0,
+    "regions_details": [
+      {
+        "rank": 1,
+        "bbox": [
+          49,
+          96,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          60,
+          107
+        ]
+      },
+      {
+        "rank": 2,
+        "bbox": [
+          124,
+          115,
+          22,
+          22
+        ],
+        "attention_score": 0.9353944063186646,
+        "center": [
+          135,
+          126
+        ]
+      },
+      {
+        "rank": 3,
+        "bbox": [
+          49,
+          -11,
+          22,
+          22
+        ],
+        "attention_score": 0.928547739982605,
+        "center": [
+          60,
+          0
+        ]
+      },
+      {
+        "rank": 4,
+        "bbox": [
+          49,
+          -10,
+          22,
+          22
+        ],
+        "attention_score": 0.928547739982605,
+        "center": [
+          60,
+          1
+        ]
+      },
+      {
+        "rank": 5,
+        "bbox": [
+          49,
+          -9,
+          22,
+          22
+        ],
+        "attention_score": 0.928547739982605,
+        "center": [
+          60,
+          2
+        ]
+      }
+    ]
+  }
+}

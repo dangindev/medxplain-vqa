@@ -1,0 +1,101 @@
+{
+  "sample_id": "test_3032",
+  "processing_mode": "explainable_vqa",
+  "success": true,
+  "image_path": "data/images/test/test_3032.jpg",
+  "question": "is whipples disease present?",
+  "ground_truth": "yes",
+  "blip_answer": "no",
+  "unified_answer": "This image shows small intestinal mucosa.  While the exact staining method isn't specified, the tissue appears to be H&E stained.  There is no evidence of foamy macrophages, villous blunting, or atrophy.  Whipple's disease is characterized by the presence of numerous foamy macrophages within the lamina propria of the small intestine, which are not seen here.  Therefore, the findings in this image are not consistent with Whipple's disease.\n",
+  "processing_steps": [
+    "BLIP inference",
+    "Query reformulation",
+    "Enhanced Grad-CAM attention",
+    "Enhanced unified answer generation"
+  ],
+  "error_messages": [],
+  "chain_of_thought_enabled": false,
+  "reformulated_question": "Based on the image showing distributed attention across multiple regions, with a primary focus in the upper central region and 15 secondary attention regions, are the observed findings consistent with Whipple's disease?  Specifically, can we identify within these regions of interest (mentioning specific anatomical structures if discernible, e.g., small bowel mucosa, mesenteric lymph nodes) features such as foamy macrophages, villous blunting/atrophy, or other characteristic histopathological changes associated with Whipple's disease (e.g., PAS-positive inclusions if staining is applicable)?  Further, what are the morphological characteristics of these findings (e.g., size, shape, distribution) within the visualized structures?",
+  "reformulation_quality": 1.0,
+  "grad_cam_available": true,
+  "bbox_enabled": false,
+  "grad_cam_mode": "basic",
+  "bbox_regions_count": 5,
+  "bounding_box_analysis": {
+    "total_regions": 5,
+    "average_attention_score": 0.9683939695358277,
+    "max_attention_score": 1.0,
+    "regions_details": [
+      {
+        "rank": 1,
+        "bbox": [
+          59,
+          12,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          70,
+          23
+        ]
+      },
+      {
+        "rank": 2,
+        "bbox": [
+          40,
+          2,
+          22,
+          22
+        ],
+        "attention_score": 0.9876188039779663,
+        "center": [
+          51,
+          13
+        ]
+      },
+      {
+        "rank": 3,
+        "bbox": [
+          59,
+          39,
+          22,
+          22
+        ],
+        "attention_score": 0.9818631410598755,
+        "center": [
+          70,
+          50
+        ]
+      },
+      {
+        "rank": 4,
+        "bbox": [
+          78,
+          -11,
+          22,
+          22
+        ],
+        "attention_score": 0.9362439513206482,
+        "center": [
+          89,
+          0
+        ]
+      },
+      {
+        "rank": 5,
+        "bbox": [
+          78,
+          -10,
+          22,
+          22
+        ],
+        "attention_score": 0.9362439513206482,
+        "center": [
+          89,
+          1
+        ]
+      }
+    ]
+  }
+}

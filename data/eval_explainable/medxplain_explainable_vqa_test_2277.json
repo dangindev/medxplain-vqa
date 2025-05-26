@@ -1,0 +1,101 @@
+{
+  "sample_id": "test_2277",
+  "processing_mode": "explainable_vqa",
+  "success": true,
+  "image_path": "data/images/test/test_2277.jpg",
+  "question": "what is present?",
+  "ground_truth": "uterus",
+  "blip_answer": "yes",
+  "unified_answer": "The image appears to show a bisected organ, likely a kidney, exhibiting abnormal changes.  Each half displays a mottled appearance with areas of dark discoloration, possibly hemorrhage or necrosis, interspersed with paler, yellowish-tan regions.  The texture appears heterogeneous, with some areas appearing smoother and others rougher or even slightly granular.  Without further clinical information or additional imaging, a definitive diagnosis is not possible, but the findings suggest a significant pathological process.\n",
+  "processing_steps": [
+    "BLIP inference",
+    "Query reformulation",
+    "Enhanced Grad-CAM attention",
+    "Enhanced unified answer generation"
+  ],
+  "error_messages": [],
+  "chain_of_thought_enabled": false,
+  "reformulated_question": "In this 224x224 medical image, with the primary area of focus in the upper right quadrant and two secondary regions of interest also noted, what findings are present?  Describe the visible features in each region of interest, including their appearance and, if possible, anatomical location within the image.?",
+  "reformulation_quality": 1.0,
+  "grad_cam_available": true,
+  "bbox_enabled": false,
+  "grad_cam_mode": "basic",
+  "bbox_regions_count": 5,
+  "bounding_box_analysis": {
+    "total_regions": 5,
+    "average_attention_score": 0.9725611686706543,
+    "max_attention_score": 1.0,
+    "regions_details": [
+      {
+        "rank": 1,
+        "bbox": [
+          68,
+          96,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          79,
+          107
+        ]
+      },
+      {
+        "rank": 2,
+        "bbox": [
+          105,
+          115,
+          22,
+          22
+        ],
+        "attention_score": 0.9879130125045776,
+        "center": [
+          116,
+          126
+        ]
+      },
+      {
+        "rank": 3,
+        "bbox": [
+          68,
+          114,
+          22,
+          22
+        ],
+        "attention_score": 0.9791578650474548,
+        "center": [
+          79,
+          125
+        ]
+      },
+      {
+        "rank": 4,
+        "bbox": [
+          114,
+          124,
+          22,
+          22
+        ],
+        "attention_score": 0.9484217166900635,
+        "center": [
+          125,
+          135
+        ]
+      },
+      {
+        "rank": 5,
+        "bbox": [
+          59,
+          105,
+          22,
+          22
+        ],
+        "attention_score": 0.9473132491111755,
+        "center": [
+          70,
+          116
+        ]
+      }
+    ]
+  }
+}

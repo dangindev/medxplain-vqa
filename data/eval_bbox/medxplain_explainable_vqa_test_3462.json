@@ -1,0 +1,101 @@
+{
+  "sample_id": "test_3462",
+  "processing_mode": "explainable_vqa",
+  "success": true,
+  "image_path": "data/images/test/test_3462.jpg",
+  "question": "what is present?",
+  "ground_truth": "hematologic",
+  "blip_answer": "yes",
+  "unified_answer": "This image appears to show cross-sections of ribs. The paler central regions within each rib section likely represent bone marrow.  The surrounding darker tissue is consistent with cortical and trabecular bone. No obvious abnormalities are readily apparent within the provided view.\n",
+  "processing_steps": [
+    "BLIP inference",
+    "Query reformulation",
+    "Enhanced Grad-CAM attention",
+    "Enhanced unified answer generation"
+  ],
+  "error_messages": [],
+  "chain_of_thought_enabled": false,
+  "reformulated_question": "Based on this 224x224 medical image with focused attention in the middle center region and a secondary region of interest, what findings are present in these regions?  Describe any visible abnormalities, structures, or textures observed.?",
+  "reformulation_quality": 1.0,
+  "grad_cam_available": true,
+  "bbox_enabled": false,
+  "grad_cam_mode": "basic",
+  "bbox_regions_count": 5,
+  "bounding_box_analysis": {
+    "total_regions": 5,
+    "average_attention_score": 0.9695026874542236,
+    "max_attention_score": 1.0,
+    "regions_details": [
+      {
+        "rank": 1,
+        "bbox": [
+          68,
+          105,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          79,
+          116
+        ]
+      },
+      {
+        "rank": 2,
+        "bbox": [
+          59,
+          124,
+          22,
+          22
+        ],
+        "attention_score": 0.9825404286384583,
+        "center": [
+          70,
+          135
+        ]
+      },
+      {
+        "rank": 3,
+        "bbox": [
+          77,
+          161,
+          22,
+          22
+        ],
+        "attention_score": 0.9586535692214966,
+        "center": [
+          88,
+          172
+        ]
+      },
+      {
+        "rank": 4,
+        "bbox": [
+          95,
+          152,
+          22,
+          22
+        ],
+        "attention_score": 0.953971266746521,
+        "center": [
+          106,
+          163
+        ]
+      },
+      {
+        "rank": 5,
+        "bbox": [
+          151,
+          12,
+          22,
+          22
+        ],
+        "attention_score": 0.9523481726646423,
+        "center": [
+          162,
+          23
+        ]
+      }
+    ]
+  }
+}

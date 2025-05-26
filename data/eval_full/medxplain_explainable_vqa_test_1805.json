@@ -1,0 +1,110 @@
+{
+  "sample_id": "test_1805",
+  "processing_mode": "explainable_vqa",
+  "success": true,
+  "image_path": "data/images/test/test_1805.jpg",
+  "question": "is normal immature infant present?",
+  "ground_truth": "yes",
+  "blip_answer": "no",
+  "unified_answer": "This image displays glandular tissue, likely from the gastrointestinal tract.  It is not an image of an infant and therefore cannot be assessed for features of normal infant development.  The question regarding infant anatomy is irrelevant to the provided image.  The tissue shows numerous glandular structures lined by epithelium.  Further clinical information and/or special stains would be required for a more specific diagnosis.\n",
+  "processing_steps": [
+    "BLIP inference",
+    "Query reformulation",
+    "Enhanced Grad-CAM attention",
+    "Chain-of-Thought reasoning",
+    "Enhanced unified answer generation"
+  ],
+  "error_messages": [],
+  "chain_of_thought_enabled": true,
+  "reformulated_question": "Based on this 224x224 image, assess the appearance of the infant, focusing on the lower central region (primary focus) and the 59 identified secondary attention regions.  Specifically, evaluate the following for features consistent with a normal, immature infant:\n\n1. **Head and Neck:** Assess the skull shape and suture lines.  Is the anterior fontanelle visible and of appropriate size? Evaluate the neck for length and presence of any masses.\n\n2. **Chest and Abdomen:** Examine the rib cage for symmetry and the abdomen for distension.  Are the umbilical cord and surrounding area appearing normal?\n\n3. **Extremities:** Evaluate the limbs for symmetry, length, and posture.  Assess the hands and feet for normal digit formation.\n\n4. **Spine:** If visible, assess the spine for curvature and alignment.\n\n5. **Overall Appearance:** Considering the image quality and distributed attention across multiple regions, does the overall appearance of the infant suggest normal development for its apparent gestational age?  Note any areas of unusual echogenicity, density, or texture.\n\n6. **Specific to Lower Central Region:** Describe the structures present in the lower central region. Are they consistent with expected anatomy for a normal, immature infant?\n\n7. **Specific to Secondary Attention Regions:** Briefly describe the findings in the 59 secondary attention regions. Do any of these findings raise concerns regarding normal development?\n\nClearly state whether the presented image features support the presence of a normal, immature infant based on the visible anatomical structures and image characteristics. If the image quality limits assessment of any specific structure, explicitly state this limitation.?",
+  "reformulation_quality": 1.0,
+  "grad_cam_available": true,
+  "bbox_enabled": false,
+  "grad_cam_mode": "basic",
+  "bbox_regions_count": 5,
+  "bounding_box_analysis": {
+    "total_regions": 5,
+    "average_attention_score": 0.9442075252532959,
+    "max_attention_score": 1.0,
+    "regions_details": [
+      {
+        "rank": 1,
+        "bbox": [
+          49,
+          96,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          60,
+          107
+        ]
+      },
+      {
+        "rank": 2,
+        "bbox": [
+          124,
+          115,
+          22,
+          22
+        ],
+        "attention_score": 0.9353944063186646,
+        "center": [
+          135,
+          126
+        ]
+      },
+      {
+        "rank": 3,
+        "bbox": [
+          49,
+          -11,
+          22,
+          22
+        ],
+        "attention_score": 0.928547739982605,
+        "center": [
+          60,
+          0
+        ]
+      },
+      {
+        "rank": 4,
+        "bbox": [
+          49,
+          -10,
+          22,
+          22
+        ],
+        "attention_score": 0.928547739982605,
+        "center": [
+          60,
+          1
+        ]
+      },
+      {
+        "rank": 5,
+        "bbox": [
+          49,
+          -9,
+          22,
+          22
+        ],
+        "attention_score": 0.928547739982605,
+        "center": [
+          60,
+          2
+        ]
+      }
+    ]
+  },
+  "reasoning_analysis": {
+    "reasoning_confidence": 0.8981608579160874,
+    "reasoning_flow": "attention_guided",
+    "reasoning_steps_count": 6,
+    "confidence_method": "confidence_cascade",
+    "validation_score": 0.0,
+    "validation_validity": false
+  }
+}

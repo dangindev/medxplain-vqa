@@ -1,0 +1,15 @@
+{
+  "sample_id": "test_0837",
+  "processing_mode": "basic_vqa",
+  "success": true,
+  "image_path": "data/images/test/test_0837.jpg",
+  "question": "does muscle atrophy show heart slice, acute posterior myocardial infarction in patient with hypertension?",
+  "ground_truth": "no",
+  "blip_answer": "yes",
+  "unified_answer": "This heart demonstrates a thinned posterior left ventricular wall and a large area of dark discoloration, consistent with an acute posterior myocardial infarction.  This finding, along with the thinned wall, suggests chronic hypertension as a contributing factor.\n",
+  "processing_steps": [
+    "BLIP inference",
+    "Gemini enhancement"
+  ],
+  "error_messages": []
+}

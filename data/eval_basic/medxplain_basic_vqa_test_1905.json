@@ -1,0 +1,15 @@
+{
+  "sample_id": "test_1905",
+  "processing_mode": "basic_vqa",
+  "success": true,
+  "image_path": "data/images/test/test_1905.jpg",
+  "question": "is six digits present?",
+  "ground_truth": "six",
+  "blip_answer": "yes",
+  "unified_answer": "This fetus exhibits polydactyly, with six digits present on the left foot.\n",
+  "processing_steps": [
+    "BLIP inference",
+    "Gemini enhancement"
+  ],
+  "error_messages": []
+}

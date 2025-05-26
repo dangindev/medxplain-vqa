@@ -1,0 +1,101 @@
+{
+  "sample_id": "test_0355",
+  "processing_mode": "explainable_vqa",
+  "success": true,
+  "image_path": "data/images/test/test_0355.jpg",
+  "question": "does this image show joined anterior chest and abdomen?",
+  "ground_truth": "yes",
+  "blip_answer": "yes",
+  "unified_answer": "This image depicts conjoined twins, with the shared anterior chest and abdominal cavities opened, exposing internal organs such as the liver, lungs, and portions of the diaphragm.  The anatomical structures visible are indeed contiguous portions of the anterior chest and abdomen.\n",
+  "processing_steps": [
+    "BLIP inference",
+    "Query reformulation",
+    "Enhanced Grad-CAM attention",
+    "Enhanced unified answer generation"
+  ],
+  "error_messages": [],
+  "chain_of_thought_enabled": false,
+  "reformulated_question": "This 224x224 image appears to focus on the central chest region. Can the anatomical structures visible in this image be identified as contiguous portions of the anterior chest and abdomen?",
+  "reformulation_quality": 1.0,
+  "grad_cam_available": true,
+  "bbox_enabled": false,
+  "grad_cam_mode": "basic",
+  "bbox_regions_count": 5,
+  "bounding_box_analysis": {
+    "total_regions": 5,
+    "average_attention_score": 1.0,
+    "max_attention_score": 1.0,
+    "regions_details": [
+      {
+        "rank": 1,
+        "bbox": [
+          21,
+          -11,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          32,
+          0
+        ]
+      },
+      {
+        "rank": 2,
+        "bbox": [
+          21,
+          -10,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          32,
+          1
+        ]
+      },
+      {
+        "rank": 3,
+        "bbox": [
+          21,
+          -9,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          32,
+          2
+        ]
+      },
+      {
+        "rank": 4,
+        "bbox": [
+          21,
+          -8,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          32,
+          3
+        ]
+      },
+      {
+        "rank": 5,
+        "bbox": [
+          21,
+          -7,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          32,
+          4
+        ]
+      }
+    ]
+  }
+}

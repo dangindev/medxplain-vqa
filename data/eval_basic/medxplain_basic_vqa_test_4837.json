@@ -1,0 +1,15 @@
+{
+  "sample_id": "test_4837",
+  "processing_mode": "basic_vqa",
+  "success": true,
+  "image_path": "data/images/test/test_4837.jpg",
+  "question": "what are gross and postmortx-rays of this lesion?",
+  "ground_truth": "7182 7183",
+  "blip_answer": "yes",
+  "unified_answer": "This anteroposterior radiograph of the pelvis demonstrates bilateral protrusio acetabuli.  Further clinical information is needed to determine the underlying etiology.  A post-mortem radiograph would not differ significantly in appearance from an antemortem radiograph unless there were post-mortem changes to the bone such as fractures or decompositional changes. The question of \"gross\" findings cannot be answered from a radiograph, as this refers to macroscopic examination of the lesion itself, not an image of it.\n",
+  "processing_steps": [
+    "BLIP inference",
+    "Gemini enhancement"
+  ],
+  "error_messages": []
+}

@@ -1,0 +1,15 @@
+{
+  "sample_id": "test_4931",
+  "processing_mode": "basic_vqa",
+  "success": true,
+  "image_path": "data/images/test/test_4931.jpg",
+  "question": "does this great toe show brain, herpes encephalitis?",
+  "ground_truth": "no",
+  "blip_answer": "yes",
+  "unified_answer": "This image shows a coronal section of a brain exhibiting edema and discoloration, particularly in the periventricular white matter.  While these findings are consistent with encephalitis, a definitive diagnosis of herpes encephalitis cannot be made based on this image alone.  Further investigations, including PCR testing of cerebrospinal fluid, are required.  This is not an image of a toe.\n",
+  "processing_steps": [
+    "BLIP inference",
+    "Gemini enhancement"
+  ],
+  "error_messages": []
+}

@@ -1,0 +1,47 @@
+[
+  {
+    "sample_id": "test_6074",
+    "medical_similarity": 0.44999999999999996,
+    "terminology_coverage": 1.0,
+    "pathology_relevance": 0.16666666666666666,
+    "clinical_coherence": 0.7,
+    "overall_medical_score": 0.5525,
+    "error_messages": []
+  },
+  {
+    "sample_id": "test_0204",
+    "medical_similarity": 0.25,
+    "terminology_coverage": 0.75,
+    "pathology_relevance": 0.0,
+    "clinical_coherence": 0.46499999999999997,
+    "overall_medical_score": 0.34299999999999997,
+    "error_messages": []
+  },
+  {
+    "sample_id": "test_5238",
+    "medical_similarity": 0.55,
+    "terminology_coverage": 1.0,
+    "pathology_relevance": 0.0,
+    "clinical_coherence": 0.5049999999999999,
+    "overall_medical_score": 0.4885,
+    "error_messages": []
+  },
+  {
+    "sample_id": "test_0912",
+    "medical_similarity": 0.25,
+    "terminology_coverage": 0.85,
+    "pathology_relevance": 0.0,
+    "clinical_coherence": 0.46499999999999997,
+    "overall_medical_score": 0.368,
+    "error_messages": []
+  },
+  {
+    "sample_id": "test_2253",
+    "medical_similarity": 0.2,
+    "terminology_coverage": 0.325,
+    "pathology_relevance": 0.0,
+    "clinical_coherence": 0.39,
+    "overall_medical_score": 0.20925000000000002,
+    "error_messages": []
+  }
+]

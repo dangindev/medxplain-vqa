@@ -1,0 +1,101 @@
+{
+  "sample_id": "test_1401",
+  "processing_mode": "explainable_vqa",
+  "success": true,
+  "image_path": "data/images/test/test_1401.jpg",
+  "question": "what is present?",
+  "ground_truth": "adrenal",
+  "blip_answer": "yes",
+  "unified_answer": "The image displays four tissue fragments, likely from a surgical resection. The upper left fragment shows a predominantly tan-pink cut surface with a focal area of dark red discoloration, suggestive of hemorrhage or congestion. The other fragments show similar tan-pink tissue with varying degrees of the same dark red discoloration.  Without further clinical information or microscopic examination, a definitive diagnosis is not possible. However, the gross appearance is consistent with a process involving vascular congestion or hemorrhage, and the differential diagnosis would include possibilities such as infarction, trauma, or a vascular lesion.  Further workup, including microscopy, would be required for a definitive diagnosis.\n",
+  "processing_steps": [
+    "BLIP inference",
+    "Query reformulation",
+    "Enhanced Grad-CAM attention",
+    "Enhanced unified answer generation"
+  ],
+  "error_messages": [],
+  "chain_of_thought_enabled": false,
+  "reformulated_question": "This 224x224 medical image exhibits distributed attention, with primary focus in the upper left quadrant.  Five secondary regions of attention are also present. Describing the findings in the upper left quadrant, and characterizing the nature of the five secondary regions, what is the differential diagnosis based on these observable image features?",
+  "reformulation_quality": 0.8,
+  "grad_cam_available": true,
+  "bbox_enabled": false,
+  "grad_cam_mode": "basic",
+  "bbox_regions_count": 5,
+  "bounding_box_analysis": {
+    "total_regions": 5,
+    "average_attention_score": 0.9411027312278748,
+    "max_attention_score": 1.0,
+    "regions_details": [
+      {
+        "rank": 1,
+        "bbox": [
+          115,
+          59,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          126,
+          70
+        ]
+      },
+      {
+        "rank": 2,
+        "bbox": [
+          30,
+          68,
+          22,
+          22
+        ],
+        "attention_score": 0.9584665894508362,
+        "center": [
+          41,
+          79
+        ]
+      },
+      {
+        "rank": 3,
+        "bbox": [
+          58,
+          49,
+          22,
+          22
+        ],
+        "attention_score": 0.9328445792198181,
+        "center": [
+          69,
+          60
+        ]
+      },
+      {
+        "rank": 4,
+        "bbox": [
+          12,
+          68,
+          22,
+          22
+        ],
+        "attention_score": 0.9119880795478821,
+        "center": [
+          23,
+          79
+        ]
+      },
+      {
+        "rank": 5,
+        "bbox": [
+          161,
+          68,
+          22,
+          22
+        ],
+        "attention_score": 0.9022144079208374,
+        "center": [
+          172,
+          79
+        ]
+      }
+    ]
+  }
+}

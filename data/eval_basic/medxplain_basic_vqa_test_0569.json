@@ -1,0 +1,15 @@
+{
+  "sample_id": "test_0569",
+  "processing_mode": "basic_vqa",
+  "success": true,
+  "image_path": "data/images/test/test_0569.jpg",
+  "question": "what is subacute endocarditis caused by?",
+  "ground_truth": "streptococcus viridans on a previously myxomatous mitral valve",
+  "blip_answer": "yes",
+  "unified_answer": "This image shows a heart with vegetations, consistent with infective endocarditis. While the image itself doesn't reveal the causative organism, subacute endocarditis is typically caused by less virulent bacteria, most commonly *Streptococcus viridans* group, but also *HACEK* organisms, *Enterococci*, and *Coagulase-negative Staphylococci*.  It's important to note that definitive diagnosis requires microbiological cultures.\n",
+  "processing_steps": [
+    "BLIP inference",
+    "Gemini enhancement"
+  ],
+  "error_messages": []
+}

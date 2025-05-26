@@ -1,0 +1,15 @@
+{
+  "sample_id": "test_2787",
+  "processing_mode": "basic_vqa",
+  "success": true,
+  "image_path": "data/images/test/test_2787.jpg",
+  "question": "does breast show normal appendix?",
+  "ground_truth": "no",
+  "blip_answer": "no",
+  "unified_answer": "This image does not depict breast tissue. It appears to be a section of a geode or similar geological formation, not a biological specimen.  Therefore, the question of a normal appendix is inapplicable.\n",
+  "processing_steps": [
+    "BLIP inference",
+    "Gemini enhancement"
+  ],
+  "error_messages": []
+}

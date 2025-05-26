@@ -1,0 +1,15 @@
+{
+  "sample_id": "test_5308",
+  "processing_mode": "basic_vqa",
+  "success": true,
+  "image_path": "data/images/test/test_5308.jpg",
+  "question": "does this image show desquamative gingivits?",
+  "ground_truth": "yes",
+  "blip_answer": "yes",
+  "unified_answer": "This image shows a denture.  The clinical appearance of the underlying gingival tissue cannot be assessed as it is covered by the prosthetic appliance.  Therefore, desquamative gingivitis cannot be diagnosed from this image.\n",
+  "processing_steps": [
+    "BLIP inference",
+    "Gemini enhancement"
+  ],
+  "error_messages": []
+}

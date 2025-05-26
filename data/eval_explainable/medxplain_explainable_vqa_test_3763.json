@@ -1,0 +1,101 @@
+{
+  "sample_id": "test_3763",
+  "processing_mode": "explainable_vqa",
+  "success": true,
+  "image_path": "data/images/test/test_3763.jpg",
+  "question": "what died of viral pneumonia likely to have been influenzae?",
+  "ground_truth": "well seen atypical cells surrounding splenic arteriole man",
+  "blip_answer": "no",
+  "unified_answer": "This image shows a section of lymphoid tissue with extensive necrosis and scattered karyorrhectic debris.  The question references a chest radiograph and findings suggestive of viral pneumonia, which are not relevant to this histologic image.  Further clinical information is needed to provide a more specific diagnosis.\n",
+  "processing_steps": [
+    "BLIP inference",
+    "Query reformulation",
+    "Enhanced Grad-CAM attention",
+    "Enhanced unified answer generation"
+  ],
+  "error_messages": [],
+  "chain_of_thought_enabled": false,
+  "reformulated_question": "This chest radiograph shows [describe specific visual features, e.g., patchy opacities/consolidation, ground-glass opacities, interstitial markings] predominantly in the [describe anatomical location, e.g., left lower lobe].  Based on these radiographic findings, are they suggestive of a viral pneumonia, possibly due to influenza?",
+  "reformulation_quality": 0.7,
+  "grad_cam_available": true,
+  "bbox_enabled": false,
+  "grad_cam_mode": "basic",
+  "bbox_regions_count": 5,
+  "bounding_box_analysis": {
+    "total_regions": 5,
+    "average_attention_score": 0.9644403457641602,
+    "max_attention_score": 1.0,
+    "regions_details": [
+      {
+        "rank": 1,
+        "bbox": [
+          40,
+          124,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          51,
+          135
+        ]
+      },
+      {
+        "rank": 2,
+        "bbox": [
+          152,
+          86,
+          22,
+          22
+        ],
+        "attention_score": 0.9929217100143433,
+        "center": [
+          163,
+          97
+        ]
+      },
+      {
+        "rank": 3,
+        "bbox": [
+          58,
+          124,
+          22,
+          22
+        ],
+        "attention_score": 0.9537554979324341,
+        "center": [
+          69,
+          135
+        ]
+      },
+      {
+        "rank": 4,
+        "bbox": [
+          49,
+          105,
+          22,
+          22
+        ],
+        "attention_score": 0.9437811374664307,
+        "center": [
+          60,
+          116
+        ]
+      },
+      {
+        "rank": 5,
+        "bbox": [
+          105,
+          49,
+          22,
+          22
+        ],
+        "attention_score": 0.9317433834075928,
+        "center": [
+          116,
+          60
+        ]
+      }
+    ]
+  }
+}

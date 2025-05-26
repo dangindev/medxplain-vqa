@@ -1,0 +1,15 @@
+{
+  "sample_id": "test_5543",
+  "processing_mode": "basic_vqa",
+  "success": true,
+  "image_path": "data/images/test/test_5543.jpg",
+  "question": "where is this?",
+  "ground_truth": "pancreas",
+  "blip_answer": "no",
+  "unified_answer": "This image shows a section of salivary gland tissue, likely the parotid gland, with a prominent duct.  The surrounding tissue is composed of acini, the secretory units of the gland.\n",
+  "processing_steps": [
+    "BLIP inference",
+    "Gemini enhancement"
+  ],
+  "error_messages": []
+}

@@ -1,0 +1,101 @@
+{
+  "sample_id": "test_0217",
+  "processing_mode": "explainable_vqa",
+  "success": true,
+  "image_path": "data/images/test/test_0217.jpg",
+  "question": "is retroperitoneal liposarcoma present?",
+  "ground_truth": "yes",
+  "blip_answer": "yes",
+  "unified_answer": "This gross specimen image shows a large, lobulated, tan-yellow mass.  While the exact anatomical location within the retroperitoneum cannot be definitively determined from this image alone, the mass appears to be well-circumscribed, although its relationship to adjacent structures like the kidneys, psoas muscles, and major vessels is not clearly visualized.  The mass exhibits internal heterogeneity, with areas of what appears to be fatty tissue interspersed with paler, potentially softer tissue components.  No obvious necrosis or calcification is readily apparent.  While the gross appearance is suggestive of a fatty tumor, such as a liposarcoma, a definitive diagnosis cannot be made based on this image alone.  Microscopic examination, including immunohistochemical staining, is required for confirmation. Other retroperitoneal masses, such as teratomas, other sarcomas, or even a large lipoma, remain in the differential diagnosis. The image quality is adequate for gross examination but lacks the anatomical context and detail needed for precise localization and characterization.\n",
+  "processing_steps": [
+    "BLIP inference",
+    "Query reformulation",
+    "Enhanced Grad-CAM attention",
+    "Enhanced unified answer generation"
+  ],
+  "error_messages": [],
+  "chain_of_thought_enabled": false,
+  "reformulated_question": "Based on this 224x224 image, and considering the distributed attention across multiple regions with a primary focus in the lower center and seven secondary attention regions,  evaluate the lower abdomen/pelvis for the presence of a retroperitoneal liposarcoma. Specifically, examine the perirenal space, the anterior pararenal space, and the posterior pararenal space, noting the relationship of any identified mass to the kidneys, psoas muscles, and surrounding vasculature (e.g., aorta, inferior vena cava).  Assess the image quality, noting any artifacts or limitations that might affect interpretation.  Describe the characteristics of any identified mass, including its size, shape, margins, and internal heterogeneity (e.g., areas of fat, soft tissue, calcification, or necrosis).  If a mass is present, determine if its imaging features are consistent with liposarcoma, considering the possibility of other retroperitoneal masses in the differential diagnosis.?",
+  "reformulation_quality": 1.0,
+  "grad_cam_available": true,
+  "bbox_enabled": false,
+  "grad_cam_mode": "basic",
+  "bbox_regions_count": 5,
+  "bounding_box_analysis": {
+    "total_regions": 5,
+    "average_attention_score": 1.0,
+    "max_attention_score": 1.0,
+    "regions_details": [
+      {
+        "rank": 1,
+        "bbox": [
+          -11,
+          152,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          0,
+          163
+        ]
+      },
+      {
+        "rank": 2,
+        "bbox": [
+          -10,
+          152,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          1,
+          163
+        ]
+      },
+      {
+        "rank": 3,
+        "bbox": [
+          -9,
+          152,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          2,
+          163
+        ]
+      },
+      {
+        "rank": 4,
+        "bbox": [
+          -8,
+          152,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          3,
+          163
+        ]
+      },
+      {
+        "rank": 5,
+        "bbox": [
+          -7,
+          152,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          4,
+          163
+        ]
+      }
+    ]
+  }
+}

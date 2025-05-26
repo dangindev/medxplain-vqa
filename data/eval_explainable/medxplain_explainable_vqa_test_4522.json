@@ -1,0 +1,101 @@
+{
+  "sample_id": "test_4522",
+  "processing_mode": "explainable_vqa",
+  "success": true,
+  "image_path": "data/images/test/test_4522.jpg",
+  "question": "is pneumocystis present?",
+  "ground_truth": "yes",
+  "blip_answer": "no",
+  "unified_answer": "This image, likely a Grocott's methenamine silver (GMS) stain, shows numerous small, round to oval, dark-staining organisms consistent with *Pneumocystis jirovecii*.  While this stain highlights the organisms, it does not provide the architectural context of lung parenchyma needed to assess for ground-glass opacities, cystic changes, or consolidations.  Therefore, while the image suggests the presence of *P. jirovecii*, a diagnosis of PJP pneumonia cannot be made based on this image alone. Further imaging and clinical correlation are required.\n",
+  "processing_steps": [
+    "BLIP inference",
+    "Query reformulation",
+    "Enhanced Grad-CAM attention",
+    "Enhanced unified answer generation"
+  ],
+  "error_messages": [],
+  "chain_of_thought_enabled": false,
+  "reformulated_question": "Based on this 224x224 image, with particular attention to the lower left region and the 36 other highlighted regions of interest, is there visual evidence suggestive of *Pneumocystis jirovecii* pneumonia (PJP)?  Specifically, evaluate the lung parenchyma within these regions for the presence of diffuse, bilateral ground-glass opacities, cystic changes, or consolidations. Consider the image resolution and any artifacts that might mimic PJP findings.  If anatomical landmarks such as the hilum, fissures, or diaphragm are visible, use them to further localize and characterize any potential abnormalities.  Note any associated pleural effusions or lymphadenopathy.  The evaluation criteria should include the typical radiological presentation of PJP, considering the limitations of the image size and quality.?",
+  "reformulation_quality": 1.0,
+  "grad_cam_available": true,
+  "bbox_enabled": false,
+  "grad_cam_mode": "basic",
+  "bbox_regions_count": 5,
+  "bounding_box_analysis": {
+    "total_regions": 5,
+    "average_attention_score": 0.9817123770713806,
+    "max_attention_score": 1.0,
+    "regions_details": [
+      {
+        "rank": 1,
+        "bbox": [
+          68,
+          105,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          79,
+          116
+        ]
+      },
+      {
+        "rank": 2,
+        "bbox": [
+          142,
+          68,
+          22,
+          22
+        ],
+        "attention_score": 0.9924993515014648,
+        "center": [
+          153,
+          79
+        ]
+      },
+      {
+        "rank": 3,
+        "bbox": [
+          68,
+          68,
+          22,
+          22
+        ],
+        "attention_score": 0.9830556511878967,
+        "center": [
+          79,
+          79
+        ]
+      },
+      {
+        "rank": 4,
+        "bbox": [
+          105,
+          105,
+          22,
+          22
+        ],
+        "attention_score": 0.9770429134368896,
+        "center": [
+          116,
+          116
+        ]
+      },
+      {
+        "rank": 5,
+        "bbox": [
+          106,
+          142,
+          22,
+          22
+        ],
+        "attention_score": 0.9559639692306519,
+        "center": [
+          117,
+          153
+        ]
+      }
+    ]
+  }
+}

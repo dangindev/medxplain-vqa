@@ -1,0 +1,110 @@
+{
+  "sample_id": "test_1401",
+  "processing_mode": "explainable_vqa",
+  "success": true,
+  "image_path": "data/images/test/test_1401.jpg",
+  "question": "what is present?",
+  "ground_truth": "adrenal",
+  "blip_answer": "yes",
+  "unified_answer": "The image displays four tissue fragments. The upper left fragment shows a predominantly tan-pink cut surface with a darker red-brown area, suggestive of hemorrhage or congestion.  The other fragments show similar tan-pink tissue with varying degrees of the same red-brown discoloration.  Without further clinical information or special stains, a more specific diagnosis is not possible based on this image alone.  The anatomical origin of the tissue is also unclear.\n",
+  "processing_steps": [
+    "BLIP inference",
+    "Query reformulation",
+    "Enhanced Grad-CAM attention",
+    "Chain-of-Thought reasoning",
+    "Enhanced unified answer generation"
+  ],
+  "error_messages": [],
+  "chain_of_thought_enabled": true,
+  "reformulated_question": "Based on this 224x224 medical image with distributed attention, primarily focused on the upper left region, and five secondary regions of attention, what findings are present?  Describe the visible features in the upper left region and any notable features in the other highlighted regions.  If anatomical structures are identifiable, please specify their location.?",
+  "reformulation_quality": 1.0,
+  "grad_cam_available": true,
+  "bbox_enabled": false,
+  "grad_cam_mode": "basic",
+  "bbox_regions_count": 5,
+  "bounding_box_analysis": {
+    "total_regions": 5,
+    "average_attention_score": 0.9411027312278748,
+    "max_attention_score": 1.0,
+    "regions_details": [
+      {
+        "rank": 1,
+        "bbox": [
+          115,
+          59,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          126,
+          70
+        ]
+      },
+      {
+        "rank": 2,
+        "bbox": [
+          30,
+          68,
+          22,
+          22
+        ],
+        "attention_score": 0.9584665894508362,
+        "center": [
+          41,
+          79
+        ]
+      },
+      {
+        "rank": 3,
+        "bbox": [
+          58,
+          49,
+          22,
+          22
+        ],
+        "attention_score": 0.9328445792198181,
+        "center": [
+          69,
+          60
+        ]
+      },
+      {
+        "rank": 4,
+        "bbox": [
+          12,
+          68,
+          22,
+          22
+        ],
+        "attention_score": 0.9119880795478821,
+        "center": [
+          23,
+          79
+        ]
+      },
+      {
+        "rank": 5,
+        "bbox": [
+          161,
+          68,
+          22,
+          22
+        ],
+        "attention_score": 0.9022144079208374,
+        "center": [
+          172,
+          79
+        ]
+      }
+    ]
+  },
+  "reasoning_analysis": {
+    "reasoning_confidence": 0.8981608579160874,
+    "reasoning_flow": "attention_guided",
+    "reasoning_steps_count": 6,
+    "confidence_method": "confidence_cascade",
+    "validation_score": 0.0,
+    "validation_validity": false
+  }
+}

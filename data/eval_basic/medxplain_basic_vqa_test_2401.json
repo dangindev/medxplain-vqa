@@ -1,0 +1,15 @@
+{
+  "sample_id": "test_2401",
+  "processing_mode": "basic_vqa",
+  "success": true,
+  "image_path": "data/images/test/test_2401.jpg",
+  "question": "what is in picture and thus illustrates the very large size of the ovarian tumor?",
+  "ground_truth": "the excellent uterus",
+  "blip_answer": "yes",
+  "unified_answer": "The image shows a large ovarian tumor, likely a teratoma given its heterogeneous appearance, along with attached fallopian tube and associated vascular structures.  The tumor's size is clearly demonstrated by its substantial mass and its relationship to the adjacent anatomical structures.\n",
+  "processing_steps": [
+    "BLIP inference",
+    "Gemini enhancement"
+  ],
+  "error_messages": []
+}

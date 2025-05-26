@@ -1,0 +1,101 @@
+{
+  "sample_id": "test_5719",
+  "processing_mode": "explainable_vqa",
+  "success": true,
+  "image_path": "data/images/test/test_5719.jpg",
+  "question": "where is this?",
+  "ground_truth": "lung",
+  "blip_answer": "yes",
+  "unified_answer": "This image shows a section of lung exhibiting features consistent with severe pneumonia.  The central structure, likely a bronchus or blood vessel given its tubular appearance and location within the lung parenchyma, appears thickened and surrounded by consolidated, hemorrhagic tissue.  The surrounding lung parenchyma displays areas of varied discoloration, ranging from dark red-brown (likely hemorrhage) to tan-gray (consistent with inflammatory exudate and consolidation).  Multifocal, paler areas are also present, possibly representing abscess formation or areas of necrosis.  The overall texture of the lung is heterogeneous and irregular.  The other areas highlighted throughout the image demonstrate similar variations in color and texture, suggesting diffuse involvement of the lung by the underlying pathological process.\n",
+  "processing_steps": [
+    "BLIP inference",
+    "Query reformulation",
+    "Enhanced Grad-CAM attention",
+    "Enhanced unified answer generation"
+  ],
+  "error_messages": [],
+  "chain_of_thought_enabled": false,
+  "reformulated_question": "Based on the appearance of the structure in the lower central portion of this 224x224 image, and considering the surrounding anatomical context, what is the anatomical location being depicted?  Describe the visual characteristics of this central structure, including its texture, shape, and relationship to adjacent structures visible in the image.  Also note any distinguishing features observed in the 11 other regions of interest.?",
+  "reformulation_quality": 1.0,
+  "grad_cam_available": true,
+  "bbox_enabled": false,
+  "grad_cam_mode": "basic",
+  "bbox_regions_count": 5,
+  "bounding_box_analysis": {
+    "total_regions": 5,
+    "average_attention_score": 0.9325690507888794,
+    "max_attention_score": 1.0,
+    "regions_details": [
+      {
+        "rank": 1,
+        "bbox": [
+          59,
+          198,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          70,
+          209
+        ]
+      },
+      {
+        "rank": 2,
+        "bbox": [
+          96,
+          40,
+          22,
+          22
+        ],
+        "attention_score": 0.955564558506012,
+        "center": [
+          107,
+          51
+        ]
+      },
+      {
+        "rank": 3,
+        "bbox": [
+          105,
+          198,
+          22,
+          22
+        ],
+        "attention_score": 0.9073097705841064,
+        "center": [
+          116,
+          209
+        ]
+      },
+      {
+        "rank": 4,
+        "bbox": [
+          105,
+          199,
+          22,
+          22
+        ],
+        "attention_score": 0.9073097705841064,
+        "center": [
+          116,
+          210
+        ]
+      },
+      {
+        "rank": 5,
+        "bbox": [
+          21,
+          105,
+          22,
+          22
+        ],
+        "attention_score": 0.8926611542701721,
+        "center": [
+          32,
+          116
+        ]
+      }
+    ]
+  }
+}

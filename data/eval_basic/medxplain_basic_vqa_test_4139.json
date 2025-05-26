@@ -1,0 +1,15 @@
+{
+  "sample_id": "test_4139",
+  "processing_mode": "basic_vqa",
+  "success": true,
+  "image_path": "data/images/test/test_4139.jpg",
+  "question": "what is present?",
+  "ground_truth": "liver",
+  "blip_answer": "no",
+  "unified_answer": "This image shows a section of tissue with a dense infiltrate of small, round blue cells, suggestive of a small round blue cell tumor.  Further workup, including immunohistochemistry, would be required for a definitive diagnosis.\n",
+  "processing_steps": [
+    "BLIP inference",
+    "Gemini enhancement"
+  ],
+  "error_messages": []
+}

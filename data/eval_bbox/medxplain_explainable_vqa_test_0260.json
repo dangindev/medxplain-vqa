@@ -1,0 +1,101 @@
+{
+  "sample_id": "test_0260",
+  "processing_mode": "explainable_vqa",
+  "success": true,
+  "image_path": "data/images/test/test_0260.jpg",
+  "question": "is abdomen present?",
+  "ground_truth": "yes",
+  "blip_answer": "no",
+  "unified_answer": "This image appears to depict a few inflammatory cells, possibly neutrophils, on a background that suggests a cytologic preparation.  No abdominal structures are visible.  The image resolution and preparation type are not suitable for assessing abdominal organs or the abdominal cavity.\n",
+  "processing_steps": [
+    "BLIP inference",
+    "Query reformulation",
+    "Enhanced Grad-CAM attention",
+    "Enhanced unified answer generation"
+  ],
+  "error_messages": [],
+  "chain_of_thought_enabled": false,
+  "reformulated_question": "**Option 1 (Focus on general abdominal structures):**\n\n\"Based on this 224x224 image, and considering the distributed attention across multiple regions with a primary focus in the middle center, can we visualize key abdominal structures such as the liver, stomach, intestines, and kidneys?  Assess the visibility and clarity of these structures, taking into account the image quality and resolution.  If visible, describe their relative positions and sizes within the image.\"\n\n\n**Option 2 (Focus on abdominal wall and cavity):**\n\n\"Given this 224x224 image with distributed attention and a focus in the middle center, is the abdominal cavity clearly depicted?  Evaluate the visibility of the abdominal wall, including the anterior and lateral aspects.  Can we identify the boundaries of the abdominal cavity in relation to the thoracic cavity superiorly and the pelvic cavity inferiorly?  Comment on the image quality and any limitations that might affect the assessment.\"\n\n\n**Option 3 (Suspecting pathology and looking for specific signs):**\n\n\"In this 224x224 image with distributed attention and focus in the middle center, are there any visible signs of abdominal distension, asymmetry, or abnormal masses within the abdominal cavity?  Specifically examine the regions surrounding the liver, spleen, and intestines.  Consider the image quality and resolution when evaluating for subtle findings.  Describe any observed abnormalities in terms of their location, size, and shape.\"\n\n\n**Option 4 (If the image is expected to show a specific organ):**\n\n\"This 224x224 image has distributed attention with a focus in the middle center. Is the [specific organ, e.g., pancreas] visible within the abdomen? If so, describe its location relative to adjacent structures such as the [e.g., duodenum, spleen].  Assess the visibility and clarity of the organ's margins and internal structure, taking into account the image quality and resolution.\"?",
+  "reformulation_quality": 1.0,
+  "grad_cam_available": true,
+  "bbox_enabled": false,
+  "grad_cam_mode": "basic",
+  "bbox_regions_count": 5,
+  "bounding_box_analysis": {
+    "total_regions": 5,
+    "average_attention_score": 0.9790655016899109,
+    "max_attention_score": 1.0,
+    "regions_details": [
+      {
+        "rank": 1,
+        "bbox": [
+          49,
+          87,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          60,
+          98
+        ]
+      },
+      {
+        "rank": 2,
+        "bbox": [
+          59,
+          77,
+          22,
+          22
+        ],
+        "attention_score": 0.992385983467102,
+        "center": [
+          70,
+          88
+        ]
+      },
+      {
+        "rank": 3,
+        "bbox": [
+          68,
+          96,
+          22,
+          22
+        ],
+        "attention_score": 0.9848963022232056,
+        "center": [
+          79,
+          107
+        ]
+      },
+      {
+        "rank": 4,
+        "bbox": [
+          58,
+          49,
+          22,
+          22
+        ],
+        "attention_score": 0.962958812713623,
+        "center": [
+          69,
+          60
+        ]
+      },
+      {
+        "rank": 5,
+        "bbox": [
+          40,
+          40,
+          22,
+          22
+        ],
+        "attention_score": 0.9550864100456238,
+        "center": [
+          51,
+          51
+        ]
+      }
+    ]
+  }
+}

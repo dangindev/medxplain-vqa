@@ -1,0 +1,15 @@
+{
+  "sample_id": "test_6067",
+  "processing_mode": "basic_vqa",
+  "success": true,
+  "image_path": "data/images/test/test_6067.jpg",
+  "question": "does this image show oil immersion organism very well shown?",
+  "ground_truth": "yes",
+  "blip_answer": "yes",
+  "unified_answer": "This image shows a mitotic figure, likely in a tissue section.  While the resolution isn't high enough to definitively identify the organism or tissue type, the chromatin condensation characteristic of mitosis is evident. The use of \"oil immersion\" in the question suggests high magnification microscopy, but the image quality itself doesn't demonstrate the level of detail typically associated with oil immersion microscopy.\n",
+  "processing_steps": [
+    "BLIP inference",
+    "Gemini enhancement"
+  ],
+  "error_messages": []
+}

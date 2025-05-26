@@ -1,0 +1,101 @@
+{
+  "sample_id": "test_3714",
+  "processing_mode": "explainable_vqa",
+  "success": true,
+  "image_path": "data/images/test/test_3714.jpg",
+  "question": "is endocervical polyp present?",
+  "ground_truth": "no",
+  "blip_answer": "no",
+  "unified_answer": "This image shows a dense field of inflammatory cells, likely lymphocytes and plasma cells.  There is no endocervical canal, ectocervix, or external os visible.  No polyp is identified. The distributed attention may be related to the uniform distribution of the inflammatory cells throughout the image.  Without further architectural context, a more specific diagnosis is not possible.\n",
+  "processing_steps": [
+    "BLIP inference",
+    "Query reformulation",
+    "Enhanced Grad-CAM attention",
+    "Enhanced unified answer generation"
+  ],
+  "error_messages": [],
+  "chain_of_thought_enabled": false,
+  "reformulated_question": "Based on this 224x224 image, and considering the distributed attention highlighting the middle left region and 18 other secondary regions, can we identify an endocervical polyp arising from the endocervical canal?  Specifically, examine the endocervical canal and the surrounding ectocervix.  Look for a smooth, pedunculated or sessile lesion protruding from the endocervical canal.  Consider the image quality and resolution when evaluating for the presence of subtle features such as vascularity within the lesion or its surface texture.  If the external os is visible, assess its relationship to the suspected polyp.  Describe the size, shape, and location of any identified polyp relative to the external os and the endocervical canal.  If no clear polyp is identified, note any other findings within the endocervical canal or surrounding tissues that could be contributing to the distributed attention.?",
+  "reformulation_quality": 1.0,
+  "grad_cam_available": true,
+  "bbox_enabled": false,
+  "grad_cam_mode": "basic",
+  "bbox_regions_count": 5,
+  "bounding_box_analysis": {
+    "total_regions": 5,
+    "average_attention_score": 0.9628171801567078,
+    "max_attention_score": 1.0,
+    "regions_details": [
+      {
+        "rank": 1,
+        "bbox": [
+          180,
+          40,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          191,
+          51
+        ]
+      },
+      {
+        "rank": 2,
+        "bbox": [
+          143,
+          189,
+          22,
+          22
+        ],
+        "attention_score": 0.9730291366577148,
+        "center": [
+          154,
+          200
+        ]
+      },
+      {
+        "rank": 3,
+        "bbox": [
+          190,
+          21,
+          22,
+          22
+        ],
+        "attention_score": 0.9623286724090576,
+        "center": [
+          201,
+          32
+        ]
+      },
+      {
+        "rank": 4,
+        "bbox": [
+          199,
+          40,
+          22,
+          22
+        ],
+        "attention_score": 0.9598250389099121,
+        "center": [
+          210,
+          51
+        ]
+      },
+      {
+        "rank": 5,
+        "bbox": [
+          96,
+          77,
+          22,
+          22
+        ],
+        "attention_score": 0.9189030528068542,
+        "center": [
+          107,
+          88
+        ]
+      }
+    ]
+  }
+}

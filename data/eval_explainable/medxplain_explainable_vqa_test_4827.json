@@ -1,0 +1,101 @@
+{
+  "sample_id": "test_4827",
+  "processing_mode": "explainable_vqa",
+  "success": true,
+  "image_path": "data/images/test/test_4827.jpg",
+  "question": "is joints present?",
+  "ground_truth": "yes",
+  "blip_answer": "yes",
+  "unified_answer": "This radiograph appears to depict the spine and associated structures, likely of a small animal.  While the central area of focus suggests the intent to visualize intervertebral articulations, the image resolution and clarity are insufficient to definitively identify joint spaces, articular surfaces, or specific bony landmarks such as epiphyses or metaphyses. The overall image quality limits assessment of the bony anatomy.\n",
+  "processing_steps": [
+    "BLIP inference",
+    "Query reformulation",
+    "Enhanced Grad-CAM attention",
+    "Enhanced unified answer generation"
+  ],
+  "error_messages": [],
+  "chain_of_thought_enabled": false,
+  "reformulated_question": "Based on this 224x224 image with distributed attention, primarily focused on the upper central region, are any bone-to-bone articulations (joints) visible, particularly in the primary focus area and the four secondary attention regions?  Consider the image resolution and clarity when evaluating for the presence of joint spaces, articular surfaces, and any associated anatomical landmarks (e.g.,  epiphyses, metaphyses, if applicable).  Describe the location and characteristics of any identified joints. If no joints are clearly visible, explain why, referencing specific image limitations.?",
+  "reformulation_quality": 1.0,
+  "grad_cam_available": true,
+  "bbox_enabled": false,
+  "grad_cam_mode": "basic",
+  "bbox_regions_count": 5,
+  "bounding_box_analysis": {
+    "total_regions": 5,
+    "average_attention_score": 1.0,
+    "max_attention_score": 1.0,
+    "regions_details": [
+      {
+        "rank": 1,
+        "bbox": [
+          59,
+          208,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          70,
+          219
+        ]
+      },
+      {
+        "rank": 2,
+        "bbox": [
+          59,
+          209,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          70,
+          220
+        ]
+      },
+      {
+        "rank": 3,
+        "bbox": [
+          59,
+          210,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          70,
+          221
+        ]
+      },
+      {
+        "rank": 4,
+        "bbox": [
+          59,
+          211,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          70,
+          222
+        ]
+      },
+      {
+        "rank": 5,
+        "bbox": [
+          59,
+          212,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          70,
+          223
+        ]
+      }
+    ]
+  }
+}

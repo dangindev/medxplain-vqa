@@ -1,0 +1,110 @@
+{
+  "sample_id": "test_5543",
+  "processing_mode": "explainable_vqa",
+  "success": true,
+  "image_path": "data/images/test/test_5543.jpg",
+  "question": "where is this?",
+  "ground_truth": "pancreas",
+  "blip_answer": "no",
+  "unified_answer": "The image shows glandular tissue, likely exocrine, with variably sized acini.  A ductal structure with a clear lumen is centrally located.  The surrounding tissue appears relatively uniform in cellularity.  Without further clinical information or special stains, a more precise anatomical location cannot be determined from this image alone.\n",
+  "processing_steps": [
+    "BLIP inference",
+    "Query reformulation",
+    "Enhanced Grad-CAM attention",
+    "Chain-of-Thought reasoning",
+    "Enhanced unified answer generation"
+  ],
+  "error_messages": [],
+  "chain_of_thought_enabled": true,
+  "reformulated_question": "Based on the appearance of the [mention specific anatomical structure, e.g., tissue, organ, or system visible in the upper central region], with its [describe visual characteristics, e.g., texture, density, shape, margins], and considering the surrounding structures showing [describe visual characteristics of secondary regions, e.g., similar/different densities, presence of fluid, etc.], what is the anatomical location being imaged?",
+  "reformulation_quality": 1.0,
+  "grad_cam_available": true,
+  "bbox_enabled": false,
+  "grad_cam_mode": "basic",
+  "bbox_regions_count": 5,
+  "bounding_box_analysis": {
+    "total_regions": 5,
+    "average_attention_score": 0.9777341365814209,
+    "max_attention_score": 1.0,
+    "regions_details": [
+      {
+        "rank": 1,
+        "bbox": [
+          12,
+          171,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          23,
+          182
+        ]
+      },
+      {
+        "rank": 2,
+        "bbox": [
+          133,
+          208,
+          22,
+          22
+        ],
+        "attention_score": 0.9721676707267761,
+        "center": [
+          144,
+          219
+        ]
+      },
+      {
+        "rank": 3,
+        "bbox": [
+          133,
+          209,
+          22,
+          22
+        ],
+        "attention_score": 0.9721676707267761,
+        "center": [
+          144,
+          220
+        ]
+      },
+      {
+        "rank": 4,
+        "bbox": [
+          133,
+          210,
+          22,
+          22
+        ],
+        "attention_score": 0.9721676707267761,
+        "center": [
+          144,
+          221
+        ]
+      },
+      {
+        "rank": 5,
+        "bbox": [
+          133,
+          211,
+          22,
+          22
+        ],
+        "attention_score": 0.9721676707267761,
+        "center": [
+          144,
+          222
+        ]
+      }
+    ]
+  },
+  "reasoning_analysis": {
+    "reasoning_confidence": 0.8818293268516388,
+    "reasoning_flow": "pathology_focused",
+    "reasoning_steps_count": 6,
+    "confidence_method": "weighted_geometric_mean",
+    "validation_score": 0.0,
+    "validation_validity": false
+  }
+}

@@ -1,0 +1,101 @@
+{
+  "sample_id": "test_5771",
+  "processing_mode": "explainable_vqa",
+  "success": true,
+  "image_path": "data/images/test/test_5771.jpg",
+  "question": "was talc used to sclerose emphysematous lung, alpha-1 antitrypsin deficiency?",
+  "ground_truth": "yes",
+  "blip_answer": "no",
+  "unified_answer": "This image displays a bone marrow biopsy with abundant megakaryocytes exhibiting varying degrees of maturation.  There is no lung tissue present, therefore features of emphysema or evidence of talc pleurodesis cannot be assessed.\n",
+  "processing_steps": [
+    "BLIP inference",
+    "Query reformulation",
+    "Enhanced Grad-CAM attention",
+    "Enhanced unified answer generation"
+  ],
+  "error_messages": [],
+  "chain_of_thought_enabled": false,
+  "reformulated_question": "Given this chest image showing [describe specific visual features, e.g., hyperlucent lung fields, flattened diaphragms, bullae if present, and their location - e.g., apical bullae], can we observe any radio-opaque densities consistent with talc pleurodesis, specifically in the [mention location from image attention heatmap, e.g., middle right lung region], suggestive of prior attempts to sclerose areas potentially affected by emphysema?",
+  "reformulation_quality": 0.8,
+  "grad_cam_available": true,
+  "bbox_enabled": false,
+  "grad_cam_mode": "basic",
+  "bbox_regions_count": 5,
+  "bounding_box_analysis": {
+    "total_regions": 5,
+    "average_attention_score": 1.0,
+    "max_attention_score": 1.0,
+    "regions_details": [
+      {
+        "rank": 1,
+        "bbox": [
+          -11,
+          49,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          0,
+          60
+        ]
+      },
+      {
+        "rank": 2,
+        "bbox": [
+          -10,
+          49,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          1,
+          60
+        ]
+      },
+      {
+        "rank": 3,
+        "bbox": [
+          -9,
+          49,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          2,
+          60
+        ]
+      },
+      {
+        "rank": 4,
+        "bbox": [
+          -8,
+          49,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          3,
+          60
+        ]
+      },
+      {
+        "rank": 5,
+        "bbox": [
+          -7,
+          49,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          4,
+          60
+        ]
+      }
+    ]
+  }
+}

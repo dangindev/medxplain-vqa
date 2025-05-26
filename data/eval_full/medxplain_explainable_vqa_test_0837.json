@@ -1,0 +1,110 @@
+{
+  "sample_id": "test_0837",
+  "processing_mode": "explainable_vqa",
+  "success": true,
+  "image_path": "data/images/test/test_0837.jpg",
+  "question": "does muscle atrophy show heart slice, acute posterior myocardial infarction in patient with hypertension?",
+  "ground_truth": "no",
+  "blip_answer": "yes",
+  "unified_answer": "This image shows a cross-section of a heart. While the image quality limits detailed assessment, there is no definitively identifiable myocardial thinning, wall abnormality, or change in tissue texture or density suggestive of acute posterior myocardial infarction.  Further clinical information and diagnostic testing would be required for a definitive diagnosis.\n",
+  "processing_steps": [
+    "BLIP inference",
+    "Query reformulation",
+    "Enhanced Grad-CAM attention",
+    "Chain-of-Thought reasoning",
+    "Enhanced unified answer generation"
+  ],
+  "error_messages": [],
+  "chain_of_thought_enabled": true,
+  "reformulated_question": "This 224x224 pixel image appears to be a heart slice, possibly from a patient with hypertension.  Focusing on the upper central region of the image, which appears to be the posterior wall of the left ventricle, is there evidence of myocardial thinning or wall abnormality suggestive of acute posterior myocardial infarction? Are there any other visible features, such as changes in tissue texture or density in this region or elsewhere, that might support this diagnosis?",
+  "reformulation_quality": 1.0,
+  "grad_cam_available": true,
+  "bbox_enabled": false,
+  "grad_cam_mode": "basic",
+  "bbox_regions_count": 5,
+  "bounding_box_analysis": {
+    "total_regions": 5,
+    "average_attention_score": 0.9580469489097595,
+    "max_attention_score": 1.0,
+    "regions_details": [
+      {
+        "rank": 1,
+        "bbox": [
+          105,
+          171,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          116,
+          182
+        ]
+      },
+      {
+        "rank": 2,
+        "bbox": [
+          133,
+          68,
+          22,
+          22
+        ],
+        "attention_score": 0.964780867099762,
+        "center": [
+          144,
+          79
+        ]
+      },
+      {
+        "rank": 3,
+        "bbox": [
+          105,
+          40,
+          22,
+          22
+        ],
+        "attention_score": 0.9493255615234375,
+        "center": [
+          116,
+          51
+        ]
+      },
+      {
+        "rank": 4,
+        "bbox": [
+          161,
+          115,
+          22,
+          22
+        ],
+        "attention_score": 0.9401484727859497,
+        "center": [
+          172,
+          126
+        ]
+      },
+      {
+        "rank": 5,
+        "bbox": [
+          49,
+          40,
+          22,
+          22
+        ],
+        "attention_score": 0.9359798431396484,
+        "center": [
+          60,
+          51
+        ]
+      }
+    ]
+  },
+  "reasoning_analysis": {
+    "reasoning_confidence": 0.8463145039886735,
+    "reasoning_flow": "comparative_analysis",
+    "reasoning_steps_count": 6,
+    "confidence_method": "weighted_harmonic_mean",
+    "validation_score": 0.0,
+    "validation_validity": false
+  }
+}

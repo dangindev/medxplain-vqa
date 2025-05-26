@@ -1,0 +1,15 @@
+{
+  "sample_id": "test_3032",
+  "processing_mode": "basic_vqa",
+  "success": true,
+  "image_path": "data/images/test/test_3032.jpg",
+  "question": "is whipples disease present?",
+  "ground_truth": "yes",
+  "blip_answer": "no",
+  "unified_answer": "This image shows small intestinal mucosa.  There is no evidence of Whipple's disease.  Specifically, the lamina propria lacks the characteristic foamy macrophages filled with periodic acid-Schiff (PAS)-positive granules that would be expected in Whipple's disease.\n",
+  "processing_steps": [
+    "BLIP inference",
+    "Gemini enhancement"
+  ],
+  "error_messages": []
+}

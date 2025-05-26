@@ -1,0 +1,101 @@
+{
+  "sample_id": "test_6216",
+  "processing_mode": "explainable_vqa",
+  "success": true,
+  "image_path": "data/images/test/test_6216.jpg",
+  "question": "where is this?",
+  "ground_truth": "urinary",
+  "blip_answer": "yes",
+  "unified_answer": "This image shows a portion of a lung exhibiting a dark red, consolidated area.  While the precise lobe cannot be determined from this image alone, the lesion's appearance and proximity to what seems to be a segmental bronchus suggest a possible intrapulmonary process. Further investigation with imaging and/or histology would be needed for a definitive diagnosis.\n",
+  "processing_steps": [
+    "BLIP inference",
+    "Query reformulation",
+    "Enhanced Grad-CAM attention",
+    "Enhanced unified answer generation"
+  ],
+  "error_messages": [],
+  "chain_of_thought_enabled": false,
+  "reformulated_question": "Based on the observed image features, including [mention specific visual features, e.g., the heterogeneous density pattern, the well-defined margins, the adjacent tubular structure], which appears to represent [mention potential anatomical structure, e.g., a nodule in the lung parenchyma, a mass adjacent to a bronchus], what is the anatomical location of this finding within the [mention broader anatomical region, e.g., right lung, left lower lobe]?",
+  "reformulation_quality": 1.0,
+  "grad_cam_available": true,
+  "bbox_enabled": false,
+  "grad_cam_mode": "basic",
+  "bbox_regions_count": 5,
+  "bounding_box_analysis": {
+    "total_regions": 5,
+    "average_attention_score": 1.0,
+    "max_attention_score": 1.0,
+    "regions_details": [
+      {
+        "rank": 1,
+        "bbox": [
+          -11,
+          96,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          0,
+          107
+        ]
+      },
+      {
+        "rank": 2,
+        "bbox": [
+          -10,
+          96,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          1,
+          107
+        ]
+      },
+      {
+        "rank": 3,
+        "bbox": [
+          -9,
+          96,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          2,
+          107
+        ]
+      },
+      {
+        "rank": 4,
+        "bbox": [
+          -8,
+          96,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          3,
+          107
+        ]
+      },
+      {
+        "rank": 5,
+        "bbox": [
+          -7,
+          96,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          4,
+          107
+        ]
+      }
+    ]
+  }
+}

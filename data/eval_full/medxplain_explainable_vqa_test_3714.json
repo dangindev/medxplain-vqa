@@ -1,0 +1,110 @@
+{
+  "sample_id": "test_3714",
+  "processing_mode": "explainable_vqa",
+  "success": true,
+  "image_path": "data/images/test/test_3714.jpg",
+  "question": "is endocervical polyp present?",
+  "ground_truth": "no",
+  "blip_answer": "no",
+  "unified_answer": "This image displays a dense field of cells, likely inflammatory cells, but the image quality and resolution are insufficient to definitively identify any endocervical structures, including the endocervical canal or external os.  Therefore, it is not possible to identify or characterize an endocervical polyp.\n",
+  "processing_steps": [
+    "BLIP inference",
+    "Query reformulation",
+    "Enhanced Grad-CAM attention",
+    "Chain-of-Thought reasoning",
+    "Enhanced unified answer generation"
+  ],
+  "error_messages": [],
+  "chain_of_thought_enabled": true,
+  "reformulated_question": "Based on this 224x224 image, and considering the distributed attention highlighting the middle left region and 18 secondary regions, can we identify an endocervical polyp arising from the endocervical canal?  Specifically, examine the endocervical canal and the surrounding ectocervix.  Look for a smooth, pedunculated or sessile lesion protruding from the endocervical canal.  Consider the image quality and resolution when evaluating for subtle features such as vascularity or surface texture of any identified protrusion.  Note the location of the external os and the relationship of any potential polyp to this landmark.  If a suspected polyp is identified, describe its size, shape, and location relative to the external os and other visible endocervical structures. If the image quality is insufficient to definitively identify a polyp, please state so explicitly.?",
+  "reformulation_quality": 1.0,
+  "grad_cam_available": true,
+  "bbox_enabled": false,
+  "grad_cam_mode": "basic",
+  "bbox_regions_count": 5,
+  "bounding_box_analysis": {
+    "total_regions": 5,
+    "average_attention_score": 0.9628171801567078,
+    "max_attention_score": 1.0,
+    "regions_details": [
+      {
+        "rank": 1,
+        "bbox": [
+          180,
+          40,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          191,
+          51
+        ]
+      },
+      {
+        "rank": 2,
+        "bbox": [
+          143,
+          189,
+          22,
+          22
+        ],
+        "attention_score": 0.9730291366577148,
+        "center": [
+          154,
+          200
+        ]
+      },
+      {
+        "rank": 3,
+        "bbox": [
+          190,
+          21,
+          22,
+          22
+        ],
+        "attention_score": 0.9623286724090576,
+        "center": [
+          201,
+          32
+        ]
+      },
+      {
+        "rank": 4,
+        "bbox": [
+          199,
+          40,
+          22,
+          22
+        ],
+        "attention_score": 0.9598250389099121,
+        "center": [
+          210,
+          51
+        ]
+      },
+      {
+        "rank": 5,
+        "bbox": [
+          96,
+          77,
+          22,
+          22
+        ],
+        "attention_score": 0.9189030528068542,
+        "center": [
+          107,
+          88
+        ]
+      }
+    ]
+  },
+  "reasoning_analysis": {
+    "reasoning_confidence": 0.8981608579160874,
+    "reasoning_flow": "attention_guided",
+    "reasoning_steps_count": 6,
+    "confidence_method": "confidence_cascade",
+    "validation_score": 0.0,
+    "validation_validity": false
+  }
+}

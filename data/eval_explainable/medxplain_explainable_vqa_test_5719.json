@@ -1,0 +1,101 @@
+{
+  "sample_id": "test_5719",
+  "processing_mode": "explainable_vqa",
+  "success": true,
+  "image_path": "data/images/test/test_5719.jpg",
+  "question": "where is this?",
+  "ground_truth": "lung",
+  "blip_answer": "yes",
+  "unified_answer": "This image shows a section of lung exhibiting features consistent with a cavitary lesion, likely a tuberculous granuloma. The cavity, located centrally, is surrounded by areas of consolidation and what appears to be caseous necrosis.  The surrounding lung parenchyma shows further areas of abnormality, suggesting a more widespread infectious/inflammatory process.\n",
+  "processing_steps": [
+    "BLIP inference",
+    "Query reformulation",
+    "Enhanced Grad-CAM attention",
+    "Enhanced unified answer generation"
+  ],
+  "error_messages": [],
+  "chain_of_thought_enabled": false,
+  "reformulated_question": "Based on the appearance of the structures in this 224x224 image, particularly the central lower region showing [describe key visual features of the primary focus area, e.g., a hypoechoic mass with irregular borders, a hyperdense lesion with surrounding edema, a network of branching tubular structures], and considering the surrounding anatomical context [mention visible surrounding structures, e.g., adjacent to what appears to be the [organ/structure], superior to the [organ/structure]], what is the anatomical location being imaged, and what is the likely identity of the prominent feature in the lower central region?",
+  "reformulation_quality": 1.0,
+  "grad_cam_available": true,
+  "bbox_enabled": false,
+  "grad_cam_mode": "basic",
+  "bbox_regions_count": 5,
+  "bounding_box_analysis": {
+    "total_regions": 5,
+    "average_attention_score": 0.9325690507888794,
+    "max_attention_score": 1.0,
+    "regions_details": [
+      {
+        "rank": 1,
+        "bbox": [
+          59,
+          198,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          70,
+          209
+        ]
+      },
+      {
+        "rank": 2,
+        "bbox": [
+          96,
+          40,
+          22,
+          22
+        ],
+        "attention_score": 0.955564558506012,
+        "center": [
+          107,
+          51
+        ]
+      },
+      {
+        "rank": 3,
+        "bbox": [
+          105,
+          198,
+          22,
+          22
+        ],
+        "attention_score": 0.9073097705841064,
+        "center": [
+          116,
+          209
+        ]
+      },
+      {
+        "rank": 4,
+        "bbox": [
+          105,
+          199,
+          22,
+          22
+        ],
+        "attention_score": 0.9073097705841064,
+        "center": [
+          116,
+          210
+        ]
+      },
+      {
+        "rank": 5,
+        "bbox": [
+          21,
+          105,
+          22,
+          22
+        ],
+        "attention_score": 0.8926611542701721,
+        "center": [
+          32,
+          116
+        ]
+      }
+    ]
+  }
+}

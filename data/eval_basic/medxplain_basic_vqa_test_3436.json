@@ -1,0 +1,15 @@
+{
+  "sample_id": "test_3436",
+  "processing_mode": "basic_vqa",
+  "success": true,
+  "image_path": "data/images/test/test_3436.jpg",
+  "question": "what does this image show?",
+  "ground_truth": "external view of lacerations of capsule apparently done during surgical procedure",
+  "blip_answer": "yes",
+  "unified_answer": "This image shows a spleen with a dark red-brown appearance and an irregular, nodular surface.\n",
+  "processing_steps": [
+    "BLIP inference",
+    "Gemini enhancement"
+  ],
+  "error_messages": []
+}

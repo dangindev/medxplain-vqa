@@ -1,0 +1,30 @@
+2025-05-26 02:36:58,280 - medical_evaluation_fixed - INFO - 🚀 Starting Medical VQA Evaluation Suite - FIXED VERSION
+2025-05-26 02:36:58,280 - medical_evaluation_fixed - INFO - Input directory: data/medxplain_enhanced_results
+2025-05-26 02:36:58,280 - medical_evaluation_fixed - INFO - Output directory: data/medical_evaluation_results_fixed
+2025-05-26 02:36:58,280 - medical_evaluation_fixed - INFO - ✅ Medical VQA Evaluator initialized with all components
+2025-05-26 02:36:58,281 - medical_evaluation_fixed - INFO - Found 5 JSON files, evaluating 5 samples
+2025-05-26 02:36:58,283 - medical_evaluation_fixed - INFO - Processed 5 samples
+2025-05-26 02:36:58,283 - medical_evaluation_fixed - INFO - ✅ Batch evaluation completed: 5 samples
+2025-05-26 02:36:58,287 - medical_evaluation_fixed - INFO - ✅ Evaluation results saved to data/medical_evaluation_results_fixed
+2025-05-26 02:36:58,287 - medical_evaluation_fixed - INFO - 
+============================================================
+2025-05-26 02:36:58,287 - medical_evaluation_fixed - INFO - 🏥 MEDICAL VQA EVALUATION SUMMARY
+2025-05-26 02:36:58,288 - medical_evaluation_fixed - INFO - ============================================================
+2025-05-26 02:36:58,288 - medical_evaluation_fixed - INFO - Total samples evaluated: 5
+2025-05-26 02:36:58,288 - medical_evaluation_fixed - INFO - Error rate: 0.000
+2025-05-26 02:36:58,288 - medical_evaluation_fixed - INFO - 
+📊 MEDICAL METRICS PERFORMANCE:
+2025-05-26 02:36:58,288 - medical_evaluation_fixed - INFO -   Medical Similarity....... 0.340 ± 0.136 (range: 0.200-0.550)
+2025-05-26 02:36:58,288 - medical_evaluation_fixed - INFO -   Terminology Coverage..... 0.785 ± 0.249 (range: 0.325-1.000)
+2025-05-26 02:36:58,289 - medical_evaluation_fixed - INFO -   Pathology Relevance...... 0.033 ± 0.067 (range: 0.000-0.167)
+2025-05-26 02:36:58,289 - medical_evaluation_fixed - INFO -   Clinical Coherence....... 0.505 ± 0.104 (range: 0.390-0.700)
+2025-05-26 02:36:58,289 - medical_evaluation_fixed - INFO -   Overall Medical Score.... 0.392 ± 0.120 (range: 0.209-0.552)
+2025-05-26 02:36:58,289 - medical_evaluation_fixed - INFO - 
+🎯 PERFORMANCE DISTRIBUTION:
+2025-05-26 02:36:58,289 - medical_evaluation_fixed - INFO -   excellent (≥0.8)....   0 samples (  0.0%)
+2025-05-26 02:36:58,289 - medical_evaluation_fixed - INFO -   good (0.6-0.8)......   0 samples (  0.0%)
+2025-05-26 02:36:58,289 - medical_evaluation_fixed - INFO -   fair (0.4-0.6)......   2 samples ( 40.0%)
+2025-05-26 02:36:58,290 - medical_evaluation_fixed - INFO -   poor (<0.4).........   3 samples ( 60.0%)
+2025-05-26 02:36:58,290 - medical_evaluation_fixed - INFO - 
+============================================================
+2025-05-26 02:36:58,290 - medical_evaluation_fixed - INFO - 🎉 Medical VQA Evaluation completed successfully!

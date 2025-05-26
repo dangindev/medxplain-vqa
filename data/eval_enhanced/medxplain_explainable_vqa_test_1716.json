@@ -1,0 +1,110 @@
+{
+  "sample_id": "test_1716",
+  "processing_mode": "explainable_vqa",
+  "success": true,
+  "image_path": "data/images/test/test_1716.jpg",
+  "question": "what is present?",
+  "ground_truth": "hemochromatosis",
+  "blip_answer": "no",
+  "unified_answer": "This image shows a section of tissue with a predominantly glandular architecture.  There are areas of relatively pale staining interspersed with more basophilic (darker pink) regions, suggestive of variations in cellularity and/or secretory activity within the glands.  Without additional clinical information or special stains, a more specific diagnosis is not possible.\n",
+  "processing_steps": [
+    "BLIP inference",
+    "Query reformulation",
+    "Enhanced Grad-CAM attention",
+    "Chain-of-Thought reasoning",
+    "Enhanced unified answer generation"
+  ],
+  "error_messages": [],
+  "chain_of_thought_enabled": true,
+  "reformulated_question": "Based on this 224x224 medical image with distributed attention, particularly focused in the middle center region, and with 38 additional secondary attention regions, what findings or anatomical structures are present in the visualized area?",
+  "reformulation_quality": 1.0,
+  "grad_cam_available": true,
+  "bbox_enabled": false,
+  "grad_cam_mode": "basic",
+  "bbox_regions_count": 5,
+  "bounding_box_analysis": {
+    "total_regions": 5,
+    "average_attention_score": 0.9306380033493042,
+    "max_attention_score": 1.0,
+    "regions_details": [
+      {
+        "rank": 1,
+        "bbox": [
+          68,
+          58,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          79,
+          69
+        ]
+      },
+      {
+        "rank": 2,
+        "bbox": [
+          77,
+          40,
+          22,
+          22
+        ],
+        "attention_score": 0.9756201505661011,
+        "center": [
+          88,
+          51
+        ]
+      },
+      {
+        "rank": 3,
+        "bbox": [
+          180,
+          87,
+          22,
+          22
+        ],
+        "attention_score": 0.9107661843299866,
+        "center": [
+          191,
+          98
+        ]
+      },
+      {
+        "rank": 4,
+        "bbox": [
+          40,
+          77,
+          22,
+          22
+        ],
+        "attention_score": 0.884208083152771,
+        "center": [
+          51,
+          88
+        ]
+      },
+      {
+        "rank": 5,
+        "bbox": [
+          12,
+          199,
+          22,
+          22
+        ],
+        "attention_score": 0.8825955986976624,
+        "center": [
+          23,
+          210
+        ]
+      }
+    ]
+  },
+  "reasoning_analysis": {
+    "reasoning_confidence": 0.8981608579160874,
+    "reasoning_flow": "attention_guided",
+    "reasoning_steps_count": 6,
+    "confidence_method": "confidence_cascade",
+    "validation_score": 0.0,
+    "validation_validity": false
+  }
+}

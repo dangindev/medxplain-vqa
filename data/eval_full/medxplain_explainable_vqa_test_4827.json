@@ -1,0 +1,110 @@
+{
+  "sample_id": "test_4827",
+  "processing_mode": "explainable_vqa",
+  "success": true,
+  "image_path": "data/images/test/test_4827.jpg",
+  "question": "is joints present?",
+  "ground_truth": "yes",
+  "blip_answer": "yes",
+  "unified_answer": "This radiograph appears to depict a portion of the spine and ribs. While interfaces between structures are visible, the image resolution and lack of anatomical context make it impossible to definitively identify bony articulations.  Determining the presence of joint spaces, contiguous bony surfaces, and associated anatomical landmarks (e.g., epiphyses, metaphyses) requires higher quality imaging and more complete anatomical information.  Therefore, while the image suggests the likely presence of joints, their definitive identification is not possible based on this image alone.\n",
+  "processing_steps": [
+    "BLIP inference",
+    "Query reformulation",
+    "Enhanced Grad-CAM attention",
+    "Chain-of-Thought reasoning",
+    "Enhanced unified answer generation"
+  ],
+  "error_messages": [],
+  "chain_of_thought_enabled": true,
+  "reformulated_question": "Based on this 224x224 image with distributed attention, primarily focused on the upper central region and four secondary attention regions, can we identify any visible bony articulations (joints) within the depicted anatomical structures?  Specifically, examine the interfaces between bones in the primary focus area and the four secondary regions of interest. Consider image resolution and clarity when evaluating for the presence of joint spaces, contiguous bony surfaces, and any associated anatomical landmarks (e.g.,  epiphyses, metaphyses, if visible).  Describe the evidence supporting the presence or absence of joints in each region, noting any limitations imposed by image quality or field of view.?",
+  "reformulation_quality": 1.0,
+  "grad_cam_available": true,
+  "bbox_enabled": false,
+  "grad_cam_mode": "basic",
+  "bbox_regions_count": 5,
+  "bounding_box_analysis": {
+    "total_regions": 5,
+    "average_attention_score": 1.0,
+    "max_attention_score": 1.0,
+    "regions_details": [
+      {
+        "rank": 1,
+        "bbox": [
+          59,
+          208,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          70,
+          219
+        ]
+      },
+      {
+        "rank": 2,
+        "bbox": [
+          59,
+          209,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          70,
+          220
+        ]
+      },
+      {
+        "rank": 3,
+        "bbox": [
+          59,
+          210,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          70,
+          221
+        ]
+      },
+      {
+        "rank": 4,
+        "bbox": [
+          59,
+          211,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          70,
+          222
+        ]
+      },
+      {
+        "rank": 5,
+        "bbox": [
+          59,
+          212,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          70,
+          223
+        ]
+      }
+    ]
+  },
+  "reasoning_analysis": {
+    "reasoning_confidence": 0.8600898004962516,
+    "reasoning_flow": "attention_guided",
+    "reasoning_steps_count": 6,
+    "confidence_method": "confidence_cascade",
+    "validation_score": 0.0,
+    "validation_validity": false
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "sample_id": "test_5977",
+  "processing_mode": "basic_vqa",
+  "success": true,
+  "image_path": "data/images/test/test_5977.jpg",
+  "question": "where is this?",
+  "ground_truth": "skin",
+  "blip_answer": "yes",
+  "unified_answer": "This image shows multiple, variably-sized, hyperpigmented macules and patches on the skin of a leg.\n",
+  "processing_steps": [
+    "BLIP inference",
+    "Gemini enhancement"
+  ],
+  "error_messages": []
+}

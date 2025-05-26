@@ -1,0 +1,101 @@
+{
+  "sample_id": "test_1273",
+  "processing_mode": "explainable_vqa",
+  "success": true,
+  "image_path": "data/images/test/test_1273.jpg",
+  "question": "is endocrine present?",
+  "ground_truth": "yes",
+  "blip_answer": "yes",
+  "unified_answer": "This image appears to show sections of a small organ, possibly a lung given the spongy texture and overall shape, though definitive identification is not possible.  No endocrine structures such as the thyroid, parathyroid, pituitary, adrenal glands, pancreas, pineal gland, or gonads are visualized.  The image lacks the necessary anatomical context and resolution to identify these structures.  Even if an endocrine organ were present in the original specimen, it's unlikely to be definitively identified without additional images and information.  The limited field of view and lack of surrounding anatomical landmarks prevent localization and identification of any potential endocrine tissues.\n",
+  "processing_steps": [
+    "BLIP inference",
+    "Query reformulation",
+    "Enhanced Grad-CAM attention",
+    "Enhanced unified answer generation"
+  ],
+  "error_messages": [],
+  "chain_of_thought_enabled": false,
+  "reformulated_question": "Based on this 224x224 image with distributed attention primarily in the middle center and a secondary region of attention, can we visualize any endocrine structures? Specifically, examine the middle center region of the image for the presence of identifiable endocrine organs or tissues such as the thyroid gland, parathyroid glands, pituitary gland, adrenal glands, pancreas, pineal gland, or gonads.  Consider the image quality and resolution when assessing for the presence of these structures.  If possible, use anatomical landmarks such as the trachea (for thyroid/parathyroid), sella turcica (for pituitary), kidneys (for adrenals), duodenum (for pancreas), or other relevant structures to aid in localization.  Describe the visual characteristics (e.g., shape, size, density) of any potential endocrine structures observed and explain the rationale for their identification. If no endocrine structures are clearly visualized, explain the limitations imposed by the image characteristics and/or anatomical context.?",
+  "reformulation_quality": 1.0,
+  "grad_cam_available": true,
+  "bbox_enabled": false,
+  "grad_cam_mode": "basic",
+  "bbox_regions_count": 5,
+  "bounding_box_analysis": {
+    "total_regions": 5,
+    "average_attention_score": 0.7744907140731812,
+    "max_attention_score": 1.0,
+    "regions_details": [
+      {
+        "rank": 1,
+        "bbox": [
+          2,
+          189,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          13,
+          200
+        ]
+      },
+      {
+        "rank": 2,
+        "bbox": [
+          39,
+          198,
+          22,
+          22
+        ],
+        "attention_score": 0.7960160374641418,
+        "center": [
+          50,
+          209
+        ]
+      },
+      {
+        "rank": 3,
+        "bbox": [
+          39,
+          199,
+          22,
+          22
+        ],
+        "attention_score": 0.7960160374641418,
+        "center": [
+          50,
+          210
+        ]
+      },
+      {
+        "rank": 4,
+        "bbox": [
+          114,
+          77,
+          22,
+          22
+        ],
+        "attention_score": 0.640210747718811,
+        "center": [
+          125,
+          88
+        ]
+      },
+      {
+        "rank": 5,
+        "bbox": [
+          115,
+          77,
+          22,
+          22
+        ],
+        "attention_score": 0.640210747718811,
+        "center": [
+          126,
+          88
+        ]
+      }
+    ]
+  }
+}

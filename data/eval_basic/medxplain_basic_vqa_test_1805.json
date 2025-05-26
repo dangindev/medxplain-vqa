@@ -1,0 +1,15 @@
+{
+  "sample_id": "test_1805",
+  "processing_mode": "basic_vqa",
+  "success": true,
+  "image_path": "data/images/test/test_1805.jpg",
+  "question": "is normal immature infant present?",
+  "ground_truth": "yes",
+  "blip_answer": "no",
+  "unified_answer": "This image shows endometrial glands and stroma consistent with a proliferative phase of the menstrual cycle.  There is no evidence of immature fetal or placental tissue.\n",
+  "processing_steps": [
+    "BLIP inference",
+    "Gemini enhancement"
+  ],
+  "error_messages": []
+}

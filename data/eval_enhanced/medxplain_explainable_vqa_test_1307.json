@@ -1,0 +1,110 @@
+{
+  "sample_id": "test_1307",
+  "processing_mode": "explainable_vqa",
+  "success": true,
+  "image_path": "data/images/test/test_1307.jpg",
+  "question": "is endocrine present?",
+  "ground_truth": "yes",
+  "blip_answer": "yes",
+  "unified_answer": "The image appears to show a bisected organ, possibly a spleen given its size, shape, and mottled appearance.  The resolution and quality of the image are poor, precluding identification of any specific endocrine structures.  The level of detail necessary to visualize structures like the pituitary, thyroid, parathyroids, adrenal glands, islets of Langerhans within the pancreas, pineal gland, or gonads is simply not present.  Furthermore, the field of view is limited, showing only the isolated organ, making it impossible to comment on the location of any potential endocrine structures relative to other anatomical landmarks.\n",
+  "processing_steps": [
+    "BLIP inference",
+    "Query reformulation",
+    "Enhanced Grad-CAM attention",
+    "Chain-of-Thought reasoning",
+    "Enhanced unified answer generation"
+  ],
+  "error_messages": [],
+  "chain_of_thought_enabled": true,
+  "reformulated_question": "Based on this 224x224 image with distributed attention, particularly in the upper left quadrant, and considering the additional 7 secondary attention regions, can we identify any visible endocrine structures?  Specifically, assess the image quality and resolution to determine if structures such as the pituitary gland (assessing its size and shape if visible), thyroid gland (evaluating its lobes and isthmus), parathyroid glands (if discernible given the image resolution), adrenal glands (looking for their characteristic shape and location relative to the kidneys), pancreas (focusing on the islets of Langerhans if possible), pineal gland, and gonads (if present in the field of view) are present and demonstrable.  Describe the location of any identified endocrine structures relative to neighboring anatomical landmarks such as the sella turcica (for the pituitary), trachea and larynx (for the thyroid), kidneys (for the adrenals), duodenum (for the pancreas), and any other relevant structures.  Note any limitations imposed by the image resolution or field of view that hinder definitive identification.?",
+  "reformulation_quality": 1.0,
+  "grad_cam_available": true,
+  "bbox_enabled": false,
+  "grad_cam_mode": "basic",
+  "bbox_regions_count": 5,
+  "bounding_box_analysis": {
+    "total_regions": 5,
+    "average_attention_score": 1.0,
+    "max_attention_score": 1.0,
+    "regions_details": [
+      {
+        "rank": 1,
+        "bbox": [
+          58,
+          -11,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          69,
+          0
+        ]
+      },
+      {
+        "rank": 2,
+        "bbox": [
+          58,
+          -10,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          69,
+          1
+        ]
+      },
+      {
+        "rank": 3,
+        "bbox": [
+          58,
+          -9,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          69,
+          2
+        ]
+      },
+      {
+        "rank": 4,
+        "bbox": [
+          58,
+          -8,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          69,
+          3
+        ]
+      },
+      {
+        "rank": 5,
+        "bbox": [
+          58,
+          -7,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          69,
+          4
+        ]
+      }
+    ]
+  },
+  "reasoning_analysis": {
+    "reasoning_confidence": 0.8981608579160874,
+    "reasoning_flow": "attention_guided",
+    "reasoning_steps_count": 6,
+    "confidence_method": "confidence_cascade",
+    "validation_score": 0.0,
+    "validation_validity": false
+  }
+}

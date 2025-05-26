@@ -1,0 +1,101 @@
+{
+  "sample_id": "test_5417",
+  "processing_mode": "explainable_vqa",
+  "success": true,
+  "image_path": "data/images/test/test_5417.jpg",
+  "question": "is oral present?",
+  "ground_truth": "yes",
+  "blip_answer": "yes",
+  "unified_answer": "The image primarily shows the maxillary and mandibular teeth and gingiva.  While the oral cavity is visible, the tongue, floor of the mouth, and lingual frenulum are not clearly visualized. The mandible and maxilla are partially visible, but primarily represented by the alveolar processes supporting the teeth. The image quality is sufficient to assess the dentition but inadequate for detailed assessment of other oral structures.\n",
+  "processing_steps": [
+    "BLIP inference",
+    "Query reformulation",
+    "Enhanced Grad-CAM attention",
+    "Enhanced unified answer generation"
+  ],
+  "error_messages": [],
+  "chain_of_thought_enabled": false,
+  "reformulated_question": "Based on this 224x224 image with distributed attention and a primary focus in the lower left quadrant, can we visualize oral structures such as the tongue, floor of mouth,  lingual frenulum,  and visible portions of the mandible and maxilla?  Specifically, assess the image quality in the lower left quadrant and describe the visibility and clarity of these anatomical landmarks.  If these structures are identifiable and adequately visualized, consider the oral cavity \"present.\" If obscured by artifacts, poor resolution, or out of the field of view, consider it \"not present.\"  Note any secondary attention regions and their potential impact on the evaluation of the primary region of interest.?",
+  "reformulation_quality": 1.0,
+  "grad_cam_available": true,
+  "bbox_enabled": false,
+  "grad_cam_mode": "basic",
+  "bbox_regions_count": 5,
+  "bounding_box_analysis": {
+    "total_regions": 5,
+    "average_attention_score": 0.881401252746582,
+    "max_attention_score": 1.0,
+    "regions_details": [
+      {
+        "rank": 1,
+        "bbox": [
+          152,
+          133,
+          22,
+          22
+        ],
+        "attention_score": 1.0,
+        "center": [
+          163,
+          144
+        ]
+      },
+      {
+        "rank": 2,
+        "bbox": [
+          171,
+          152,
+          22,
+          22
+        ],
+        "attention_score": 0.8930572271347046,
+        "center": [
+          182,
+          163
+        ]
+      },
+      {
+        "rank": 3,
+        "bbox": [
+          31,
+          124,
+          22,
+          22
+        ],
+        "attention_score": 0.8474976420402527,
+        "center": [
+          42,
+          135
+        ]
+      },
+      {
+        "rank": 4,
+        "bbox": [
+          180,
+          170,
+          22,
+          22
+        ],
+        "attention_score": 0.8445825576782227,
+        "center": [
+          191,
+          181
+        ]
+      },
+      {
+        "rank": 5,
+        "bbox": [
+          77,
+          124,
+          22,
+          22
+        ],
+        "attention_score": 0.8218688368797302,
+        "center": [
+          88,
+          135
+        ]
+      }
+    ]
+  }
+}
