@@ -1,0 +1,11 @@
+{
+  "baseline_score": 0.24947625285245031,
+  "final_score": 0.5543916730054451,
+  "total_improvement": 0.3049154201529948,
+  "relative_improvement_pct": 122.22222222222221,
+  "strongest_component": "BLIP + Query Reformulation",
+  "strongest_component_gain": 0.15,
+  "reasoning_capability_gain": 0.8981608579160874,
+  "attention_quality_final": 0.9023295974731445,
+  "reformulation_quality_final": 0.96
+}

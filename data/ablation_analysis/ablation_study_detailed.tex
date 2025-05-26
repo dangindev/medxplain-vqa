@@ -1,0 +1,15 @@
+\begin{table}
+\caption{Detailed Component Analysis for MedXplain-VQA}
+\label{tab:ablation_detailed}
+\begin{tabular}{|l|c|c|c|c|}
+\toprule
+Configuration & Reasoning Confidence & Attention Quality & Reformulation Quality & Terminology Score \\
+\midrule
+BLIP-2 Base Model Only & 0.000 & 0.000 & 0.000 & 0.199 \\
+BLIP + Query Reformulation & 0.000 & 0.000 & 0.960 & 0.266 \\
+BLIP + Reformulation + Basic Grad-CAM & 0.000 & 0.632 & 0.960 & 0.283 \\
+BLIP + Reformulation + Enhanced Grad-CAM + BBox & 0.000 & 0.902 & 0.960 & 0.299 \\
+Complete MedXplain-VQA System & 0.898 & 0.902 & 0.960 & 0.332 \\
+\bottomrule
+\end{tabular}
+\end{table}

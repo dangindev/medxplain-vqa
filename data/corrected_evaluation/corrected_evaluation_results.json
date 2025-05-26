@@ -1,0 +1,344 @@
+{
+  "dataset_analysis": {
+    "type": "mixed_vqa",
+    "ground_truth_distribution": {
+      "yes": 33,
+      "no": 20,
+      "metastatic carcinoma oat cell": 5,
+      "six": 4,
+      "this section": 4,
+      "demodex folliculorum": 4,
+      "region of epiphysis": 4,
+      "dark tan": 4,
+      "uterus": 4,
+      "tracheotomy site": 4
+    },
+    "question_word_distribution": {
+      "is": 62,
+      "present?": 53,
+      "what": 42,
+      "does": 33,
+      "show": 27,
+      "the": 25,
+      "this": 20,
+      "image": 19,
+      "with": 13,
+      "of": 10
+    }
+  },
+  "basic": {
+    "mode": "basic",
+    "sample_count": 100,
+    "dataset_type": "mixed_vqa",
+    "vqa_metrics": {
+      "basic_match": {
+        "mean": 0.0,
+        "std": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      }
+    },
+    "explainability_metrics": {
+      "reasoning_confidence": {
+        "mean": 0.0,
+        "std": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "attention_quality": {
+        "mean": 0.0,
+        "std": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "reasoning_quality": {
+        "mean": 0.0,
+        "std": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "has_reasoning": {
+        "mean": 0.0,
+        "std": 0.0,
+        "min": "False",
+        "max": "False"
+      },
+      "attention_coverage": {
+        "mean": 0.0,
+        "std": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "has_attention": {
+        "mean": 0.0,
+        "std": 0.0,
+        "min": "False",
+        "max": "False"
+      },
+      "attention_regions": {
+        "mean": 0.0,
+        "std": 0.0,
+        "min": "0",
+        "max": "0"
+      },
+      "reasoning_steps": {
+        "mean": 0.0,
+        "std": 0.0,
+        "min": "0",
+        "max": "0"
+      }
+    }
+  },
+  "explainable": {
+    "mode": "explainable",
+    "sample_count": 100,
+    "dataset_type": "mixed_vqa",
+    "vqa_metrics": {
+      "basic_match": {
+        "mean": 0.0,
+        "std": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      }
+    },
+    "explainability_metrics": {
+      "reasoning_confidence": {
+        "mean": 0.0,
+        "std": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "attention_quality": {
+        "mean": 0.9593620092868805,
+        "std": 0.05657624556913993,
+        "min": 0.7066710472106934,
+        "max": 1.0
+      },
+      "reasoning_quality": {
+        "mean": 0.0,
+        "std": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "has_reasoning": {
+        "mean": 0.0,
+        "std": 0.0,
+        "min": "False",
+        "max": "False"
+      },
+      "attention_coverage": {
+        "mean": 0.992,
+        "std": 0.07959899496852955,
+        "min": 0.2,
+        "max": 1.0
+      },
+      "has_attention": {
+        "mean": 1.0,
+        "std": 0.0,
+        "min": "True",
+        "max": "True"
+      },
+      "attention_regions": {
+        "mean": 4.96,
+        "std": 0.39799497484264795,
+        "min": "1",
+        "max": "5"
+      },
+      "reasoning_steps": {
+        "mean": 0.0,
+        "std": 0.0,
+        "min": "0",
+        "max": "0"
+      }
+    }
+  },
+  "explainable_bbox": {
+    "mode": "explainable_bbox",
+    "sample_count": 100,
+    "dataset_type": "mixed_vqa",
+    "vqa_metrics": {
+      "basic_match": {
+        "mean": 0.0,
+        "std": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      }
+    },
+    "explainability_metrics": {
+      "reasoning_confidence": {
+        "mean": 0.0,
+        "std": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "attention_quality": {
+        "mean": 0.9593620092868805,
+        "std": 0.05657624556913993,
+        "min": 0.7066710472106934,
+        "max": 1.0
+      },
+      "reasoning_quality": {
+        "mean": 0.0,
+        "std": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "has_reasoning": {
+        "mean": 0.0,
+        "std": 0.0,
+        "min": "False",
+        "max": "False"
+      },
+      "attention_coverage": {
+        "mean": 0.992,
+        "std": 0.07959899496852955,
+        "min": 0.2,
+        "max": 1.0
+      },
+      "has_attention": {
+        "mean": 1.0,
+        "std": 0.0,
+        "min": "True",
+        "max": "True"
+      },
+      "attention_regions": {
+        "mean": 4.96,
+        "std": 0.39799497484264795,
+        "min": "1",
+        "max": "5"
+      },
+      "reasoning_steps": {
+        "mean": 0.0,
+        "std": 0.0,
+        "min": "0",
+        "max": "0"
+      }
+    }
+  },
+  "enhanced": {
+    "mode": "enhanced",
+    "sample_count": 100,
+    "dataset_type": "mixed_vqa",
+    "vqa_metrics": {
+      "basic_match": {
+        "mean": 0.0,
+        "std": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      }
+    },
+    "explainability_metrics": {
+      "reasoning_confidence": {
+        "mean": 0.8896000547653385,
+        "std": 0.012742151919830693,
+        "min": 0.8573125678156895,
+        "max": 0.8981608579160874
+      },
+      "attention_quality": {
+        "mean": 0.9593620092868805,
+        "std": 0.05657624556913993,
+        "min": 0.7066710472106934,
+        "max": 1.0
+      },
+      "reasoning_quality": {
+        "mean": 0.8896000547653385,
+        "std": 0.012742151919830693,
+        "min": 0.8573125678156895,
+        "max": 0.8981608579160874
+      },
+      "has_reasoning": {
+        "mean": 1.0,
+        "std": 0.0,
+        "min": "True",
+        "max": "True"
+      },
+      "attention_coverage": {
+        "mean": 0.992,
+        "std": 0.07959899496852955,
+        "min": 0.2,
+        "max": 1.0
+      },
+      "has_attention": {
+        "mean": 1.0,
+        "std": 0.0,
+        "min": "True",
+        "max": "True"
+      },
+      "attention_regions": {
+        "mean": 4.96,
+        "std": 0.39799497484264795,
+        "min": "1",
+        "max": "5"
+      },
+      "reasoning_steps": {
+        "mean": 6.0,
+        "std": 0.0,
+        "min": "6",
+        "max": "6"
+      }
+    }
+  },
+  "enhanced_bbox": {
+    "mode": "enhanced_bbox",
+    "sample_count": 100,
+    "dataset_type": "mixed_vqa",
+    "vqa_metrics": {
+      "basic_match": {
+        "mean": 0.0,
+        "std": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      }
+    },
+    "explainability_metrics": {
+      "reasoning_confidence": {
+        "mean": 0.8899133757623894,
+        "std": 0.013405225275040487,
+        "min": 0.8463145039886735,
+        "max": 0.8981608579160874
+      },
+      "attention_quality": {
+        "mean": 0.9593620092868805,
+        "std": 0.05657624556913993,
+        "min": 0.7066710472106934,
+        "max": 1.0
+      },
+      "reasoning_quality": {
+        "mean": 0.8899133757623894,
+        "std": 0.013405225275040487,
+        "min": 0.8463145039886735,
+        "max": 0.8981608579160874
+      },
+      "has_reasoning": {
+        "mean": 1.0,
+        "std": 0.0,
+        "min": "True",
+        "max": "True"
+      },
+      "attention_coverage": {
+        "mean": 0.992,
+        "std": 0.07959899496852955,
+        "min": 0.2,
+        "max": 1.0
+      },
+      "has_attention": {
+        "mean": 1.0,
+        "std": 0.0,
+        "min": "True",
+        "max": "True"
+      },
+      "attention_regions": {
+        "mean": 4.96,
+        "std": 0.39799497484264795,
+        "min": "1",
+        "max": "5"
+      },
+      "reasoning_steps": {
+        "mean": 6.0,
+        "std": 0.0,
+        "min": "6",
+        "max": "6"
+      }
+    }
+  }
+}

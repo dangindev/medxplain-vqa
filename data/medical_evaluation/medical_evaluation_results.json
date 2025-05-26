@@ -1,0 +1,157 @@
+{
+  "basic": {
+    "mode": "basic",
+    "sample_count": 100,
+    "vqa_metrics": {
+      "medical_terminology_coverage": {
+        "mean": 0.4571653796790289,
+        "std": 0.1968396864328515,
+        "min": 0.12244897959183673,
+        "max": 1.0
+      },
+      "clinical_coherence_score": {
+        "mean": 0.8720000000000002,
+        "std": 0.1020588065773846,
+        "min": 0.5,
+        "max": 1.0
+      },
+      "pathology_relevance_score": {
+        "mean": 0.574,
+        "std": 0.23563531144546226,
+        "min": 0.3,
+        "max": 1.0
+      },
+      "medical_semantic_similarity": {
+        "mean": 0.2100616883116883,
+        "std": 0.33164236914275047,
+        "min": 0.0,
+        "max": 0.8454545454545455
+      }
+    },
+    "explainability_metrics": null
+  },
+  "explainable": {
+    "mode": "explainable",
+    "sample_count": 100,
+    "vqa_metrics": {
+      "medical_terminology_coverage": {
+        "mean": 0.28869085271201445,
+        "std": 0.12966922965072786,
+        "min": 0.10909090909090909,
+        "max": 0.7272727272727273
+      },
+      "clinical_coherence_score": {
+        "mean": 0.829,
+        "std": 0.14162979912433685,
+        "min": 0.4,
+        "max": 1.0
+      },
+      "pathology_relevance_score": {
+        "mean": 0.571,
+        "std": 0.2320754187758798,
+        "min": 0.3,
+        "max": 1.0
+      },
+      "medical_semantic_similarity": {
+        "mean": 0.19147005772005773,
+        "std": 0.3195090972555381,
+        "min": 0.0,
+        "max": 0.8
+      }
+    },
+    "explainability_metrics": null
+  },
+  "explainable_bbox": {
+    "mode": "explainable_bbox",
+    "sample_count": 100,
+    "vqa_metrics": {
+      "medical_terminology_coverage": {
+        "mean": 0.30321675718495983,
+        "std": 0.15534953632754522,
+        "min": 0.05128205128205128,
+        "max": 1.0
+      },
+      "clinical_coherence_score": {
+        "mean": 0.8580000000000002,
+        "std": 0.12975361266646876,
+        "min": 0.5,
+        "max": 1.0
+      },
+      "pathology_relevance_score": {
+        "mean": 0.578,
+        "std": 0.23434163095788163,
+        "min": 0.3,
+        "max": 1.0
+      },
+      "medical_semantic_similarity": {
+        "mean": 0.20772771672771675,
+        "std": 0.32824729068574365,
+        "min": 0.0,
+        "max": 0.8
+      }
+    },
+    "explainability_metrics": null
+  },
+  "enhanced": {
+    "mode": "enhanced",
+    "sample_count": 100,
+    "vqa_metrics": {
+      "medical_terminology_coverage": {
+        "mean": 0.29395113997274086,
+        "std": 0.12432521457174725,
+        "min": 0.08,
+        "max": 0.7368421052631579
+      },
+      "clinical_coherence_score": {
+        "mean": 0.8390000000000001,
+        "std": 0.144149228232412,
+        "min": 0.5,
+        "max": 1.0
+      },
+      "pathology_relevance_score": {
+        "mean": 0.584,
+        "std": 0.24113066996962457,
+        "min": 0.3,
+        "max": 1.0
+      },
+      "medical_semantic_similarity": {
+        "mean": 0.21609004884004882,
+        "std": 0.3344774628296146,
+        "min": 0.0,
+        "max": 1.0
+      }
+    },
+    "explainability_metrics": null
+  },
+  "enhanced_bbox": {
+    "mode": "enhanced_bbox",
+    "sample_count": 100,
+    "vqa_metrics": {
+      "medical_terminology_coverage": {
+        "mean": 0.29609595631183394,
+        "std": 0.11010648442333104,
+        "min": 0.11904761904761904,
+        "max": 0.6666666666666666
+      },
+      "clinical_coherence_score": {
+        "mean": 0.8480000000000001,
+        "std": 0.11088733020503293,
+        "min": 0.5,
+        "max": 1.0
+      },
+      "pathology_relevance_score": {
+        "mean": 0.581,
+        "std": 0.23777930944470332,
+        "min": 0.3,
+        "max": 1.0
+      },
+      "medical_semantic_similarity": {
+        "mean": 0.19844139194139193,
+        "std": 0.3212962149476968,
+        "min": 0.0,
+        "max": 0.8
+      }
+    },
+    "explainability_metrics": null
+  }
+}

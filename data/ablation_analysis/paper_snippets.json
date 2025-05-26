@@ -1,0 +1,5 @@
+{
+  "abstract_snippet": "Our ablation study demonstrates that MedXplain-VQA achieves a 122.2% improvement over the baseline BLIP-2 model, with the strongest contribution from blip + query reformulation.",
+  "results_snippet": "The complete MedXplain-VQA system achieved an overall score of 0.554, representing a 0.305 point improvement (122.2% relative gain) over the baseline BLIP-2 model (score: 0.249).",
+  "component_analysis": "Component-wise analysis reveals that query reformulation provides the largest single improvement (60.1%), followed by enhanced attention mechanisms (20.0% and 12.5%), and chain-of-thought reasoning (2.8%)."
+}

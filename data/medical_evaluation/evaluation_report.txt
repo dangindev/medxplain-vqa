@@ -1,0 +1,22 @@
+================================================================================
+MEDXPLAIN-VQA COMPREHENSIVE EVALUATION REPORT
+================================================================================
+
+📊 VQA PERFORMANCE COMPARISON
+----------------------------------------
+            Mode  Samples Semantic Sim Term Coverage Pathology Rel Clinical Coh
+           basic      100        0.012         0.191         0.316        0.633
+     explainable      100        0.008         0.144         0.316        0.677
+explainable_bbox      100        0.014         0.134         0.321        0.707
+        enhanced      100        0.008         0.126         0.311        0.663
+   enhanced_bbox      100        0.009         0.135         0.304        0.655
+
+🔍 EXPLAINABILITY PERFORMANCE
+----------------------------------------
+            Mode Attention Cov Attention Con Reasoning Conf Reasoning Coh
+     explainable         0.000         0.000          0.000         0.000
+explainable_bbox         0.000         0.000          0.000         0.000
+        enhanced         0.000         0.000          0.000         0.000
+   enhanced_bbox         0.000         0.000          0.000         0.000
+
+================================================================================

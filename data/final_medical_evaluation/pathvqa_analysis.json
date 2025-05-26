@@ -1,0 +1,32 @@
+{
+  "total_samples": 500,
+  "question_types": {
+    "binary": 240,
+    "single_word": 120,
+    "long_medical": 45,
+    "short_medical": 70,
+    "counting": 25
+  },
+  "top_ground_truth_answers": {
+    "yes": 165,
+    "no": 75,
+    "skin": 10,
+    "vasculature": 10,
+    "cardiovascular": 10,
+    "feet": 5,
+    "metastatic carcinoma oat cell": 5,
+    "islet cell carcinoma": 5,
+    "intramucosal nevus": 5,
+    "peritoneum": 5,
+    "one": 5,
+    "sheets of small round cells with small amounts of clear cytoplasm": 5,
+    "this section": 5,
+    "adrenal": 5,
+    "prostate": 5,
+    "congophilia which under polarising microscopy": 5,
+    "gastrointestinal": 5,
+    "mild fatty change of liver cells": 5,
+    "pas hematoxylin": 5,
+    "uterus": 5
+  }
+}

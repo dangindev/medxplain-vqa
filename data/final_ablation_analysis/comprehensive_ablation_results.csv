@@ -1,0 +1,7 @@
+Component,Mode,Medical Terms,Clinical Struct,Coherence,Attention,Reasoning,Composite
+Basic (BLIP + Gemini),basic,0.386,0.403,0.802,0.000,0.000,0.378
++ Query Reformulation,explainable,0.499,0.373,0.882,0.959,0.000,0.564
++ Attention Mechanisms,explainable,0.499,0.373,0.882,0.959,0.000,0.564
++ Bounding Box Detection,explainable_bbox,0.485,0.417,0.878,0.959,0.000,0.568
++ Chain-of-Thought,enhanced,0.435,0.370,0.892,0.959,0.890,0.683
++ Complete System (BBox + CoT),enhanced_bbox,0.436,0.340,0.894,0.959,0.890,0.678

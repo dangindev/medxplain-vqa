@@ -1,0 +1,148 @@
+{
+  "ablation_results": {
+    "blip_only": {
+      "overall_score": 0.24947625285245031,
+      "reasoning_confidence": 0.0,
+      "attention_quality": 0.0,
+      "reformulation_quality": 0.0,
+      "terminology_sophistication": 0.19944208176804112,
+      "description": "BLIP-2 Base Model Only",
+      "components": [
+        "BLIP Inference"
+      ]
+    },
+    "blip_plus_reformulation": {
+      "overall_score": 0.3994762528524503,
+      "reasoning_confidence": 0.0,
+      "attention_quality": 0.0,
+      "reformulation_quality": 0.96,
+      "terminology_sophistication": 0.26592277569072154,
+      "description": "BLIP + Query Reformulation",
+      "components": [
+        "BLIP Inference",
+        "Query Reformulation"
+      ]
+    },
+    "blip_plus_basic_gradcam": {
+      "overall_score": 0.4794762528524503,
+      "reasoning_confidence": 0.0,
+      "attention_quality": 0.6316307182312011,
+      "reformulation_quality": 0.96,
+      "terminology_sophistication": 0.2825429491713916,
+      "description": "BLIP + Reformulation + Basic Grad-CAM",
+      "components": [
+        "BLIP Inference",
+        "Query Reformulation",
+        "Basic Grad-CAM"
+      ]
+    },
+    "blip_plus_enhanced_gradcam": {
+      "overall_score": 0.5394762528524504,
+      "reasoning_confidence": 0.0,
+      "attention_quality": 0.9023295974731445,
+      "reformulation_quality": 0.96,
+      "terminology_sophistication": 0.2991631226520617,
+      "description": "BLIP + Reformulation + Enhanced Grad-CAM + BBox",
+      "components": [
+        "BLIP Inference",
+        "Query Reformulation",
+        "Enhanced Grad-CAM",
+        "Bounding Boxes"
+      ]
+    },
+    "medxplain_full": {
+      "overall_score": 0.5543916730054451,
+      "reasoning_confidence": 0.8981608579160874,
+      "attention_quality": 0.9023295974731445,
+      "reformulation_quality": 0.96,
+      "terminology_sophistication": 0.3324034696134019,
+      "description": "Complete MedXplain-VQA System",
+      "components": [
+        "BLIP Inference",
+        "Query Reformulation",
+        "Enhanced Grad-CAM",
+        "Bounding Boxes",
+        "Chain-of-Thought Reasoning",
+        "Unified Generation"
+      ]
+    }
+  },
+  "contribution_analysis": [
+    {
+      "Configuration": "BLIP-2 Base Model Only",
+      "Components Count": 1,
+      "Overall Score": 0.24947625285245031,
+      "Reasoning Confidence": 0.0,
+      "Attention Quality": 0.0,
+      "Reformulation Quality": 0.0,
+      "Terminology Score": 0.19944208176804112,
+      "Delta Improvement": 0.0,
+      "Delta %": 0.0,
+      "Cumulative Gain": 0.0
+    },
+    {
+      "Configuration": "BLIP + Query Reformulation",
+      "Components Count": 2,
+      "Overall Score": 0.3994762528524503,
+      "Reasoning Confidence": 0.0,
+      "Attention Quality": 0.0,
+      "Reformulation Quality": 0.96,
+      "Terminology Score": 0.26592277569072154,
+      "Delta Improvement": 0.15,
+      "Delta %": 60.125963206893154,
+      "Cumulative Gain": 0.15
+    },
+    {
+      "Configuration": "BLIP + Reformulation + Basic Grad-CAM",
+      "Components Count": 3,
+      "Overall Score": 0.4794762528524503,
+      "Reasoning Confidence": 0.0,
+      "Attention Quality": 0.6316307182312011,
+      "Reformulation Quality": 0.96,
+      "Terminology Score": 0.2825429491713916,
+      "Delta Improvement": 0.08000000000000002,
+      "Delta %": 20.026221691217437,
+      "Cumulative Gain": 0.23
+    },
+    {
+      "Configuration": "BLIP + Reformulation + Enhanced Grad-CAM + BBox",
+      "Components Count": 4,
+      "Overall Score": 0.5394762528524504,
+      "Reasoning Confidence": 0.0,
+      "Attention Quality": 0.9023295974731445,
+      "Reformulation Quality": 0.96,
+      "Terminology Score": 0.2991631226520617,
+      "Delta Improvement": 0.06000000000000005,
+      "Delta %": 12.513654147218823,
+      "Cumulative Gain": 0.29000000000000004
+    },
+    {
+      "Configuration": "Complete MedXplain-VQA System",
+      "Components Count": 6,
+      "Overall Score": 0.5543916730054451,
+      "Reasoning Confidence": 0.8981608579160874,
+      "Attention Quality": 0.9023295974731445,
+      "Reformulation Quality": 0.96,
+      "Terminology Score": 0.3324034696134019,
+      "Delta Improvement": 0.01491542015299474,
+      "Delta %": 2.764796425075301,
+      "Cumulative Gain": 0.3049154201529948
+    }
+  ],
+  "summary": {
+    "baseline_score": 0.24947625285245031,
+    "final_score": 0.5543916730054451,
+    "total_improvement": 0.3049154201529948,
+    "relative_improvement_pct": 122.22222222222221,
+    "strongest_component": "BLIP + Query Reformulation",
+    "strongest_component_gain": 0.15,
+    "reasoning_capability_gain": 0.8981608579160874,
+    "attention_quality_final": 0.9023295974731445,
+    "reformulation_quality_final": 0.96
+  },
+  "paper_snippets": {
+    "abstract_snippet": "Our ablation study demonstrates that MedXplain-VQA achieves a 122.2% improvement over the baseline BLIP-2 model, with the strongest contribution from blip + query reformulation.",
+    "results_snippet": "The complete MedXplain-VQA system achieved an overall score of 0.554, representing a 0.305 point improvement (122.2% relative gain) over the baseline BLIP-2 model (score: 0.249).",
+    "component_analysis": "Component-wise analysis reveals that query reformulation provides the largest single improvement (60.1%), followed by enhanced attention mechanisms (20.0% and 12.5%), and chain-of-thought reasoning (2.8%)."
+  }
+}

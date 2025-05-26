@@ -1,0 +1,6 @@
+Mode,Medical Terms,Clinical Structure,Coherence,Attention Quality,Reasoning Confidence,Has Attention (%),Has Reasoning (%)
+Basic,0.386,0.403,0.802,0.000,0.000,0%,0%
+Explainable,0.499,0.373,0.882,0.959,0.000,100%,0%
+Explainable Bbox,0.485,0.417,0.878,0.959,0.000,100%,0%
+Enhanced,0.435,0.370,0.892,0.959,0.890,100%,100%
+Enhanced Bbox,0.436,0.340,0.894,0.959,0.890,100%,100%

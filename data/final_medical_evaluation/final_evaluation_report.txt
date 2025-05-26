@@ -1,0 +1,37 @@
+==========================================================================================
+MEDXPLAIN-VQA FINAL EVALUATION REPORT
+==========================================================================================
+
+📊 ANSWER ACCURACY (BLIP vs Ground Truth)
+----------------------------------------------------------------------
+            Mode  Samples Exact Match Partial Match Binary Accuracy
+           basic      100       0.260         0.260           0.260
+     explainable      100       0.260         0.260           0.260
+explainable_bbox      100       0.260         0.260           0.260
+        enhanced      100       0.260         0.260           0.260
+   enhanced_bbox      100       0.260         0.260           0.260
+
+📝 EXPLANATION QUALITY (Unified Answer)
+----------------------------------------------------------------------
+            Mode Length Score Medical Terms Clinical Structure Coherence
+           basic        1.000         0.312              0.505     0.802
+     explainable        0.970         0.414              0.355     0.882
+explainable_bbox        0.968         0.432              0.430     0.878
+        enhanced        0.978         0.356              0.365     0.892
+   enhanced_bbox        0.978         0.350              0.325     0.894
+
+🔍 EXPLAINABILITY FEATURES
+----------------------------------------------------------------------
+            Mode Attention % Avg Regions Attention Qual Reasoning % Reasoning Conf
+           basic        0.0%         0.0          0.000        0.0%          0.000
+     explainable      100.0%         5.0          0.959        0.0%          0.000
+explainable_bbox      100.0%         5.0          0.959        0.0%          0.000
+        enhanced      100.0%         5.0          0.959      100.0%          0.890
+   enhanced_bbox      100.0%         5.0          0.959      100.0%          0.890
+
+📋 KEY INSIGHTS
+------------------------------
+🏆 Best Answer Accuracy: basic (score: 0.260)
+📝 Best Explanation Quality: explainable_bbox (score: 0.677)
+
+==========================================================================================
