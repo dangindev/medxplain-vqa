@@ -1,6 +1,0 @@
-Method,N,Medical Terminology,Clinical Structure,Explanation Coherence,Attention Quality,Reasoning Confidence
-Basic,100,0.311 ± 0.232,0.357 ± 0.242,0.865 ± 0.082,0.000 ± 0.000,0.000 ± 0.000
-Explainable,100,0.412 ± 0.285,0.338 ± 0.285,0.908 ± 0.056,0.959 ± 0.057,0.000 ± 0.000
-Explainable Bbox,100,0.404 ± 0.280,0.380 ± 0.300,0.914 ± 0.049,0.959 ± 0.057,0.000 ± 0.000
-Enhanced,100,0.357 ± 0.264,0.307 ± 0.241,0.920 ± 0.047,0.959 ± 0.057,0.890 ± 0.013
-Enhanced Bbox,100,0.360 ± 0.280,0.273 ± 0.192,0.917 ± 0.051,0.959 ± 0.057,0.890 ± 0.013
