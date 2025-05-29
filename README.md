@@ -65,7 +65,7 @@ python scripts/medxplain_vqa.py --mode enhanced --enable-bbox --enable-cot \
 ### Demo
 
 <div align="center">
-<img src="./data/paper_figures/mmedxplain_enhanced_bbox_test_0712.png" width="800">
+<img src="./data/paper_figures/medxplain_enhanced_bbox_test_0712.png" width="800">
 <p><i>Example output: Enhanced MedXplain-VQA analysis showing visual attention maps, bounding box regions, and structured medical reasoning</i></p>
 </div>
 
@@ -118,7 +118,7 @@ The system generates comprehensive explanations with:
 ### Ablation Study
 
 <div align="center">
-<img src="data/paper_figures/figure_3_ablation_study.png" width="600">
+<img src="data/paper_figures/ablation_study_chart.png" width="600">
 </div>
 
 | Configuration | Composite Score | Improvement |
