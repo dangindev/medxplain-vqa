@@ -1,0 +1,13 @@
+# API Keys Configuration Template
+# Copy this file to api_keys.yaml and fill in your actual API keys
+
+# Google Gemini API Configuration
+google:
+  gemini_api_key: "your_gemini_api_key_here"
+  
+# Other API keys (if needed)
+# huggingface:
+#   hf_token: "your_huggingface_token_here"
+#
+# wandb:
+#   wandb_api_key: "your_wandb_api_key_here" 
