@@ -65,7 +65,7 @@ python scripts/medxplain_vqa.py --mode enhanced --enable-bbox --enable-cot \
 ### Demo
 
 <div align="center">
-<img src="./data/medxplain_full_results/medxplain_enhanced_bbox_test_5238.png" width="800">
+<img src="./data/paper_figures/mmedxplain_enhanced_bbox_test_0712.png" width="800">
 <p><i>Example output: Enhanced MedXplain-VQA analysis showing visual attention maps, bounding box regions, and structured medical reasoning</i></p>
 </div>
 
@@ -80,7 +80,7 @@ The system generates comprehensive explanations with:
 ## 🏗️ Architecture
 
 <div align="center">
-<img src="data/paper_figures/MedXplainVQA-Pipline.drawio.svg" width="800">
+<img src="data/paper_figures/MedXplainVQA-Fig1.drawio.svg" width="800">
 <p><i>MedXplain-VQA System Architecture: 5-stage progressive enhancement pipeline</i></p>
 </div>
 
