@@ -14,10 +14,10 @@
 </div>
 
 ## 🔥 News
-
-- **[2025-01]** Paper submitted to ICHST-2025 (Under Review)
-- **[2024-12]** Code and models released
-- **[2024-11]** MedXplain-VQA achieves SOTA performance on PathVQA dataset
+- **[2025-07]** IEEE Proceedings
+- **[2025-06]** Paper accepted at ICHST2025
+- **[2025-04]** Paper submitted to ICHST-2025
+- **[2025-01]** Code and models released
 
 ## 📋 Abstract
 
